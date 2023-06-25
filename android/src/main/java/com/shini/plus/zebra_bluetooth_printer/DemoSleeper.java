@@ -6,7 +6,7 @@
  * This source code, and any other information contained herein, shall not be copied, reproduced, published, 
  * displayed or distributed, in whole or in part, in any medium, by any means, for any purpose except as
  * expressly permitted under such license agreement.
- * 
+ *
  * Copyright ZIH Corp. 2010
  *
  * ALL RIGHTS RESERVED 
@@ -24,6 +24,7 @@ public class DemoSleeper {
             Thread.sleep(ms);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
     }
 }
