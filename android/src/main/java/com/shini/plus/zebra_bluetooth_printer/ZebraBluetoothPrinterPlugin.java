@@ -172,7 +172,7 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
         try {
             connection.open();
         } catch (ConnectionException e) {
-            sendFailNotification("Comm Error! Disconnecting");
+            sendFailNotification("Comm Error! Disconnecting error: "+e.getMessage());
             disconnect();
         }
 
@@ -202,7 +202,7 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
             sendSuccessNotification("Not Connected");
         } catch (ConnectionException e) {
 
-            sendFailNotification("COMM Error! Disconnected");
+            sendFailNotification("COMM Error! Disconnected: "+e.getMessage());
         }
     }
 
