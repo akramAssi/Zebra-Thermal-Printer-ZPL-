@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:zebra_bluetooth_printer/method_channels.dart';
 
 class ZebraBluetoothPrinter {
@@ -16,13 +17,11 @@ class ZebraBluetoothPrinter {
   }
 
   static Future<dynamic> print(String zpl, String macAddress) async {
-    return _channel.invokeMethod(
-        Channels.printZpl, [macAddress, zpl]);
+    return _channel.invokeMethod(Channels.printZpl, [macAddress, zpl]);
   }
 
-  static Future<dynamic> printPdf(String macAddress,String filePath) async {
-    return _channel.invokeMethod(
-        Channels.printPDf, [macAddress, filePath]);
+  static Future<dynamic> printPdf(String macAddress, String filePath) async {
+    return _channel.invokeMethod(Channels.printPDf, [macAddress, filePath]);
   }
 
   //
@@ -37,6 +36,16 @@ class ZebraBluetoothPrinter {
   }
 
   static Future<bool?> connect(String macAddress) async {
+    var result = await Future.wait([
+      Permission.bluetooth.request(),
+      Permission.bluetoothConnect.request(),
+      Permission.bluetoothScan.request(),
+      Permission.bluetoothAdvertise.request(),
+    ]);
+
+    var isHavePermission = result.every((element) => element.isGranted || element.isLimited);
+    if (!isHavePermission) return false;
+
     return _channel.invokeMethod(Channels.connect, macAddress);
   }
 
