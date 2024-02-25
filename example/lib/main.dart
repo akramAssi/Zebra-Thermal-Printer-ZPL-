@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
 
 import 'package:zebra_bluetooth_printer/zebra_bluetooth_printer.dart';
@@ -15,7 +16,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   String printText = 'Unknown';
   var controller = StreamController<String>();
   late Stream<String> stream = controller.stream;
@@ -31,11 +31,11 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
     // try {
-      // platformVersion = await ZebraBluetoothPrinter.platformVersion ??
-      //     'Unknown platform version';
+    // platformVersion = await ZebraBluetoothPrinter.platformVersion ??
+    //     'Unknown platform version';
 
-      // print = await ZebraBluetoothPrinter.print("zpl 1234 ",) ??
-      //     'Unknown platform version';
+    // print = await ZebraBluetoothPrinter.print("zpl 1234 ",) ??
+    //     'Unknown platform version';
     // } on PlatformException {
     // }
 
@@ -69,6 +69,7 @@ class _MyAppState extends State<MyApp> {
       "^PQ1" +
       "^XZ";
   int io = 0;
+
   //  Stream _clock() async* {
   //    // This loop will run forever because _running is always true
   //    while (true) {
@@ -94,14 +95,14 @@ class _MyAppState extends State<MyApp> {
               ElevatedButton(
                 onPressed: () async {
                   debugPrint("sdsdsd");
+                  var permissionStatus = await Permission.bluetoothScan.request();
+                  var permissionStatus2 = await Permission.bluetoothConnect.request();
 
-                  ZebraBluetoothPrinter.eventChannel
-                      .receiveBroadcastStream()
-                      .listen((event) {
+                  ZebraBluetoothPrinter.eventChannel.receiveBroadcastStream().listen((event) {
                     debugPrint(event);
                     _bluetooth.value = event;
                   });
-                  await ZebraBluetoothPrinter.print(zpl, "607771C080BC");
+                  await ZebraBluetoothPrinter.print(zpl, "6CB2FD87B065");
                 },
                 child: const Text("test"),
               ),
