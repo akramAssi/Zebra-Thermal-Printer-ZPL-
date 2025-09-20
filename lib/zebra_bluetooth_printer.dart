@@ -1,18 +1,22 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:zebra_bluetooth_printer/method_channels.dart';
 
 class ZebraBluetoothPrinter {
-  static const MethodChannel _channel = MethodChannel('zebra_bluetooth_printer');
+  static const MethodChannel _channel =
+      MethodChannel('zebra_bluetooth_printer');
 
-  static const EventChannel eventChannel = EventChannel('zebra_bluetooth_printer_stream');
+  static const EventChannel eventChannel =
+      EventChannel('zebra_bluetooth_printer_stream');
   static Stream? _printStream;
 
   static Future<int?> get platformVersion async {
-    final int? version = await _channel.invokeMethod(Channels.getPlatformVersion);
+    final int? version =
+        await _channel.invokeMethod(Channels.getPlatformVersion);
     return version;
   }
 
@@ -22,6 +26,12 @@ class ZebraBluetoothPrinter {
 
   static Future<dynamic> printPdf(String macAddress, String filePath) async {
     return _channel.invokeMethod(Channels.printPDf, [macAddress, filePath]);
+  }
+
+  static Future<dynamic> printPdfFromBytes(
+      String macAddress, Uint8List pdfBytes) async {
+    return _channel
+        .invokeMethod(Channels.printPdfBytes, [macAddress, pdfBytes]);
   }
 
   //
@@ -43,7 +53,8 @@ class ZebraBluetoothPrinter {
       Permission.bluetoothAdvertise.request(),
     ]);
 
-    var isHavePermission = result.every((element) => element.isGranted || element.isLimited);
+    var isHavePermission =
+        result.every((element) => element.isGranted || element.isLimited);
     if (!isHavePermission) return false;
 
     return _channel.invokeMethod(Channels.connect, macAddress);

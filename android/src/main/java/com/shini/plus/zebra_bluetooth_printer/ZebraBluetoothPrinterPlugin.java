@@ -1,8 +1,10 @@
 package com.shini.plus.zebra_bluetooth_printer;
 
 
+import android.content.Context;
 import androidx.annotation.NonNull;
 
+import java.io.File;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,10 +37,12 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
     private EventChannel.EventSink eventSink;
     private Connection connection;
     private ZebraPrinter printer;
+    private Context context;
     String tag = "ZebraBluetoothPrinterPlugin";
 
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
+        context = flutterPluginBinding.getApplicationContext();
         channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "zebra_bluetooth_printer");
         channel.setMethodCallHandler(this);
         EventChannel eventChannel = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "zebra_bluetooth_printer_stream");
@@ -97,6 +101,12 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
                 assert (Objects.requireNonNull(argPdf).size() == 2);
                 printPDF(argPdf.get(0), argPdf.get(1), result);
                 break;
+            case MethodChannels.PRINT_PDF_BYTES:
+                List<Object> argPdfBytes;
+                argPdfBytes = call.arguments();
+                assert (Objects.requireNonNull(argPdfBytes).size() == 2);
+                printPDFBytes((String) argPdfBytes.get(0), (byte[]) argPdfBytes.get(1), result);
+                break;
             default:
                 result.notImplemented();
                 break;
@@ -138,11 +148,48 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
         }
         try {
             if (connection.isConnected() && printer != null) {
+                if (!new File(pathFile).exists()) {
+                    result.error("001", "File not Exist", "");
+                    return;
+                }
+                PDfPrintService pdfPrintService = new PDfPrintService(connection, context);
 
-                PDfPrintService pdfPrintService = new PDfPrintService(connection);
+//                boolean x = pdfPrintService.print("/data/data/com.shini.eshini_ops/cache/documentNew.pdf");
+                boolean x= pdfPrintService.print(pathFile);
+                result.success(x);
 
+            }
 
-                result.success(pdfPrintService.print(pathFile));
+        } catch (HeadOpenException | PaperOutException | SendDataException e) {
+            sendFailNotification(e.getMessage());
+            result.error("001", e.getMessage(), "");
+        } catch (ConnectionException e) {
+            sendFailNotification("connection fail");
+            result.error("004", "Connection Fail", "");
+        } catch (Exception ex) {
+            result.error("100", ex.getMessage(), ex.getLocalizedMessage());
+        } finally {
+            disconnect();
+        }
+    }
+
+    private void printPDFBytes(String macAddress, byte[] pdfBytes, Result result) {
+
+        if (isPrinterNotConnected()) {
+            printer = connect(macAddress);
+        }
+        try {
+            if (connection.isConnected() && printer != null) {
+                if (pdfBytes == null || pdfBytes.length == 0) {
+                    result.error("001", "PDF bytes are null or empty", "");
+                    return;
+                }
+                
+                System.out.println("Printing PDF from bytes, size: " + pdfBytes.length + " bytes");
+                PDfPrintService pdfPrintService = new PDfPrintService(connection, context);
+
+                boolean x = pdfPrintService.printPdfFromBytes(pdfBytes);
+                result.success(x);
 
             }
 
@@ -172,7 +219,7 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
         try {
             connection.open();
         } catch (ConnectionException e) {
-            sendFailNotification("Comm Error! Disconnecting error: "+e.getMessage());
+            sendFailNotification("Comm Error! Disconnecting error: " + e.getMessage());
             disconnect();
         }
 
@@ -202,7 +249,7 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
             sendSuccessNotification("Not Connected");
         } catch (ConnectionException e) {
 
-            sendFailNotification("COMM Error! Disconnected: "+e.getMessage());
+            sendFailNotification("COMM Error! Disconnected: " + e.getMessage());
         }
     }
 

@@ -6,4 +6,5 @@ class Channels {
   static const String discount = "DISCONNECT";
   static const String printZpl = "PRINT_ZPL";
   static const String printPDf = "PRINT_PDF";
+  static const String printPdfBytes = "PRINT_PDF_BYTES";
 }
