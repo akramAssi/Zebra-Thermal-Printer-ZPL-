@@ -4,7 +4,7 @@ version: 0.2.0
 
 
 environment:
-  sdk: ">=2.15.1 <3.0.0"
+  sdk: ">=2.15.1 <4.0.0"
   flutter: ">=2.5.0"
 
 dependencies:
@@ -33,6 +33,8 @@ flutter:
     platforms:
       android:
         package: com.shini.plus.zebra_bluetooth_printer
+        pluginClass: ZebraBluetoothPrinterPlugin
+      ios:
         pluginClass: ZebraBluetoothPrinterPlugin
 
   # To add assets to your plugin package, add an assets section, like this:

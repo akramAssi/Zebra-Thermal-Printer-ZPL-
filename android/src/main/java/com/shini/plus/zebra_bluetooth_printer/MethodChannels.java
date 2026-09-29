@@ -9,4 +9,5 @@ public class MethodChannels {
     static final String DISCONNECT = "DISCONNECT";
     static final String PRINT_ZPL = "PRINT_ZPL";
     static final String PRINT_PDF = "PRINT_PDF";
+    static final String LIST_PRINTERS = "LIST_PRINTERS";
 }
