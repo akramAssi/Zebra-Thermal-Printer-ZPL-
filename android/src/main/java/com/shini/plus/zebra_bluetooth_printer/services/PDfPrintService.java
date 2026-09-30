@@ -8,9 +8,7 @@ import com.zebra.sdk.printer.SGD;
 import com.zebra.sdk.printer.ZebraPrinterFactory;
 import com.zebra.sdk.printer.ZebraPrinterLinkOs;
 
-
 public class PDfPrintService {
-
 
     private final Connection connection;
 
@@ -18,11 +16,14 @@ public class PDfPrintService {
         this.connection = connection;
     }
 
-    public boolean print(String path) throws ConnectionException, SendDataException, HeadOpenException, PaperOutException {
-
+    public boolean print(String path)
+            throws ConnectionException, SendDataException, HeadOpenException, PaperOutException {
 
         // Get Instance of Printer
         ZebraPrinterLinkOs printer = ZebraPrinterFactory.getLinkOsPrinter(connection);
+        if (printer == null) {
+            throw new ConnectionException("Printer is not a Link-OS printer");
+        }
 
         // Verify Printer Status is Ready
         PrinterStatus printerStatus = printer.getCurrentStatus();
@@ -32,17 +33,7 @@ public class PDfPrintService {
             String scale = scalePrint(connection);
             SGD.SET("apl.settings", scale, connection);
             printer.sendFileContents(path);
-//            (bytesWritten, totalBytes) -> {
-//                // Calc Progress
-//                double rawProgress = bytesWritten * 100 / totalBytes;
-//                int progress = (int) Math.round(rawProgress);
-//
-//                // TODO: Update UI with progress...
-//            }
-
-            // Make sure the data got to the printer before closing the connection
-
-//            Thread.sleep(500);
+            waitUntilPrinterIdle(printer);
             return true;
             // TODO: Notify UI that print job completed successfully...
         } else {
@@ -59,13 +50,30 @@ public class PDfPrintService {
 
     }
 
+    private void waitUntilPrinterIdle(ZebraPrinterLinkOs printer) throws ConnectionException {
+        try {
+            for (int attempt = 0; attempt < 20; attempt++) {
+                PrinterStatus status = printer.getCurrentStatus();
+                if (status.numberOfFormatsInReceiveBuffer == 0 && !status.isPartialFormatInProgress) {
+                    return;
+                }
+                Thread.sleep(200);
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
 
     private String scalePrint(Connection connection) throws ConnectionException {
         int fileWidth = 56;
         String scale = "dither scale-to-fit";
 
         if (fileWidth != 0) {
-            String printerModel = SGD.GET("device.host_identification", connection).substring(0, 5);
+            String hostId = SGD.GET("device.host_identification", connection);
+            if (hostId == null) {
+                hostId = "";
+            }
+            String printerModel = hostId.length() >= 5 ? hostId.substring(0, 5) : hostId;
             double scaleFactor;
 
             if (printerModel.equals("iMZ22") || printerModel.equals("QLn22") || printerModel.equals("ZD410")) {

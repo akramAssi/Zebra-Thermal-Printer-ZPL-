@@ -88,11 +88,12 @@ class ZebraBluetoothPrinter {
       return status.isGranted || status.isLimited;
     }
 
+    // Advertise is not required to connect or print, and it is not in the
+    // app manifest. Requiring it makes connect() fail on Android 12+.
     final result = await Future.wait([
       Permission.bluetooth.request(),
       Permission.bluetoothConnect.request(),
       Permission.bluetoothScan.request(),
-      Permission.bluetoothAdvertise.request(),
     ]);
     return result.every((element) => element.isGranted || element.isLimited);
   }

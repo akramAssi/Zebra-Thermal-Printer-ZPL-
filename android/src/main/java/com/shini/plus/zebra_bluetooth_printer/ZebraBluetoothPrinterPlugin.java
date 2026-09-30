@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
@@ -49,6 +51,9 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
     private EventChannel.EventSink eventSink;
     private Connection connection;
     private ZebraPrinter printer;
+    private final Object printerLock = new Object();
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    private final ExecutorService printerExecutor = Executors.newSingleThreadExecutor();
     String tag = "ZebraBluetoothPrinterPlugin";
 
     @Override
@@ -64,6 +69,7 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
     @Override
     public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
         channel.setMethodCallHandler(null);
+        printerExecutor.shutdownNow();
     }
 
     @Override
@@ -88,32 +94,26 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
                 discoverPrinters(result);
                 break;
             case MethodChannels.CONNECT:
-
-                if (isPrinterNotConnected()) {
-                    printer = connect(call.arguments());
-                }
-                if (connection.isConnected() && printer != null) {
-                    result.success(true);
-                } else {
-                    disconnect();
-                    result.success(false);
-                }
+                String macAddress = call.arguments();
+                printerExecutor.execute(() -> connectAndReply(macAddress, result));
                 break;
             case MethodChannels.DISCONNECT:
-                disconnect();
-                result.success(true);
+                printerExecutor.execute(() -> {
+                    disconnect();
+                    replySuccess(result, true);
+                });
                 break;
             case MethodChannels.PRINT_ZPL:
                 List<String> arg;
                 arg = call.arguments();
                 assert (Objects.requireNonNull(arg).size() == 2);
-                printZPL(arg.get(0), arg.get(1), result);
+                printerExecutor.execute(() -> printZPL(arg.get(0), arg.get(1), result));
                 break;
             case MethodChannels.PRINT_PDF:
                 List<String> argPdf;
                 argPdf = call.arguments();
                 assert (Objects.requireNonNull(argPdf).size() == 2);
-                printPDF(argPdf.get(0), argPdf.get(1), result);
+                printerExecutor.execute(() -> printPDF(argPdf.get(0), argPdf.get(1), result));
                 break;
             default:
                 result.notImplemented();
@@ -169,57 +169,71 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
         }
     }
 
-    private void printZPL(String macAddress, String zpl, Result result) {
-
-        if (isPrinterNotConnected()) {
-            printer = connect(macAddress);
+    private void connectAndReply(String macAddress, Result result) {
+        synchronized (printerLock) {
+            if (isPrinterNotConnected()) {
+                printer = connect(macAddress);
+            }
+            boolean connected = connection != null && connection.isConnected() && printer != null;
+            if (!connected) {
+                disconnect();
+            }
+            replySuccess(result, connected);
         }
+    }
 
-        if (connection.isConnected() && printer != null) {
-
-            ZPLPrintServices printZPLServices = new ZPLPrintServices(connection, printer);
-
+    private void printZPL(String macAddress, String zpl, Result result) {
+        synchronized (printerLock) {
             try {
-                result.success(printZPLServices.print(zpl));
+                if (isPrinterNotConnected()) {
+                    printer = connect(macAddress);
+                }
+
+                if (connection != null && connection.isConnected() && printer != null) {
+                    ZPLPrintServices printZPLServices = new ZPLPrintServices(connection, printer);
+                    replySuccess(result, printZPLServices.print(zpl));
+                } else {
+                    replyError(result, "004", "Not Connected");
+                }
             } catch (HeadOpenException | PaperOutException | SendDataException e) {
                 sendFailNotification(e.getMessage());
-                result.error("001", e.getMessage(), "");
+                replyError(result, "001", e.getMessage());
             } catch (ConnectionException e) {
                 sendFailNotification("connection fail");
-                result.error("004", "Connection Fail", "");
+                replyError(result, "004", "Connection Fail");
             } catch (Exception ex) {
-                result.error("100", ex.getMessage(), ex.getLocalizedMessage());
+                replyError(result, "100", ex.getMessage());
             }
-
-        } else {
-            // disconnect();
         }
     }
 
     private void printPDF(String macAddress, String pathFile, Result result) {
-
-        if (isPrinterNotConnected()) {
-            printer = connect(macAddress);
-        }
-        try {
-            if (connection.isConnected() && printer != null) {
-
-                PDfPrintService pdfPrintService = new PDfPrintService(connection);
-
-                result.success(pdfPrintService.print(pathFile));
-
+        synchronized (printerLock) {
+            try {
+                if (isPrinterNotConnected()) {
+                    printer = connect(macAddress);
+                }
+                if (connection != null && connection.isConnected() && printer != null) {
+                    sendSuccessNotification("Printing PDF");
+                    PDfPrintService pdfPrintService = new PDfPrintService(connection);
+                    boolean printed = pdfPrintService.print(pathFile);
+                    sendSuccessNotification(printed ? "PDF sent" : "PDF not sent");
+                    replySuccess(result, printed);
+                } else {
+                    sendFailNotification("Not Connected");
+                    replyError(result, "004", "Not Connected");
+                }
+            } catch (HeadOpenException | PaperOutException | SendDataException e) {
+                sendFailNotification(e.getMessage());
+                replyError(result, "001", e.getMessage());
+            } catch (ConnectionException e) {
+                sendFailNotification("connection fail");
+                replyError(result, "004", "Connection Fail");
+            } catch (Exception ex) {
+                replyError(result, "100", ex.getMessage());
+            } finally {
+                disconnect();
             }
-
-        } catch (HeadOpenException | PaperOutException | SendDataException e) {
-            sendFailNotification(e.getMessage());
-            result.error("001", e.getMessage(), "");
-        } catch (ConnectionException e) {
-            sendFailNotification("connection fail");
-            result.error("004", "Connection Fail", "");
-        } catch (Exception ex) {
-            result.error("100", ex.getMessage(), ex.getLocalizedMessage());
-        } finally {
-            disconnect();
         }
     }
 
@@ -231,7 +245,6 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
 
     public ZebraPrinter connect(String macAddress) {
         sendSuccessNotification("Connecting...");
-        connection = null;
         connection = new BluetoothConnection(macAddress);
 
         try {
@@ -239,36 +252,44 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
         } catch (ConnectionException e) {
             sendFailNotification("Comm Error! Disconnecting error: " + e.getMessage());
             disconnect();
+            return null;
         }
 
-        ZebraPrinter zebraPrinter = null;
-        if (connection.isConnected()) {
-            try {
-                zebraPrinter = ZebraPrinterFactory.getInstance(connection);
-            } catch (ConnectionException | ZebraPrinterLanguageUnknownException e) {
-                sendFailNotification("Unknown Printer Language");
-                disconnect();
-            }
+        if (connection == null || !connection.isConnected()) {
+            return null;
         }
 
-        return zebraPrinter;
+        try {
+            return ZebraPrinterFactory.getInstance(connection);
+        } catch (ConnectionException | ZebraPrinterLanguageUnknownException e) {
+            sendFailNotification("Unknown Printer Language");
+            disconnect();
+            return null;
+        }
     }
 
     public void disconnect() {
+        Connection current = connection;
+        connection = null;
+        printer = null;
+        if (current == null) {
+            return;
+        }
         try {
-
             sendSuccessNotification("Disconnecting...");
-            if (connection != null) {
-                connection.close();
-                printer = null;
-                sendSuccessNotification("Disconnected Printer");
-            }
-
-            sendSuccessNotification("Not Connected");
+            current.close();
+            sendSuccessNotification("Disconnected Printer");
         } catch (ConnectionException e) {
-
             sendFailNotification("COMM Error! Disconnected: " + e.getMessage());
         }
+    }
+
+    private void replySuccess(Result result, Object value) {
+        mainHandler.post(() -> result.success(value));
+    }
+
+    private void replyError(Result result, String code, String message) {
+        mainHandler.post(() -> result.error(code, message == null ? "" : message, ""));
     }
 
     private EventChannel.EventSink getEventSink() {
@@ -280,7 +301,10 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
     }
 
     private void sendSuccessNotification(String message) {
-
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            mainHandler.post(() -> sendSuccessNotification(message));
+            return;
+        }
         if (getEventSink() != null) {
             getEventSink().success(message);
         }
@@ -288,7 +312,10 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
     }
 
     private void sendFailNotification(String message) {
-
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            mainHandler.post(() -> sendFailNotification(message));
+            return;
+        }
         if (getEventSink() != null) {
             getEventSink().success(message);
         }
