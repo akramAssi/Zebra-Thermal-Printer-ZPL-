@@ -1,10 +1,13 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:zebra_bluetooth_printer/method_channels.dart';
+import 'package:zebra_bluetooth_printer/src/bluetooth_permission.dart';
+
+export 'src/zebra_models.dart';
+export 'src/zebra_sdk.dart';
 
 class ZebraAccessory {
   final String name;
@@ -25,18 +28,48 @@ class ZebraBluetoothPrinter {
       EventChannel('zebra_bluetooth_printer_stream');
   static Stream? _printStream;
 
-  static Future<int?> get platformVersion async {
-    final int? version =
+  static Future<String?> get platformVersion async {
+    final String? version =
         await _channel.invokeMethod(Channels.getPlatformVersion);
     return version;
   }
 
   static Future<dynamic> print(String zpl, String macAddress) async {
-    return _channel.invokeMethod(Channels.printZpl, [macAddress, zpl]);
+    debugPrint('[ZebraBT] print zpl address=$macAddress chars=${zpl.length}');
+    final printed = await _channel.invokeMethod(Channels.printZpl, [macAddress, zpl]);
+    debugPrint('[ZebraBT] print zpl result=$printed');
+    return printed;
   }
 
   static Future<dynamic> printPdf(String macAddress, String filePath) async {
-    return _channel.invokeMethod(Channels.printPDf, [macAddress, filePath]);
+    debugPrint('[ZebraBT] printPdf address=$macAddress file=$filePath');
+    final printed =
+        await _channel.invokeMethod(Channels.printPDf, [macAddress, filePath]);
+    debugPrint('[ZebraBT] printPdf result=$printed');
+    return printed;
+  }
+
+  /// Sends every page on one connection so a long invoice does not pause
+  /// and feed between labels.
+  static Future<dynamic> printPdfs(String macAddress, List<String> filePaths) async {
+    debugPrint(
+      '[ZebraBT] printPdfs address=$macAddress files=${filePaths.length}',
+    );
+    final printed = await _channel
+        .invokeMethod(Channels.printPdfs, [macAddress, ...filePaths]);
+    debugPrint('[ZebraBT] printPdfs result=$printed');
+    return printed;
+  }
+
+  /// Firmware id such as ZQ520 or ZQ320. Empty when the printer cannot be reached.
+  static Future<String> hostIdentification(String address) async {
+    if (address.isEmpty) return '';
+    if (Platform.isAndroid && !await requestBluetoothPermission()) return '';
+    final value = await _channel.invokeMethod<String>(
+      Channels.hostIdentification,
+      address,
+    );
+    return value ?? '';
   }
 
   //
@@ -51,21 +84,24 @@ class ZebraBluetoothPrinter {
   }
 
   static Future<bool?> connect(String macAddress) async {
-    if (!await _ensureBluetoothPermission()) return false;
+    if (!await requestBluetoothPermission()) return false;
     return _channel.invokeMethod(Channels.connect, macAddress);
   }
 
-  /// Zebra printers found by the Zebra SDK on Android, or already paired on iOS.
+  /// Paired and nearby Zebra printers on Android, or already paired printers on iOS.
   static Future<List<ZebraAccessory>> connectedPrinters() async {
-    if (Platform.isAndroid && !await _ensureBluetoothPermission()) {
+    if (Platform.isAndroid && !await requestBluetoothPermission()) {
       return const [];
     }
-    final raw =
-        await _channel.invokeMethod<List<dynamic>>(Channels.listPrinters);
-    if (raw == null) return const [];
-    return raw
+    debugPrint('[ZebraBT] connectedPrinters request');
+    final raw = await _channel.invokeMethod<Object?>(Channels.listPrinters);
+    debugPrint(
+        '[ZebraBT] connectedPrinters rawType=${raw.runtimeType} raw=$raw');
+    if (raw is! List) return const [];
+    final printers = raw
         .map((item) {
-          final map = Map<String, dynamic>.from(item as Map);
+          if (item is! Map) return null;
+          final map = Map<String, dynamic>.from(item);
           final address =
               (map['address'] ?? map['serialNumber'] ?? '').toString();
           return ZebraAccessory(
@@ -73,30 +109,26 @@ class ZebraBluetoothPrinter {
             address: address,
           );
         })
+        .whereType<ZebraAccessory>()
         .where((printer) => printer.address.isNotEmpty)
         .toList();
+    debugPrint(
+      '[ZebraBT] connectedPrinters count=${printers.length} '
+      '${printers.map((printer) => '${printer.name} ${printer.address}').join(' | ')}',
+    );
+    return printers;
   }
 
   /// Opens the iOS Bluetooth accessory picker so the user can pair a Zebra printer.
-  static Future<bool?> showAccessoryPicker() {
-    return _channel.invokeMethod<bool>(Channels.showPicker);
+  static Future<bool?> showAccessoryPicker() async {
+    debugPrint('[ZebraBT] showAccessoryPicker request');
+    final opened = await _channel.invokeMethod<bool>(Channels.showPicker);
+    debugPrint('[ZebraBT] showAccessoryPicker result=$opened');
+    return opened;
   }
 
-  static Future<bool> _ensureBluetoothPermission() async {
-    if (Platform.isIOS) {
-      final status = await Permission.bluetooth.request();
-      return status.isGranted || status.isLimited;
-    }
-
-    // Advertise is not required to connect or print, and it is not in the
-    // app manifest. Requiring it makes connect() fail on Android 12+.
-    final result = await Future.wait([
-      Permission.bluetooth.request(),
-      Permission.bluetoothConnect.request(),
-      Permission.bluetoothScan.request(),
-    ]);
-    return result.every((element) => element.isGranted || element.isLimited);
-  }
+  static Future<bool> ensureBluetoothPermission() =>
+      requestBluetoothPermission();
 
   static Future<bool?> disconnect() async {
     return _channel.invokeMethod(Channels.discount);

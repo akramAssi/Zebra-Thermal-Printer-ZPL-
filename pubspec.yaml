@@ -1,6 +1,6 @@
 name: zebra_bluetooth_printer
 description: zebra zpl printing bluetooth with mac address connection
-version: 0.2.0
+version: 0.3.0
 
 
 environment:

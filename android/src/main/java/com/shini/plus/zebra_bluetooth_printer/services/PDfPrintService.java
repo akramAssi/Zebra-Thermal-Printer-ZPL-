@@ -28,12 +28,19 @@ public class PDfPrintService {
         // Verify Printer Status is Ready
         PrinterStatus printerStatus = printer.getCurrentStatus();
         if (printerStatus.isReadyToPrint) {
-            // Send the data to printer as a byte array.
-
             String scale = scalePrint(connection);
             SGD.SET("apl.settings", scale, connection);
-            printer.sendFileContents(path);
-            waitUntilPrinterIdle(printer);
+            String previousMedia = readSetting("ezpl.media_type");
+            setSetting("ezpl.media_type", "continuous");
+            try {
+                printer.sendFileContents(path);
+                waitUntilPrinterIdle(printer);
+            } finally {
+                if (previousMedia != null && !previousMedia.isEmpty()
+                        && !"continuous".equalsIgnoreCase(previousMedia)) {
+                    setSetting("ezpl.media_type", previousMedia);
+                }
+            }
             return true;
             // TODO: Notify UI that print job completed successfully...
         } else {
@@ -64,36 +71,49 @@ public class PDfPrintService {
         }
     }
 
+    private String readSetting(String name) {
+        try {
+            String value = SGD.GET(name, connection);
+            return value == null ? "" : value.trim();
+        } catch (ConnectionException e) {
+            return "";
+        }
+    }
+
+    private void setSetting(String name, String value) {
+        try {
+            SGD.SET(name, value, connection);
+        } catch (ConnectionException ignored) {
+        }
+    }
+
+    /// The invoice PDF is 72 mm wide. Printing it at 100% keeps that height,
+    /// so a receipt that fits the printer stays one label. scale-to-fit on a
+    /// 4-inch ZQ520 / ZQ521 stretches the page and splits it into extra labels.
     private String scalePrint(Connection connection) throws ConnectionException {
-        int fileWidth = 56;
-        String scale = "dither scale-to-fit";
-
-        if (fileWidth != 0) {
-            String hostId = SGD.GET("device.host_identification", connection);
-            if (hostId == null) {
-                hostId = "";
-            }
-            String printerModel = hostId.length() >= 5 ? hostId.substring(0, 5) : hostId;
-            double scaleFactor;
-
-            if (printerModel.equals("iMZ22") || printerModel.equals("QLn22") || printerModel.equals("ZD410")) {
-                scaleFactor = 2.0 / fileWidth * 100;
-            } else if (printerModel.equals("iMZ32") || printerModel.equals("QLn32") || printerModel.equals("ZQ510")) {
-                scaleFactor = 3.0 / fileWidth * 100;
-            } else if (printerModel.equals("QLn42") || printerModel.equals("ZQ520") ||
-                    printerModel.equals("ZD420") || printerModel.equals("ZD500") ||
-                    printerModel.equals("ZT220") || printerModel.equals("ZT230") ||
-                    printerModel.equals("ZT410")) {
-                scaleFactor = 4.0 / fileWidth * 100;
-            } else if (printerModel.equals("ZT420")) {
-                scaleFactor = 6.5 / fileWidth * 100;
-            } else {
-                scaleFactor = 100;
-            }
-
-            scale = "dither scale=" + (int) scaleFactor + "x" + (int) scaleFactor;
+        String hostId = SGD.GET("device.host_identification", connection);
+        if (hostId == null) {
+            hostId = "";
+        }
+        String printerModel = hostId.length() >= 5 ? hostId.substring(0, 5) : hostId;
+        if (printerModel.startsWith("ZQ52") || printerModel.startsWith("ZQ32")) {
+            return "dither scale=100x100";
         }
 
-        return scale;
+        int fileWidth = 56;
+        double scaleFactor;
+        if (printerModel.equals("iMZ22") || printerModel.equals("QLn22") || printerModel.equals("ZD410")) {
+            scaleFactor = 2.0 / fileWidth * 100;
+        } else if (printerModel.equals("iMZ32") || printerModel.equals("QLn32") || printerModel.equals("ZQ510")) {
+            scaleFactor = 3.0 / fileWidth * 100;
+        } else if (printerModel.equals("QLn42") || printerModel.equals("ZD420") || printerModel.equals("ZD500")
+                || printerModel.equals("ZT220") || printerModel.equals("ZT230") || printerModel.equals("ZT410")) {
+            scaleFactor = 4.0 / fileWidth * 100;
+        } else if (printerModel.equals("ZT420")) {
+            scaleFactor = 6.5 / fileWidth * 100;
+        } else {
+            return "dither scale=100x100";
+        }
+        return "dither scale=" + (int) scaleFactor + "x" + (int) scaleFactor;
     }
 }
