@@ -23,6 +23,11 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
   private var idleWork: DispatchWorkItem?
   /// Drop the Bluetooth session when nothing has been printed for 5 minutes.
   private let idleLimit: TimeInterval = 5 * 60
+  /// While a session is open, check that iOS still lists this accessory.
+  private var linkWatch: DispatchWorkItem?
+  private var linkMisses = 0
+  /// Set when the printer disappears so the next connect waits for it to return.
+  private var staleDropAt = Date.distantPast
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     let instance = ZebraBluetoothPrinterPlugin()
@@ -76,6 +81,101 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
   private func cancelIdleTimer() {
     idleWork?.cancel()
     idleWork = nil
+  }
+
+  /// The open session keeps the old connection id (the IAP id in the system
+  /// log). iOS will not list the printer again until that id is released,
+  /// which otherwise takes a few minutes after the printer is switched off.
+  private func noteStaleDrop() {
+    let mark = { self.staleDropAt = Date() }
+    if Thread.isMainThread {
+      mark()
+    } else {
+      DispatchQueue.main.sync(execute: mark)
+    }
+  }
+
+  private func droppedStaleRecently() -> Bool {
+    onMain { Date().timeIntervalSince(self.staleDropAt) < 30 }
+  }
+
+  private func staleSessionReason() -> String? {
+    onMain {
+      if self.usingTcp { return nil }
+      let hasSession = self.session != nil || self.outputStream != nil
+      guard hasSession else { return nil }
+      guard let held = self.accessory else { return "session without accessory" }
+      let status = self.outputStream?.streamStatus ?? .notOpen
+      if status == .error || status == .closed || status == .atEnd {
+        return "stream \(self.statusLabel(status)) id=\(held.connectionID)"
+      }
+      let live = EAAccessoryManager.shared().connectedAccessories
+      let listed = live.contains { $0.connectionID == held.connectionID }
+      if !listed {
+        return "id=\(held.connectionID) serial=\(held.serialNumber) not in connectedAccessories (\(live.count))"
+      }
+      return nil
+    }
+  }
+
+  @discardableResult
+  private func dropStaleSessionIfNeeded() -> Bool {
+    guard let reason = staleSessionReason() else { return false }
+    log("SESSION stale (\(reason)), dropping old connection")
+    noteStaleDrop()
+    disconnect()
+    return true
+  }
+
+  private func startLinkWatch() {
+    let start = {
+      self.stopLinkWatch()
+      let work = DispatchWorkItem { [weak self] in
+        self?.checkLink()
+      }
+      self.linkWatch = work
+      DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: work)
+    }
+    if Thread.isMainThread {
+      start()
+    } else {
+      DispatchQueue.main.async(execute: start)
+    }
+  }
+
+  private func stopLinkWatch() {
+    let stop = {
+      self.linkWatch?.cancel()
+      self.linkWatch = nil
+    }
+    if Thread.isMainThread {
+      stop()
+    } else {
+      DispatchQueue.main.sync(execute: stop)
+    }
+  }
+
+  /// Powering the printer off removes it from `connectedAccessories` while
+  /// our session can stay open. Two misses in a row means the link is gone.
+  private func checkLink() {
+    guard session != nil, let held = accessory, !usingTcp else { return }
+    prepareAccessoryManager()
+    let live = EAAccessoryManager.shared().connectedAccessories
+    let stillThere = live.contains { $0.connectionID == held.connectionID }
+    if stillThere {
+      linkMisses = 0
+    } else {
+      linkMisses += 1
+      log("SESSION link watch miss \(linkMisses) id=\(held.connectionID) listed=\(live.count)")
+      if linkMisses >= 2 {
+        log("SESSION link watch dropping old connection id=\(held.connectionID)")
+        linkMisses = 0
+        noteStaleDrop()
+        disconnect()
+        return
+      }
+    }
+    startLinkWatch()
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -170,15 +270,29 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
   }
 
   public func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
-    guard eventCode == .hasBytesAvailable, let input = aStream as? InputStream else { return }
-    let chunk = UnsafeMutablePointer<UInt8>.allocate(capacity: 1024)
-    defer { chunk.deallocate() }
-    while input.hasBytesAvailable {
-      let count = input.read(chunk, maxLength: 1024)
-      if count <= 0 { break }
-      bufferLock.lock()
-      inputBuffer.append(chunk, count: count)
-      bufferLock.unlock()
+    if eventCode.contains(.hasBytesAvailable), let input = aStream as? InputStream {
+      let chunk = UnsafeMutablePointer<UInt8>.allocate(capacity: 1024)
+      defer { chunk.deallocate() }
+      while input.hasBytesAvailable {
+        let count = input.read(chunk, maxLength: 1024)
+        if count <= 0 { break }
+        bufferLock.lock()
+        inputBuffer.append(chunk, count: count)
+        bufferLock.unlock()
+      }
+    }
+    if eventCode.contains(.errorOccurred) || eventCode.contains(.endEncountered) {
+      let ended = eventCode.contains(.errorOccurred) ? "error" : "end"
+      log("stream \(ended) \(streamState(aStream))")
+      // Closing the stream inside its own callback crashes. Release on the
+      // next turn, and only if this is still the session we opened.
+      DispatchQueue.main.async { [weak self] in
+        guard let self else { return }
+        guard aStream === self.inputStream || aStream === self.outputStream else { return }
+        self.log("SESSION printer closed the link, dropping old connection")
+        self.noteStaleDrop()
+        self.disconnect()
+      }
     }
   }
 
@@ -245,6 +359,23 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
       log("accessory disconnected \(describe(gone))")
       let currentId = accessory?.connectionID
       if gone == nil || currentId == nil || gone?.connectionID == currentId {
+        // A disconnect we caused ourselves already cleared the accessory.
+        // A real power-off still has our session, and the next connect
+        // has to wait until iOS lists the printer again.
+        if currentId != nil {
+          log("SESSION printer left while the session was open id=\(currentId ?? 0)")
+          noteStaleDrop()
+        }
+        disconnect()
+      }
+    } else if notification.name == .EAAccessoryDidConnect {
+      let arrived = notification.userInfo?[EAAccessoryKey] as? EAAccessory
+      log("accessory connected \(describe(arrived))")
+      if let arrived, let held = accessory,
+         arrived.connectionID != held.connectionID,
+         matches(arrived, identifier: held.serialNumber) {
+        log("SESSION printer returned as id=\(arrived.connectionID), dropping old id=\(held.connectionID)")
+        noteStaleDrop()
         disconnect()
       }
     }
@@ -259,6 +390,7 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
     log("LIST_PRINTERS")
     DispatchQueue.main.async {
       self.prepareAccessoryManager()
+      _ = self.dropStaleSessionIfNeeded()
       self.publishPrinters(result: result, attempt: 0)
     }
   }
@@ -347,6 +479,8 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
 
   private func connect(identifier: String) -> Bool {
     log("connect identifier=\(identifier) alreadyOpen=\(isOpen)")
+    let droppedNow = dropStaleSessionIfNeeded()
+    let patient = droppedNow || droppedStaleRecently()
     if hasLiveSession(identifier) {
       log("connect already open")
       noteSessionUsed()
@@ -356,7 +490,13 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
     if session != nil || outputStream != nil {
       disconnect()
     }
-    guard let match = waitForAccessory(identifier) else {
+    // After a power cycle the old connection id stays reserved until we
+    // close it. The printer then needs a few seconds to show up again.
+    let attempts = patient ? 60 : 12
+    if patient {
+      log("connect waiting for the printer to replace the old connection")
+    }
+    guard let match = waitForAccessory(identifier, attempts: attempts) else {
       lastConnectError = "Connection Fail: turn Bluetooth off and on, then try again"
       log("connect no accessory for identifier=\(identifier)")
       notify("No paired Zebra printer")
@@ -556,13 +696,16 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
   }
 
   /// A stream can still look open after the printer is switched off.
-  /// Reusing it writes into a dead Bluetooth session.
+  /// Reusing it writes into a dead Bluetooth session. The accessory object
+  /// we kept can also still say it is connected after iOS has dropped it
+  /// from the live list, which is what blocks the printer for minutes.
   private var canReuseSession: Bool {
     onMain {
       guard self.outputStream?.streamStatus == .open else { return false }
       if self.usingTcp { return true }
-      guard self.session != nil else { return false }
-      return self.accessory?.isConnected == true
+      guard self.session != nil, let held = self.accessory else { return false }
+      let live = EAAccessoryManager.shared().connectedAccessories
+      return live.contains { $0.connectionID == held.connectionID }
     }
   }
 
@@ -620,6 +763,7 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
     }
     notify("Connected")
     noteSessionUsed()
+    startLinkWatch()
     return true
   }
 
@@ -661,6 +805,7 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
 
   private func disconnect() {
     cancelIdleTimer()
+    stopLinkWatch()
     let state = onMain { self.streamState(self.outputStream) }
     log("disconnect out=\(state)")
     notify("Disconnecting...")
@@ -679,6 +824,7 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
       self.accessory = nil
       self.usingTcp = false
       self.tcpHost = ""
+      self.linkMisses = 0
       self.bufferLock.lock()
       self.inputBuffer.removeAll()
       self.bufferLock.unlock()
@@ -739,8 +885,8 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
   /// A paired Zebra can take a moment to appear after the app registers
   /// for accessory notifications. The system pair dialog hides printers
   /// that are already paired, so this wait does not open it.
-  private func waitForAccessory(_ identifier: String) -> EAAccessory? {
-    for attempt in 0..<12 {
+  private func waitForAccessory(_ identifier: String, attempts: Int = 12) -> EAAccessory? {
+    for attempt in 0..<attempts {
       if let match = findAccessory(identifier: identifier) {
         log("connect accessory ready attempt=\(attempt) \(describe(match))")
         return match
