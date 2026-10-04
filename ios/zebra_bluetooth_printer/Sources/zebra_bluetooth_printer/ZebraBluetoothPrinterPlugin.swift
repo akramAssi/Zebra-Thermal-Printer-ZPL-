@@ -20,6 +20,9 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
   private var usingTcp = false
   private var tcpHost = ""
   private var lastConnectError = "Connection Fail"
+  private var idleWork: DispatchWorkItem?
+  /// Drop the Bluetooth session when nothing has been printed for 5 minutes.
+  private let idleLimit: TimeInterval = 5 * 60
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     let instance = ZebraBluetoothPrinterPlugin()
@@ -35,6 +38,44 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
     )
     events.setStreamHandler(instance)
     instance.observeAccessories()
+    instance.observeAppLifetime()
+  }
+
+  /// A session left open locks the printer, so the next print cannot connect.
+  private func observeAppLifetime() {
+    let center = NotificationCenter.default
+    center.addObserver(
+      self,
+      selector: #selector(releasePrinterSession),
+      name: UIApplication.didEnterBackgroundNotification,
+      object: nil
+    )
+    center.addObserver(
+      self,
+      selector: #selector(releasePrinterSession),
+      name: UIApplication.willTerminateNotification,
+      object: nil
+    )
+  }
+
+  @objc private func releasePrinterSession() {
+    log("SESSION app closed or background, disconnect")
+    disconnect()
+  }
+
+  private func noteSessionUsed() {
+    idleWork?.cancel()
+    let work = DispatchWorkItem { [weak self] in
+      self?.log("SESSION idle 5 min, disconnect")
+      self?.disconnect()
+    }
+    idleWork = work
+    DispatchQueue.main.asyncAfter(deadline: .now() + idleLimit, execute: work)
+  }
+
+  private func cancelIdleTimer() {
+    idleWork?.cancel()
+    idleWork = nil
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -49,7 +90,13 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
       let identifier = call.arguments as? String ?? ""
       workQueue.async {
         let connected = self.connect(identifier: identifier)
-        DispatchQueue.main.async { result(connected) }
+        DispatchQueue.main.async {
+          if connected {
+            result(true)
+          } else {
+            result(FlutterError(code: "004", message: self.lastConnectError, details: nil))
+          }
+        }
       }
     case "DISCONNECT":
       workQueue.async {
@@ -193,6 +240,14 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
 
   @objc private func accessoryDidChange(_ notification: Notification) {
     log("notification \(notification.name.rawValue)")
+    if notification.name == .EAAccessoryDidDisconnect {
+      let gone = notification.userInfo?[EAAccessoryKey] as? EAAccessory
+      log("accessory disconnected \(describe(gone))")
+      let currentId = accessory?.connectionID
+      if gone == nil || currentId == nil || gone?.connectionID == currentId {
+        disconnect()
+      }
+    }
     prepareAccessoryManager()
     logConnected("after notification")
   }
@@ -292,23 +347,37 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
 
   private func connect(identifier: String) -> Bool {
     log("connect identifier=\(identifier) alreadyOpen=\(isOpen)")
-    if isOpen, matches(accessory, identifier: identifier) {
-      log("connect reuse open session")
+    if hasLiveSession(identifier) {
+      log("connect already open")
+      noteSessionUsed()
       return true
     }
-    disconnect()
-    guard let match = findAccessory(identifier: identifier) else {
-      lastConnectError = "Connection Fail: printer not connected"
+    log("connect no session, opening a new one")
+    if session != nil || outputStream != nil {
+      disconnect()
+    }
+    guard let match = waitForAccessory(identifier) else {
+      lastConnectError = "Connection Fail: turn Bluetooth off and on, then try again"
       log("connect no accessory for identifier=\(identifier)")
       notify("No paired Zebra printer")
       return false
     }
-    log("connect match \(describe(match))")
-    let opened = open(match)
-    if !opened && lastConnectError == "Connection Fail" {
-      lastConnectError = "Connection Fail: session did not open"
+    log("connect match \(describe(match)) connected=\(match.isConnected)")
+    if open(match) { return true }
+    // The previous session can still own the port. Drop it and try once more.
+    log("connect first open failed \(lastConnectError), releasing session")
+    disconnect()
+    Thread.sleep(forTimeInterval: 0.4)
+    guard let retry = waitForAccessory(identifier) else {
+      lastConnectError = "Connection Fail: turn Bluetooth off and on, then try again"
+      log("connect retry found no accessory")
+      return false
     }
-    return opened
+    let retryOpened = open(retry)
+    if !retryOpened && lastConnectError == "Connection Fail" {
+      lastConnectError = "Connection Fail: session is still open"
+    }
+    return retryOpened
   }
 
   private func printZpl(_ zpl: String, identifier: String) throws -> Bool {
@@ -327,17 +396,20 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
     return true
   }
 
-  /// One connection for every page, then disconnect, matching Android.
-  /// Media type is restored only after the printer has accepted the PDF.
+  /// One connection for every page. The session stays open so the next
+  /// print can see the printer. It closes after 5 idle minutes, or when
+  /// the app goes to the background.
   private func printPdfs(paths: [String], identifier: String, keepOpen: Bool = false) throws -> Bool {
     log("PRINT_PDFS start identifier=\(identifier) files=\(paths.count) keepOpen=\(keepOpen)")
-    if !isOpen {
-      try ensureConnected(identifier)
-    }
+    try ensureConnected(identifier)
     defer {
-      log("PRINT_PDFS session end keepOpen=\(keepOpen)")
-      if !keepOpen { disconnect() }
+      log("PRINT_PDFS session stays open")
+      noteSessionUsed()
     }
+    // A format left from the previous session keeps the Bluetooth logo up.
+    // Cancel it on this new session before the receipt is sent.
+    _ = try? command("~JA", wait: 0.3)
+    log("PRINT_PDFS cancelled leftover format")
     // ~HS is a ZPL status command. If it is sent before PDF mode, a ZQ320
     // prints the characters "~HS" and does not print the receipt.
     log("PRINT_PDFS skip ~HS")
@@ -348,11 +420,15 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
     let scale = scaleSetting()
     let scaleReply = try command("! U1 setvar \"apl.settings\" \"\(scale)\"")
     log("PRINT_PDFS set apl.settings=\(scale) reply=\(scaleReply)")
+    raisePrintSpeed()
     let previousMedia = getVariable("ezpl.media_type") ?? ""
     log("PRINT_PDFS previous media=\(previousMedia)")
     let mediaReply = (try? command("! U1 setvar \"ezpl.media_type\" \"continuous\"")) ?? ""
     log("PRINT_PDFS set media=continuous reply=\(mediaReply)")
     Thread.sleep(forTimeInterval: 0.2)
+    let plus = isZq320Plus()
+    log("PRINT_PDFS model plus=\(plus)")
+    var totalBytes = 0
     do {
       for path in paths {
         let file = URL(fileURLWithPath: path)
@@ -362,22 +438,46 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
         }
         let header = String(data: pdf.prefix(8), encoding: .ascii) ?? ""
         log("PRINT_PDFS file bytes=\(pdf.count) header=\(header) path=\(path)")
-        try write(pdf, timeout: 60)
-        Thread.sleep(forTimeInterval: 0.5)
+        try write(pdf, timeout: 120)
+        totalBytes += pdf.count
       }
+      // The next PDF follows immediately, so the printer can start it
+      // while the previous page is still coming out. One short pause
+      // after the last page lets the Plus finish reading before close.
+      let pause = plus ? 0.4 : 0.2
+      log("PRINT_PDFS bytes sent=\(totalBytes), flush \(pause)s")
+      Thread.sleep(forTimeInterval: pause)
     } catch {
       if let failure = error as? PrinterFailure {
         log("PRINT_PDFS failed \(failure.code) \(failure.message)")
       } else {
         log("PRINT_PDFS failed \(error.localizedDescription)")
       }
-      restorePdfSettings(previousApl, previousMedia)
+      if !plus {
+        restorePdfSettings(previousApl, previousMedia)
+      }
       throw error
     }
-    restorePdfSettings(previousApl, previousMedia)
+    if !plus {
+      restorePdfSettings(previousApl, previousMedia)
+    } else {
+      log("PRINT_PDFS plus skip restore, bytes=\(totalBytes)")
+    }
     log("PRINT_PDFS finished")
     notify("Printed")
     return true
+  }
+
+  /// The Plus model number is on the accessory. Host id is read before the
+  /// PDF, so this command is not mixed into the file.
+  private func isZq320Plus() -> Bool {
+    let model = onMain { self.accessory?.modelNumber ?? "" }
+    let name = onMain { self.accessory?.name ?? "" }
+    let host = getVariable("device.host_identification") ?? ""
+    let text = "\(model) \(name) \(host)".uppercased()
+    let plus = text.contains("PLUS") || text.contains("ZQ32P")
+    log("PRINT_PDFS identity model=\(model) name=\(name) host=\(host) plus=\(plus)")
+    return plus
   }
 
   private func restorePdfSettings(_ previousApl: String, _ previousMedia: String) {
@@ -432,15 +532,37 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
 
   private func readHostIdentification(_ identifier: String) -> String {
     guard connect(identifier: identifier) else { return "" }
-    defer { disconnect() }
+    noteSessionUsed()
     return getVariable("device.host_identification") ?? ""
   }
 
   private func ensureConnected(_ identifier: String) throws {
-    if isOpen && !usingTcp { return }
-    if usingTcp { disconnect() }
+    if usingTcp, canReuseSession { return }
+    if hasLiveSession(identifier) {
+      log("SESSION already open")
+      noteSessionUsed()
+      return
+    }
+    log("SESSION missing, opening a new one")
     if !connect(identifier: identifier) {
       throw PrinterFailure(code: "004", message: lastConnectError)
+    }
+  }
+
+  /// A print can run only on a session that is open and still attached
+  /// to this printer. Anything else needs a new connection.
+  private func hasLiveSession(_ identifier: String) -> Bool {
+    !usingTcp && canReuseSession && matches(accessory, identifier: identifier)
+  }
+
+  /// A stream can still look open after the printer is switched off.
+  /// Reusing it writes into a dead Bluetooth session.
+  private var canReuseSession: Bool {
+    onMain {
+      guard self.outputStream?.streamStatus == .open else { return false }
+      if self.usingTcp { return true }
+      guard self.session != nil else { return false }
+      return self.accessory?.isConnected == true
     }
   }
 
@@ -497,6 +619,7 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
       return false
     }
     notify("Connected")
+    noteSessionUsed()
     return true
   }
 
@@ -511,12 +634,13 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
       }
       if status == .error || status == .closed {
         let detail = onMain { self.streamState(self.outputStream) }
-        lastConnectError = "Connection Fail: \(detail)"
+        lastConnectError = "Connection Fail: session did not open (\(detail))"
+        log("open wait stream \(detail)")
         return false
       }
       Thread.sleep(forTimeInterval: 0.05)
     }
-    lastConnectError = "Connection Fail: stream stayed opening"
+    lastConnectError = "Connection Fail: session did not open"
     log("open wait timed out")
     return false
   }
@@ -536,10 +660,13 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
   }
 
   private func disconnect() {
+    cancelIdleTimer()
     let state = onMain { self.streamState(self.outputStream) }
     log("disconnect out=\(state)")
     notify("Disconnecting...")
     let close = {
+      self.inputStream?.delegate = nil
+      self.outputStream?.delegate = nil
       self.inputStream?.close()
       self.outputStream?.close()
       for mode in [RunLoop.Mode.default, RunLoop.Mode.common] {
@@ -573,6 +700,9 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
   private func zebraAccessories() -> [EAAccessory] {
     let read = { () -> [EAAccessory] in
       self.prepareAccessoryManager()
+      // A powered-on Zebra can sit in this list with isConnected false for
+      // a moment after the last session closes. Dropping it here made a
+      // live printer look switched off.
       let connected = EAAccessoryManager.shared().connectedAccessories
       let matched = connected.filter { self.supportsZebraProtocol($0) }
       if connected.count != matched.count {
@@ -597,14 +727,40 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
   private func findAccessory(identifier: String) -> EAAccessory? {
     let printers = zebraAccessories()
     if identifier.isEmpty { return printers.first }
-    return printers.first { matches($0, identifier: identifier) } ?? (printers.count == 1 ? printers.first : nil)
+    if let exact = printers.first(where: { matches($0, identifier: identifier) }) {
+      return exact
+    }
+    let zebra = printers.filter { supportsZebraProtocol($0) }
+    if zebra.count == 1 { return zebra.first }
+    if printers.count == 1 { return printers.first }
+    return nil
+  }
+
+  /// A paired Zebra can take a moment to appear after the app registers
+  /// for accessory notifications. The system pair dialog hides printers
+  /// that are already paired, so this wait does not open it.
+  private func waitForAccessory(_ identifier: String) -> EAAccessory? {
+    for attempt in 0..<12 {
+      if let match = findAccessory(identifier: identifier) {
+        log("connect accessory ready attempt=\(attempt) \(describe(match))")
+        return match
+      }
+      log("connect accessory not listed yet attempt=\(attempt)")
+      Thread.sleep(forTimeInterval: 0.25)
+    }
+    logConnected("connect still missing")
+    return nil
   }
 
   private func matches(_ accessory: EAAccessory?, identifier: String) -> Bool {
     guard let accessory else { return false }
     if identifier.isEmpty { return true }
-    return accessory.serialNumber == identifier
-      || accessory.name == identifier
+    let serial = accessory.serialNumber
+    let name = accessory.name
+    return serial.caseInsensitiveCompare(identifier) == .orderedSame
+      || name.caseInsensitiveCompare(identifier) == .orderedSame
+      || name.localizedCaseInsensitiveContains(identifier)
+      || serial.localizedCaseInsensitiveContains(identifier)
       || String(accessory.connectionID) == identifier
   }
 
@@ -736,6 +892,9 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
   /// The invoice PDF is 72 mm wide. 100% scale keeps that height so a receipt
   /// that fits the printer stays one label. scale-to-fit on a 4-inch
   /// ZQ520 / ZQ521 stretches the page and splits it.
+  ///
+  /// The table is gray. Dither turns that gray into a light dot pattern
+  /// so the head is not burning a solid black rule on every row.
   private func scaleSetting() -> String {
     let identity = getVariable("device.host_identification") ?? ""
     let model = String(identity.prefix(5))
@@ -758,6 +917,15 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
     }
     let percent = Int(factor)
     return "dither scale=\(percent)x\(percent)"
+  }
+
+  /// ZQ320 tops out at 4 inches per second. A table is dense enough that
+  /// the printer otherwise drops below that.
+  private func raisePrintSpeed() {
+    let identity = (getVariable("device.host_identification") ?? "").uppercased()
+    guard identity.contains("ZQ32") || identity.contains("ZQ52") else { return }
+    let reply = (try? command("! U1 setvar \"media.speed\" \"4\"")) ?? ""
+    log("PRINT_PDFS media.speed=4 reply=\(reply)")
   }
 
   private func sdk(_ args: [String: Any]) throws -> Any? {

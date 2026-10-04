@@ -75,6 +75,12 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
      */
     private static final int IMAGING_PRINTER = 0x0680;
     private static final long DISCOVERY_TIMEOUT_MS = 13000L;
+    private static final long IDLE_DISCONNECT_MS = 5 * 60 * 1000L;
+    private final Runnable idleDisconnect = () -> {
+        synchronized (printerLock) {
+            disconnect();
+        }
+    };
 
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
@@ -89,6 +95,8 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
     @Override
     public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
         channel.setMethodCallHandler(null);
+        mainHandler.removeCallbacks(idleDisconnect);
+        disconnect();
         printerExecutor.shutdownNow();
     }
 
@@ -404,8 +412,6 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
                 replySuccess(result, host == null ? "" : host);
             } catch (Exception e) {
                 replySuccess(result, "");
-            } finally {
-                disconnect();
             }
         }
     }
@@ -417,9 +423,7 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
         }
         synchronized (printerLock) {
             try {
-                if (isPrinterNotConnected()) {
-                    printer = connect(args.get(0));
-                }
+                ensureBluetoothConnected(args.get(0));
                 if (connection == null || !connection.isConnected() || printer == null) {
                     replyError(result, "004", "Not Connected");
                     return;
@@ -427,7 +431,7 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
                 PDfPrintService pdfPrintService = new PDfPrintService(connection);
                 boolean printed = true;
                 for (int i = 1; i < args.size(); i++) {
-                    printed = pdfPrintService.print(args.get(i)) && printed;
+                    printed = pdfPrintService.print(args.get(i), i == 1, i == args.size() - 1) && printed;
                 }
                 replySuccess(result, printed);
             } catch (HeadOpenException | PaperOutException | SendDataException e) {
@@ -438,8 +442,6 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
                 replyError(result, "004", "Connection Fail");
             } catch (Exception ex) {
                 replyError(result, "100", ex.getMessage());
-            } finally {
-                disconnect();
             }
         }
     }
@@ -447,9 +449,7 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
     private void printPDF(String macAddress, String pathFile, Result result) {
         synchronized (printerLock) {
             try {
-                if (isPrinterNotConnected()) {
-                    printer = connect(macAddress);
-                }
+                ensureBluetoothConnected(macAddress);
                 if (connection != null && connection.isConnected() && printer != null) {
                     sendSuccessNotification("Printing PDF");
                     PDfPrintService pdfPrintService = new PDfPrintService(connection);
@@ -468,10 +468,19 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
                 replyError(result, "004", "Connection Fail");
             } catch (Exception ex) {
                 replyError(result, "100", ex.getMessage());
-            } finally {
-                disconnect();
             }
         }
+    }
+
+    private void ensureBluetoothConnected(String macAddress) {
+        if (!isPrinterNotConnected()
+                && macAddress != null
+                && macAddress.equalsIgnoreCase(connectedAddress)) {
+            noteSessionUsed();
+            return;
+        }
+        disconnect();
+        printer = connect(macAddress);
     }
 
     private boolean isPrinterNotConnected() {
@@ -497,7 +506,9 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
         }
 
         try {
-            return ZebraPrinterFactory.getInstance(connection);
+            ZebraPrinter instance = ZebraPrinterFactory.getInstance(connection);
+            noteSessionUsed();
+            return instance;
         } catch (ConnectionException | ZebraPrinterLanguageUnknownException e) {
             sendFailNotification("Unknown Printer Language");
             disconnect();
@@ -505,7 +516,13 @@ public class ZebraBluetoothPrinterPlugin implements FlutterPlugin, MethodCallHan
         }
     }
 
+    private void noteSessionUsed() {
+        mainHandler.removeCallbacks(idleDisconnect);
+        mainHandler.postDelayed(idleDisconnect, IDLE_DISCONNECT_MS);
+    }
+
     public void disconnect() {
+        mainHandler.removeCallbacks(idleDisconnect);
         Connection current = connection;
         connection = null;
         printer = null;

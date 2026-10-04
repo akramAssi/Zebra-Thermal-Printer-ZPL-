@@ -36,7 +36,8 @@ class ZebraBluetoothPrinter {
 
   static Future<dynamic> print(String zpl, String macAddress) async {
     debugPrint('[ZebraBT] print zpl address=$macAddress chars=${zpl.length}');
-    final printed = await _channel.invokeMethod(Channels.printZpl, [macAddress, zpl]);
+    final printed =
+        await _channel.invokeMethod(Channels.printZpl, [macAddress, zpl]);
     debugPrint('[ZebraBT] print zpl result=$printed');
     return printed;
   }
@@ -51,7 +52,8 @@ class ZebraBluetoothPrinter {
 
   /// Sends every page on one connection so a long invoice does not pause
   /// and feed between labels.
-  static Future<dynamic> printPdfs(String macAddress, List<String> filePaths) async {
+  static Future<dynamic> printPdfs(
+      String macAddress, List<String> filePaths) async {
     debugPrint(
       '[ZebraBT] printPdfs address=$macAddress files=${filePaths.length}',
     );
@@ -84,7 +86,10 @@ class ZebraBluetoothPrinter {
   }
 
   static Future<bool?> connect(String macAddress) async {
-    if (!await requestBluetoothPermission()) return false;
+    // iOS uses the External Accessory link, not CoreBluetooth. Requesting
+    // the CoreBluetooth permission here makes connect() return false while
+    // the printer is already paired.
+    if (Platform.isAndroid && !await requestBluetoothPermission()) return false;
     return _channel.invokeMethod(Channels.connect, macAddress);
   }
 

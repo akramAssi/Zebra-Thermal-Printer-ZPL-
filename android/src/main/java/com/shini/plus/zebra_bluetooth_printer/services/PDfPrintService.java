@@ -11,12 +11,19 @@ import com.zebra.sdk.printer.ZebraPrinterLinkOs;
 public class PDfPrintService {
 
     private final Connection connection;
+    private boolean plusPrinter;
+    private String previousMedia = "";
 
     public PDfPrintService(Connection connection) {
         this.connection = connection;
     }
 
     public boolean print(String path)
+            throws ConnectionException, SendDataException, HeadOpenException, PaperOutException {
+        return print(path, true, true);
+    }
+
+    public boolean print(String path, boolean firstPage, boolean lastPage)
             throws ConnectionException, SendDataException, HeadOpenException, PaperOutException {
 
         // Get Instance of Printer
@@ -25,49 +32,60 @@ public class PDfPrintService {
             throw new ConnectionException("Printer is not a Link-OS printer");
         }
 
-        // Verify Printer Status is Ready
-        PrinterStatus printerStatus = printer.getCurrentStatus();
-        if (printerStatus.isReadyToPrint) {
+        // Later pages are sent while the previous page is still printing.
+        // Waiting for idle here is what made the next page start late.
+        if (firstPage) {
+            cancelLeftoverFormat();
+            plusPrinter = isZq320Plus();
+            PrinterStatus printerStatus = printer.getCurrentStatus();
+            if (!printerStatus.isReadyToPrint) {
+                if (printerStatus.isPaused) {
+                    throw new SendDataException("Fail Print");
+                } else if (printerStatus.isHeadOpen) {
+                    throw new HeadOpenException();
+                } else if (printerStatus.isPaperOut) {
+                    throw new PaperOutException();
+                }
+                return false;
+            }
             String scale = scalePrint(connection);
             SGD.SET("apl.settings", scale, connection);
-            String previousMedia = readSetting("ezpl.media_type");
+            previousMedia = readSetting("ezpl.media_type");
             setSetting("ezpl.media_type", "continuous");
-            try {
-                printer.sendFileContents(path);
-                waitUntilPrinterIdle(printer);
-            } finally {
-                if (previousMedia != null && !previousMedia.isEmpty()
-                        && !"continuous".equalsIgnoreCase(previousMedia)) {
-                    setSetting("ezpl.media_type", previousMedia);
-                }
-            }
-            return true;
-            // TODO: Notify UI that print job completed successfully...
-        } else {
-            if (printerStatus.isPaused) {
-                throw new SendDataException("Fail Print");
-            } else if (printerStatus.isHeadOpen) {
-                throw new HeadOpenException();
-            } else if (printerStatus.isPaperOut) {
-                throw new PaperOutException();
-            }
         }
 
-        return false;
-
+        try {
+            printer.sendFileContents(path);
+            if (lastPage) {
+                try {
+                    Thread.sleep(plusPrinter ? 400 : 200);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        } finally {
+            // A setting written now is read as part of the PDF. The Plus
+            // then locks and prints nothing.
+            if (lastPage && !plusPrinter && previousMedia != null && !previousMedia.isEmpty()
+                    && !"continuous".equalsIgnoreCase(previousMedia)) {
+                setSetting("ezpl.media_type", previousMedia);
+            }
+        }
+        return true;
     }
 
-    private void waitUntilPrinterIdle(ZebraPrinterLinkOs printer) throws ConnectionException {
+    private boolean isZq320Plus() {
+        String host = readSetting("device.host_identification");
+        String product = readSetting("device.product_name");
+        String text = (host + " " + product).toUpperCase();
+        return text.contains("PLUS") || text.contains("ZQ32P");
+    }
+
+    private void cancelLeftoverFormat() {
         try {
-            for (int attempt = 0; attempt < 20; attempt++) {
-                PrinterStatus status = printer.getCurrentStatus();
-                if (status.numberOfFormatsInReceiveBuffer == 0 && !status.isPartialFormatInProgress) {
-                    return;
-                }
-                Thread.sleep(200);
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            connection.write("~JA\r\n".getBytes());
+            Thread.sleep(300);
+        } catch (Exception ignored) {
         }
     }
 
@@ -97,7 +115,8 @@ public class PDfPrintService {
         }
         String printerModel = hostId.length() >= 5 ? hostId.substring(0, 5) : hostId;
         if (printerModel.startsWith("ZQ52") || printerModel.startsWith("ZQ32")) {
-            return "dither scale=100x100";
+            SGD.SET("media.speed", "4", connection);
+            return fastPdfSettings(100);
         }
 
         int fileWidth = 56;
@@ -112,8 +131,14 @@ public class PDfPrintService {
         } else if (printerModel.equals("ZT420")) {
             scaleFactor = 6.5 / fileWidth * 100;
         } else {
-            return "dither scale=100x100";
+            return fastPdfSettings(100);
         }
-        return "dither scale=" + (int) scaleFactor + "x" + (int) scaleFactor;
+        return fastPdfSettings((int) scaleFactor);
+    }
+
+    /// The table is gray. Dither turns that gray into a light dot pattern
+    /// so the head is not burning a solid black rule on every row.
+    private String fastPdfSettings(int scale) {
+        return "dither scale=" + scale + "x" + scale;
     }
 }
