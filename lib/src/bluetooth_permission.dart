@@ -7,6 +7,8 @@ Future<bool> requestBluetoothPermission() async {
     final status = await Permission.bluetooth.request();
     return status.isGranted || status.isLimited;
   }
+  // Windows is included here. Classic Bluetooth on the desktop does not use
+  // this permission, and requiring it would block connect.
   if (!Platform.isAndroid) return true;
 
   // Advertise is not required to connect or print, and it is not in the

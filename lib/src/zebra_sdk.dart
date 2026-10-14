@@ -5,22 +5,24 @@ import 'package:zebra_bluetooth_printer/method_channels.dart';
 import 'package:zebra_bluetooth_printer/src/bluetooth_permission.dart';
 import 'package:zebra_bluetooth_printer/src/zebra_models.dart';
 
-/// Link-OS operations for Android and iOS.
+/// Link-OS operations for Android, iOS, and Windows.
 ///
 /// Android calls the Zebra SDK (`SGD`, `ZebraPrinter`, `ToolsUtil`,
 /// `FileUtil`, `GraphicsUtil`, `FormatUtil`, `NetworkDiscoverer`,
-/// `UsbDiscoverer`). iOS sends the same ZPL, CPCL, SGD, and `~HS` commands
-/// over the MFi raw port or a TCP socket on port 9100.
+/// `UsbDiscoverer`). iOS and Windows send the same ZPL, CPCL, SGD, and
+/// `~HS` commands over a raw port or a TCP socket on port 9100. Windows
+/// Bluetooth is the classic serial-port profile, addressed by MAC.
 ///
-/// [connect] keeps the session open until [disconnect]. Pass [address] on a
-/// later call only when you want to open a different printer. The older
-/// `ZebraBluetoothPrinter.print` and `ZebraBluetoothPrinter.printPdf` methods
-/// still close the connection when they finish.
+/// [connect] keeps the session open until [disconnect]. `print`, `printPdf`,
+/// and `printPdfs` keep it as well. The link closes after five idle minutes,
+/// when the iOS app leaves the foreground, or as soon as the printer powers
+/// off so the next connect is not blocked by the old session.
 class ZebraSdk {
   ZebraSdk._();
 
-  static const MethodChannel _channel =
-      MethodChannel('zebra_bluetooth_printer');
+  static const MethodChannel _channel = MethodChannel(
+    'zebra_bluetooth_printer',
+  );
 
   /// Paired and nearby Bluetooth printers. On iOS this is the accessories
   /// already paired in Settings. Open the accessory picker when the list
@@ -30,8 +32,9 @@ class ZebraSdk {
       final allowed = await requestBluetoothPermission();
       if (!allowed) return const [];
     }
-    final raw =
-        await _channel.invokeMethod<List<dynamic>>(Channels.listPrinters);
+    final raw = await _channel.invokeMethod<List<dynamic>>(
+      Channels.listPrinters,
+    );
     if (raw == null) return const [];
     return [
       for (final item in raw)
@@ -60,7 +63,8 @@ class ZebraSdk {
     return _printers(raw);
   }
 
-  /// USB Zebra printers. Android only.
+  /// USB Zebra printers. Android uses the device name. Windows uses a COM
+  /// port such as `COM3`, or the name of an installed Zebra printer queue.
   static Future<List<ZebraDiscoveredPrinter>> discoverUsb() async {
     final raw = await _invoke('discoverUsb');
     return _printers(raw);
@@ -288,60 +292,69 @@ class ZebraSdk {
     String address = '',
     ZebraTransport transport = ZebraTransport.bluetooth,
     int port = 9100,
-  }) =>
-      _tool('calibrate', address: address, transport: transport, port: port);
+  }) => _tool('calibrate', address: address, transport: transport, port: port);
 
   /// `ToolsUtil.printConfigurationLabel` (`~WC`).
   static Future<void> printConfigurationLabel({
     String address = '',
     ZebraTransport transport = ZebraTransport.bluetooth,
     int port = 9100,
-  }) =>
-      _tool('printConfigurationLabel',
-          address: address, transport: transport, port: port);
+  }) => _tool(
+    'printConfigurationLabel',
+    address: address,
+    transport: transport,
+    port: port,
+  );
 
   /// `~WL`.
   static Future<void> printNetworkConfigurationLabel({
     String address = '',
     ZebraTransport transport = ZebraTransport.bluetooth,
     int port = 9100,
-  }) =>
-      _tool('printNetworkConfigurationLabel',
-          address: address, transport: transport, port: port);
+  }) => _tool(
+    'printNetworkConfigurationLabel',
+    address: address,
+    transport: transport,
+    port: port,
+  );
 
   /// `^WD`.
   static Future<void> printDirectoryLabel({
     String address = '',
     ZebraTransport transport = ZebraTransport.bluetooth,
     int port = 9100,
-  }) =>
-      _tool('printDirectoryLabel',
-          address: address, transport: transport, port: port);
+  }) => _tool(
+    'printDirectoryLabel',
+    address: address,
+    transport: transport,
+    port: port,
+  );
 
   /// Feeds one blank label (`^PH`).
   static Future<void> feed({
     String address = '',
     ZebraTransport transport = ZebraTransport.bluetooth,
     int port = 9100,
-  }) =>
-      _tool('feed', address: address, transport: transport, port: port);
+  }) => _tool('feed', address: address, transport: transport, port: port);
 
   /// `ToolsUtil.restoreDefaults` (`^JUF`). Clears printer settings.
   static Future<void> restoreDefaults({
     String address = '',
     ZebraTransport transport = ZebraTransport.bluetooth,
     int port = 9100,
-  }) =>
-      _tool('restoreDefaults',
-          address: address, transport: transport, port: port);
+  }) => _tool(
+    'restoreDefaults',
+    address: address,
+    transport: transport,
+    port: port,
+  );
 
   /// `ToolsUtil.reset` (`~JR`). The printer reboots.
   static Future<void> reset({
     String address = '',
     ZebraTransport transport = ZebraTransport.bluetooth,
     int port = 9100,
-  }) =>
-      _tool('reset', address: address, transport: transport, port: port);
+  }) => _tool('reset', address: address, transport: transport, port: port);
 
   static Future<void> _tool(
     String op, {
@@ -511,6 +524,9 @@ class ZebraSdk {
     Map<String, Object?> args = const {},
   ]) async {
     final transport = zebraTransportFromName(args['transport']?.toString());
+    // Windows desktop Bluetooth has no advertise or connect permission.
+    // Asking for one would fail the call before the printer opens, which is
+    // the same failure the Android advertise permission used to cause.
     if (transport == ZebraTransport.bluetooth &&
         args.containsKey('transport') &&
         (Platform.isAndroid || Platform.isIOS)) {

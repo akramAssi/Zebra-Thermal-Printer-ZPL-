@@ -1,8 +1,8 @@
 # zebra_bluetooth_printer
 
-Flutter access to the Zebra Link-OS SDK on Android and iOS.
+Flutter access to the Zebra Link-OS SDK on Android, iOS, and Windows.
 
-Android calls the SDK in `android/libs/ZSDK_ANDROID_API.jar`: discovery, `SGD`, printer status, ZPL, CPCL, PDF Direct, graphics, files, stored formats, and the printer tools. iOS sends those same printer commands over the Made-for-iPhone raw port `com.zebra.rawport`, or over TCP port 9100. USB is Android only.
+Android calls the SDK in `android/libs/ZSDK_ANDROID_API.jar`: discovery, `SGD`, printer status, ZPL, CPCL, PDF Direct, graphics, files, stored formats, and the printer tools. iOS sends those same printer commands over the Made-for-iPhone raw port `com.zebra.rawport`, or over TCP port 9100. Windows sends those same commands over classic Bluetooth, TCP port 9100, a COM port, or a RAW printer queue.
 
 The example app runs every use case. Open `example/` and press the button with the same name as the API.
 
@@ -49,27 +49,35 @@ The background mode `external-accessory` is required if the printer should stay 
 
 iOS does not connect by MAC address. `address` is the accessory serial number from discovery. If the list is empty, call `ZebraBluetoothPrinter.showAccessoryPicker()` and pair the printer, then discover again.
 
-A network printer uses the printer IP. iOS has no Link-OS discovery packet, so pass a subnet such as `192.168.1.0` and the plugin probes port 9100.
+A network printer uses the printer IP. iOS and Windows have no Link-OS discovery packet, so pass a subnet such as `192.168.1.0` and the plugin probes port 9100.
+
+## Windows setup
+
+Pair the ZQ320 in Windows Bluetooth settings first. `address` is the printer MAC, the same value Android uses. `ZebraBluetoothPrinter.showAccessoryPicker()` opens that settings page.
+
+The plugin uses classic Bluetooth (serial port profile), not Bluetooth Low Energy. A paired printer stays in the discovery list when it is not in an active connection. The link stays open after a print, closes after five idle minutes, and is dropped as soon as the printer powers off so the next print can connect.
+
+A network printer is TCP port 9100. A USB printer is a COM port such as `COM3`, or the name of a Zebra printer installed in Windows. Build this target on a Windows PC. The Mac can edit the code, but it cannot compile the Windows plugin.
 
 ## Transports
 
-| Transport                  | Android address       | iOS address           |
-| -------------------------- | --------------------- | --------------------- |
-| `ZebraTransport.bluetooth` | MAC address           | Accessory serial      |
-| `ZebraTransport.tcp`       | IP address, port 9100 | IP address, port 9100 |
-| `ZebraTransport.usb`       | USB device name       | Not available         |
+| Transport                  | Android address       | iOS address           | Windows address          |
+| -------------------------- | --------------------- | --------------------- | ------------------------ |
+| `ZebraTransport.bluetooth` | MAC address           | Accessory serial      | MAC address              |
+| `ZebraTransport.tcp`       | IP address, port 9100 | IP address, port 9100 | IP address, port 9100    |
+| `ZebraTransport.usb`       | USB device name       | Not available         | COM port or printer name |
 
 ## Find a printer
 
 ```dart
 final bluetooth = await ZebraSdk.discoverBluetooth();
 final network = await ZebraSdk.discoverNetwork(subnet: '192.168.1.0');
-final usb = await ZebraSdk.discoverUsb(); // Android
+final usb = await ZebraSdk.discoverUsb(); // Android and Windows
 
-await ZebraBluetoothPrinter.showAccessoryPicker(); // iOS pairing
+await ZebraBluetoothPrinter.showAccessoryPicker(); // iOS pairing, Windows Bluetooth settings
 ```
 
-`discoverBluetooth` on Android returns paired printers and printers found by a classic scan. On iOS it returns accessories that are already paired.
+`discoverBluetooth` on Android and Windows returns paired printers and printers found by a classic scan. On iOS it returns accessories that are already paired. A paired Zebra stays in that list when it is not currently connected.
 
 ## Connect
 

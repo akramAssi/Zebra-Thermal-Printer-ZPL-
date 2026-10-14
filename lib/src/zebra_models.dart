@@ -1,16 +1,16 @@
 /// How the phone reaches the printer.
 enum ZebraTransport {
-  /// Classic Bluetooth on Android. Made-for-iPhone accessory on iOS.
-  /// [ZebraDiscoveredPrinter.address] is a MAC address on Android and the
-  /// accessory serial number on iOS.
+  /// Classic Bluetooth on Android and Windows. Made-for-iPhone accessory
+  /// on iOS. [ZebraDiscoveredPrinter.address] is a MAC address on Android
+  /// and Windows, and the accessory serial number on iOS.
   bluetooth,
 
   /// Raw TCP, usually port 9100. The same socket the Link-OS SDK opens
   /// with `TcpConnection`.
   tcp,
 
-  /// USB host. Android only. [ZebraDiscoveredPrinter.address] is the
-  /// Android USB device name.
+  /// USB host. [ZebraDiscoveredPrinter.address] is the Android USB device
+  /// name, or on Windows a COM port or installed printer name.
   usb,
 }
 
@@ -93,28 +93,30 @@ class ZebraPrinterStatus {
       isReceiveBufferFull: _asBool(map['isReceiveBufferFull']),
       isPartialFormatInProgress: _asBool(map['isPartialFormatInProgress']),
       labelLengthInDots: _asInt(map['labelLengthInDots'], 0),
-      numberOfFormatsInReceiveBuffer:
-          _asInt(map['numberOfFormatsInReceiveBuffer'], 0),
+      numberOfFormatsInReceiveBuffer: _asInt(
+        map['numberOfFormatsInReceiveBuffer'],
+        0,
+      ),
       labelsRemainingInBatch: _asInt(map['labelsRemainingInBatch'], 0),
       printMode: (map['printMode'] ?? '').toString(),
     );
   }
 
   Map<String, Object> toMap() => {
-        'isReadyToPrint': isReadyToPrint,
-        'isPaused': isPaused,
-        'isHeadOpen': isHeadOpen,
-        'isPaperOut': isPaperOut,
-        'isRibbonOut': isRibbonOut,
-        'isHeadCold': isHeadCold,
-        'isHeadTooHot': isHeadTooHot,
-        'isReceiveBufferFull': isReceiveBufferFull,
-        'isPartialFormatInProgress': isPartialFormatInProgress,
-        'labelLengthInDots': labelLengthInDots,
-        'numberOfFormatsInReceiveBuffer': numberOfFormatsInReceiveBuffer,
-        'labelsRemainingInBatch': labelsRemainingInBatch,
-        'printMode': printMode,
-      };
+    'isReadyToPrint': isReadyToPrint,
+    'isPaused': isPaused,
+    'isHeadOpen': isHeadOpen,
+    'isPaperOut': isPaperOut,
+    'isRibbonOut': isRibbonOut,
+    'isHeadCold': isHeadCold,
+    'isHeadTooHot': isHeadTooHot,
+    'isReceiveBufferFull': isReceiveBufferFull,
+    'isPartialFormatInProgress': isPartialFormatInProgress,
+    'labelLengthInDots': labelLengthInDots,
+    'numberOfFormatsInReceiveBuffer': numberOfFormatsInReceiveBuffer,
+    'labelsRemainingInBatch': labelsRemainingInBatch,
+    'printMode': printMode,
+  };
 }
 
 /// One drive reported by Link-OS `getStorageInfo`.
