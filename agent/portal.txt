@@ -1,5 +1,5 @@
 # Line 1: portal API base URL (the address that already ends with /api)
 # Line 2: printer_agent.access_key from Settings → App configuration
 #
-# https://online.shini.ps/roastery/api
-# your-access-key
+https://online.shini.ps/roastery/api
+PM8xrSBk_wWLBAecXOtN3lEdhxmd9Hk-
