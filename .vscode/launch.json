@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Zebra Printer Agent",
+      "type": "dart",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/agent",
+      "program": "lib/main.dart",
+      "deviceId": "windows",
+      "flutterMode": "debug",
+      "preLaunchTask": "Stop running printer agent"
+    },
+    {
+      "name": "Zebra Printer Agent (no debug)",
+      "type": "dart",
+      "request": "launch",
+      "noDebug": true,
+      "cwd": "${workspaceFolder}/agent",
+      "program": "lib/main.dart",
+      "deviceId": "windows",
+      "flutterMode": "debug",
+      "preLaunchTask": "Stop running printer agent"
+    }
+  ]
+}

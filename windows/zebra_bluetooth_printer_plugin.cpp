@@ -1926,8 +1926,7 @@ struct ZebraBluetoothPrinterPlugin::Impl {
   bool ListPrinters(EncodableList* rows) {
     DropIfStale();
     if (!HasRadio()) {
-      last_error_ = "No bluetooth radio found";
-      return false;
+      return true;
     }
     std::vector<PrinterHit> hits = RememberedPrinters(false);
     const std::vector<PrinterHit> nearby = RememberedPrinters(true);
