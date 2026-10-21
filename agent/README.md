@@ -25,3 +25,9 @@ flutter build windows
 The exe is `build\windows\x64\runner\Release\zebra_printer_agent.exe`. `portal.txt` is copied beside it.
 
 Pair a Bluetooth printer in Windows settings first, or plug the printer in by USB so Windows shows it as a COM port or a Zebra printer. Open the app, press Find printers, then Test print.
+
+## USB driver
+
+Bluetooth and a network printer do not need a Zebra driver. USB does. Install Zebra Setup Utilities before the USB cable is plugged in. That package includes the ZDesigner printer driver.
+
+Save that installer as `driver/ZebraDriver.exe` in this `agent` folder before building. The build copies it next to the exe. If Windows has no Zebra driver, the app shows **Install driver**. Windows asks for administrator approval, then the installer runs.

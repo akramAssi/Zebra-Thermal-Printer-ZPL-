@@ -6,6 +6,8 @@ Android calls the SDK in `android/libs/ZSDK_ANDROID_API.jar`: discovery, `SGD`, 
 
 The example app runs every use case. Open `example/` and press the button with the same name as the API.
 
+What to install from the Zebra SDK, and what iOS and Windows do without it, is in [SDK.md](SDK.md).
+
 ## Install
 
 ```yaml

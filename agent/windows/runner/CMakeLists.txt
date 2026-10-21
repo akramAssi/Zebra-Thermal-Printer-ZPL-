@@ -45,3 +45,19 @@ add_custom_command(TARGET ${BINARY_NAME} POST_BUILD
     "$<TARGET_FILE_DIR:${BINARY_NAME}>/portal.txt"
   VERBATIM
 )
+
+set(ZEBRA_DRIVER_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../../driver/ZebraDriver.exe")
+if(NOT EXISTS "${ZEBRA_DRIVER_FILE}")
+  file(GLOB ZEBRA_DRIVER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/../../driver/*.exe")
+  if(ZEBRA_DRIVER_FILES)
+    list(GET ZEBRA_DRIVER_FILES 0 ZEBRA_DRIVER_FILE)
+  endif()
+endif()
+if(EXISTS "${ZEBRA_DRIVER_FILE}")
+  add_custom_command(TARGET ${BINARY_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+      "${ZEBRA_DRIVER_FILE}"
+      "$<TARGET_FILE_DIR:${BINARY_NAME}>/ZebraDriver.exe"
+    VERBATIM
+  )
+endif()

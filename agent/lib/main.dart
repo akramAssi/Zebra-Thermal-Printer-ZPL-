@@ -8,6 +8,7 @@ import 'package:window_manager/window_manager.dart';
 import 'package:zebra_bluetooth_printer/zebra_bluetooth_printer.dart';
 
 import 'close_password.dart';
+import 'windows_driver.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,6 +62,8 @@ class _PrinterHomeState extends State<PrinterHome>
   bool _printing = false;
   bool _askingPassword = false;
   String _password = kDefaultClosePassword;
+  WindowsDriverStatus? _driver;
+  bool _installingDriver = false;
 
   @override
   void initState() {
@@ -83,6 +86,29 @@ class _PrinterHomeState extends State<PrinterHome>
     if (mounted) setState(() => _password = password);
     await _setupTray();
     await _enableLoginStart();
+    await Future.wait([_checkDriver(), _refresh()]);
+  }
+
+  Future<void> _checkDriver() async {
+    final status = await checkWindowsDriver();
+    if (!mounted) return;
+    setState(() => _driver = status);
+  }
+
+  Future<void> _installDriver() async {
+    final path = _driver?.installerPath ?? '';
+    if (path.isEmpty || _installingDriver) return;
+    setState(() {
+      _installingDriver = true;
+      _result = null;
+    });
+    final message = await installWindowsDriver(path);
+    if (!mounted) return;
+    setState(() {
+      _installingDriver = false;
+      _result = message;
+    });
+    await _checkDriver();
     await _refresh();
   }
 
@@ -284,6 +310,12 @@ class _PrinterHomeState extends State<PrinterHome>
           children: [
             Text(_status, style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 12),
+            _DriverNotice(
+              driver: _driver,
+              installing: _installingDriver,
+              onInstall: _installDriver,
+            ),
+            const SizedBox(height: 12),
             Expanded(
               child: _printers.isEmpty
                   ? const _EmptyPrinters()
@@ -342,6 +374,61 @@ class _PrinterHomeState extends State<PrinterHome>
           ],
         ),
       ),
+    );
+  }
+}
+
+class _DriverNotice extends StatelessWidget {
+  const _DriverNotice({
+    required this.driver,
+    required this.installing,
+    required this.onInstall,
+  });
+
+  final WindowsDriverStatus? driver;
+  final bool installing;
+  final VoidCallback onInstall;
+
+  @override
+  Widget build(BuildContext context) {
+    final status = driver;
+    if (status == null) {
+      return Text(
+        'Checking the printer driver...',
+        style: Theme.of(context).textTheme.bodySmall,
+      );
+    }
+    if (status.installed) {
+      return Text(
+        'Zebra driver is installed.',
+        style: Theme.of(context).textTheme.bodySmall,
+      );
+    }
+    final missingInstaller = status.installerPath.isEmpty;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          missingInstaller
+              ? 'USB needs the Zebra printer driver. This app does not include the installer yet. Save Zebra Setup Utilities as driver\\ZebraDriver.exe and build again. Bluetooth works without it.'
+              : 'USB needs the Zebra printer driver. Bluetooth works without it.',
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        if (status.checkFailed) ...[
+          const SizedBox(height: 8),
+          Text(
+            'The driver check did not finish. You can still install it.',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ],
+        if (!missingInstaller) ...[
+          const SizedBox(height: 8),
+          FilledButton(
+            onPressed: installing ? null : onInstall,
+            child: Text(installing ? 'Installing...' : 'Install driver'),
+          ),
+        ],
+      ],
     );
   }
 }
