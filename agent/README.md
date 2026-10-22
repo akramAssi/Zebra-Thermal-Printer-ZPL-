@@ -4,7 +4,7 @@ Small Windows app for the ZQ320. It looks for a printer on USB or Bluetooth, sen
 
 The quit password is the portal app configuration `printer_agent.close_password` (Settings → App configuration). The default until you change it is `shini`.
 
-The app reads that value from `GET /api/printer-agent/close-password`. `portal.txt` next to the exe has two lines: the API base URL, then `printer_agent.access_key` from the same settings screen. Until both lines are filled in, the app keeps using `shini`.
+The app reads that value from `GET /api/printer-agent/close-password`. The portal address and `printer_agent.access_key` are set in `lib/close_password.dart`. Until the portal accepts that key, the app keeps using `shini`.
 
 ## Build on Windows
 
@@ -22,12 +22,10 @@ A release build:
 flutter build windows
 ```
 
-The exe is `build\windows\x64\runner\Release\zebra_printer_agent.exe`. `portal.txt` is copied beside it.
+The exe is `build\windows\x64\runner\Release\zebra_printer_agent.exe`. Copy that whole Release folder.
 
 Pair a Bluetooth printer in Windows settings first, or plug the printer in by USB so Windows shows it as a COM port or a Zebra printer. Open the app, press Find printers, then Test print.
 
 ## USB driver
 
-Bluetooth and a network printer do not need a Zebra driver. USB does. Install Zebra Setup Utilities before the USB cable is plugged in. That package includes the ZDesigner printer driver.
-
-Save that installer as `driver/ZebraDriver.exe` in this `agent` folder before building. The build copies it next to the exe. If Windows has no Zebra driver, the app shows **Install driver**. Windows asks for administrator approval, then the installer runs.
+Bluetooth and a network printer do not need a Zebra driver. USB does. The Windows build copies `driver/zdesigner` next to the exe. On a PC without that driver, the app installs it first and Windows asks for administrator approval. Plug the printer in after that.

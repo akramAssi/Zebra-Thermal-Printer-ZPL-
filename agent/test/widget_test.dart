@@ -1,7 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:zebra_printer_agent/agent_log.dart';
 import 'package:zebra_printer_agent/close_password.dart';
+import 'package:zebra_printer_agent/print_queue.dart';
 import 'package:zebra_printer_agent/printer_setup.dart';
-import 'package:zebra_printer_agent/wifi_setup.dart';
 import 'package:zebra_printer_agent/windows_driver.dart';
 
 void main() {
@@ -17,6 +18,15 @@ warehouse-key
     expect(link.apiBaseUrl, 'https://online.shini.ps/roastery/api');
     expect(link.accessKey, 'warehouse-key');
     expect(link.canFetch, isTrue);
+  });
+
+  test('built-in portal settings are ready to call', () {
+    const link = PortalLink(
+      apiBaseUrl: kPortalApiBaseUrl,
+      accessKey: kPortalAccessKey,
+    );
+    expect(link.canFetch, isTrue);
+    expect(link.apiBaseUrl, 'https://online.shini.ps/roastery/api');
   });
 
   test('missing access key does not call the portal', () {
@@ -99,24 +109,47 @@ queue_name=ZDesigner ZQ320 Plus
     expect(parseSetupReport('').outcome, SetupOutcome.failed);
   });
 
-  test('wifi scan keeps the current network and the saved password', () {
-    const report = '''
-current=Shop WiFi
-password=store-pass
-network=Shop WiFi
-network=Guest
-''';
-    final scan = parseWifiScan(report);
-    expect(scan.current, 'Shop WiFi');
-    expect(scan.password, 'store-pass');
-    expect(scan.networks, ['Shop WiFi', 'Guest']);
+  test('portal reply message leaves the password out', () {
+    expect(
+      portalReplyMessage(
+        '{"success":false,"message":"Printer agent access key is not configured"}',
+      ),
+      'Printer agent access key is not configured',
+    );
+    expect(
+      portalReplyMessage('{"success":true,"data":{"password":"hidden"}}'),
+      'no message',
+    );
+    expect(portalBodyHasPassword('{"data":{"password":"hidden"}}'), isTrue);
   });
 
-  test('wifi password becomes the 64 digit printer key', () {
-    expect(
-      wpaPskHex('password', 'IEEE'),
-      'f42c6fc52df0ebef9ebb4b90b38a5f902e83fe1b135a70e23aed762e9710a12e',
-    );
+  test('log file keeps only the last 24 hours', () {
+    final now = DateTime(2026, 10, 21, 14);
+    final fresh = now.subtract(const Duration(hours: 23)).toIso8601String();
+    final stale = now.subtract(const Duration(hours: 25)).toIso8601String();
+    final kept = retainRecentLogs([
+      '$stale [zebra] old',
+      '$fresh [zebra] recent',
+      'not a timestamp',
+      '',
+    ], now);
+    expect(kept, ['$fresh [zebra] recent']);
+  });
+
+  test('print queue lines keep the document name', () {
+    const report = '''
+job|3|Printing, Retained|Stock movement #3413
+job|8|Normal|Zebra test
+
+''';
+    final jobs = parsePrintJobs(report);
+    expect(jobs, hasLength(2));
+    expect(jobs.first.id, 3);
+    expect(jobs.first.status, 'Printing, Retained');
+    expect(jobs.first.title, 'Stock movement #3413');
+    expect(jobs.last.title, 'Zebra test');
+    expect(parsePrintJobs(''), isEmpty);
+    expect(parsePrintJobs('job|nope|Normal|Skipped'), isEmpty);
   });
 
   test('bad portal body keeps the current password', () {

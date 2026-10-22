@@ -4,16 +4,20 @@
     {
       "label": "Stop running printer agent",
       "type": "process",
-      "command": "powershell",
+      "command": "cmd.exe",
       "args": [
-        "-NoProfile",
-        "-Command",
-        "Stop-Process -Name zebra_printer_agent -Force -ErrorAction SilentlyContinue"
+        "/d",
+        "/c",
+        "taskkill /F /IM zebra_printer_agent.exe >nul 2>&1 & exit /b 0"
       ],
+      "isBackground": false,
       "problemMatcher": [],
       "presentation": {
-        "reveal": "silent",
-        "close": true
+        "reveal": "never",
+        "echo": false,
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false
       }
     }
   ]

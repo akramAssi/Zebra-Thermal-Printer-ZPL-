@@ -86,6 +86,13 @@ try {
   }
 }
 
+/// Bundled `zdesigner.inf`, or `ZebraDriver.exe` beside the app.
+String? findBundledDriverPackage() {
+  final inf = _findNamedFile('zdesigner.inf');
+  if (inf != null) return inf;
+  return findDriverInstaller();
+}
+
 /// `ZebraDriver.exe` beside the app, or the first installer in `driver/`.
 String? findDriverInstaller() {
   final besideApp = File(
@@ -126,6 +133,23 @@ Get-CimInstance Win32_Printer | ForEach-Object { $lines.Add(([string]$_.Name) + 
 $lines.Add((pnputil /enum-drivers | Out-String))
 $lines -join "`n"
 ''';
+
+String? _findNamedFile(String name) {
+  final wanted = name.toLowerCase();
+  final folders = [
+    Directory(_join(File(Platform.resolvedExecutable).parent.path, 'driver')),
+    Directory(_join(Directory.current.path, 'driver')),
+  ];
+  for (final folder in folders) {
+    if (!folder.existsSync()) continue;
+    for (final entity in folder.listSync(recursive: true)) {
+      if (entity is! File) continue;
+      final found = entity.uri.pathSegments.last.toLowerCase();
+      if (found == wanted) return entity.path;
+    }
+  }
+  return null;
+}
 
 String _join(String directory, String name) {
   if (directory.endsWith('\\') || directory.endsWith('/')) {

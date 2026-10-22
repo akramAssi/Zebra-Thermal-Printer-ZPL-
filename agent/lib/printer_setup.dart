@@ -259,7 +259,7 @@ Future<SetupReport> preparePrinter() async {
   if (!Platform.isWindows) {
     return const SetupReport(SetupOutcome.failed, 'Windows only');
   }
-  final installer = findDriverInstaller() ?? '';
+  final installer = findBundledDriverPackage() ?? '';
   final script = File(
     '${Directory.systemTemp.path}${Platform.pathSeparator}zebra-agent-setup.ps1',
   );
@@ -372,6 +372,21 @@ try { $wpp = [int](Get-ItemProperty $wppKey).WindowsProtectedPrintMode } catch {
 if ($wpp -eq 1) {
   Set-ItemProperty -Path $wppKey -Name WindowsProtectedPrintMode -Type DWord -Value 0
 }
+function Driver-Present {
+  $dirs = @(Get-ChildItem 'C:\Windows\System32\DriverStore\FileRepository' -Directory -Filter 'zdesigner.inf_*' -ErrorAction SilentlyContinue)
+  $named = @(Get-PrinterDriver -ErrorAction SilentlyContinue | Where-Object { $_.Name -match 'ZDesigner|Zebra' })
+  return ($dirs.Count -gt 0 -or $named.Count -gt 0)
+}
+if (-not (Driver-Present)) {
+  if ($installer -ne '' -and (Test-Path -LiteralPath $installer)) {
+    if ($installer -like '*.inf') {
+      & pnputil.exe /add-driver "$installer" /install | Out-Null
+    } else {
+      Start-Process -FilePath $installer -Wait
+    }
+  }
+  if (-not (Driver-Present)) { Finish 'need_installer' 'ZDesigner' }
+}
 $device = Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB\\VID_0A5F' } | Select-Object -First 1
 if (-not $device) { Finish 'no_device' '' }
 $deviceName = [string]$device.FriendlyName
@@ -398,7 +413,7 @@ if (-not $haveDriver -and $inf) {
   Add-PrinterDriver -Name $driverName -InfPath $inf -ErrorAction SilentlyContinue | Out-Null
   $haveDriver = Get-PrinterDriver -Name $driverName -ErrorAction SilentlyContinue
 }
-if (-not $haveDriver -and $installer -ne '' -and (Test-Path -LiteralPath $installer)) {
+if (-not $haveDriver -and $installer -ne '' -and $installer -notlike '*.inf' -and (Test-Path -LiteralPath $installer)) {
   Start-Process -FilePath $installer -Wait
   if ($inf) { Add-PrinterDriver -Name $driverName -InfPath $inf -ErrorAction SilentlyContinue | Out-Null }
   $haveDriver = Get-PrinterDriver -Name $driverName -ErrorAction SilentlyContinue

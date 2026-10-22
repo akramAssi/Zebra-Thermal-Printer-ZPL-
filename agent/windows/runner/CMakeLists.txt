@@ -39,12 +39,15 @@ target_include_directories(${BINARY_NAME} PRIVATE "${CMAKE_SOURCE_DIR}")
 # Run the Flutter tool portions of the build. This must not be removed.
 add_dependencies(${BINARY_NAME} flutter_assemble)
 
-add_custom_command(TARGET ${BINARY_NAME} POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "${CMAKE_CURRENT_SOURCE_DIR}/../../portal.txt"
-    "$<TARGET_FILE_DIR:${BINARY_NAME}>/portal.txt"
-  VERBATIM
-)
+set(ZEBRA_DRIVER_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../driver/zdesigner")
+if(EXISTS "${ZEBRA_DRIVER_DIR}/zdesigner.inf")
+  add_custom_command(TARGET ${BINARY_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+      "${ZEBRA_DRIVER_DIR}"
+      "$<TARGET_FILE_DIR:${BINARY_NAME}>/driver"
+    VERBATIM
+  )
+endif()
 
 set(ZEBRA_DRIVER_FILE "${CMAKE_CURRENT_SOURCE_DIR}/../../driver/ZebraDriver.exe")
 if(NOT EXISTS "${ZEBRA_DRIVER_FILE}")

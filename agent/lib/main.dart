@@ -8,9 +8,12 @@ import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:zebra_bluetooth_printer/zebra_bluetooth_printer.dart';
 
+import 'agent_log.dart';
 import 'close_password.dart';
+import 'local_print_server.dart';
+import 'print_queue.dart';
 import 'printer_setup.dart';
-import 'wifi_setup.dart';
+import 'receipt_pdf.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -82,15 +85,10 @@ class _PrinterHomeState extends State<PrinterHome>
   bool _restarting = false;
   String _password = kDefaultClosePassword;
   Timer? _timer;
-  final _ssid = TextEditingController();
-  final _wifiPassword = TextEditingController();
-  List<String> _networks = const [];
-  String _pcSsid = '';
-  bool _loadingWifi = false;
-  bool _wifiBusy = false;
-  bool _showPassword = false;
-  String? _wifiNote;
   PrinterLink _usbLink = PrinterLink.unplugged;
+  LocalPrintServer? _printServer;
+  List<PrintJob> _jobs = const [];
+  bool _cancellingJobs = false;
 
   @override
   void initState() {
@@ -103,8 +101,7 @@ class _PrinterHomeState extends State<PrinterHome>
   @override
   void dispose() {
     _timer?.cancel();
-    _ssid.dispose();
-    _wifiPassword.dispose();
+    unawaited(_printServer?.close());
     windowManager.removeListener(this);
     trayManager.removeListener(this);
     super.dispose();
@@ -116,8 +113,13 @@ class _PrinterHomeState extends State<PrinterHome>
     if (mounted) setState(() => _password = password);
     await _setupTray();
     await _enableLoginStart();
+    await _openPortalPrint();
     await _watch();
-    _timer = Timer.periodic(const Duration(seconds: 4), (_) => _watch());
+    await _loadJobs();
+    _timer = Timer.periodic(const Duration(seconds: 4), (_) {
+      _watch();
+      _loadJobs();
+    });
   }
 
   Future<void> _setupTray() async {
@@ -160,7 +162,13 @@ class _PrinterHomeState extends State<PrinterHome>
         return;
       }
       final usbReady = _showMachine(machine);
-      if (usbReady || !machine.usbConnected || machine.queueReady || _setupPaused) {
+      if (_setupPaused) return;
+      final needsDriver = !machine.driverReady && !machine.driverPackage;
+      if (needsDriver) {
+        await _prepare(installingDriver: true);
+        return;
+      }
+      if (usbReady || !machine.usbConnected || machine.queueReady) {
         return;
       }
       await _prepare();
@@ -194,7 +202,6 @@ class _PrinterHomeState extends State<PrinterHome>
       _usbLink = link;
       _status = status;
     });
-    if (link.cableConnected) _loadWifi();
     return link.canPrint;
   }
 
@@ -208,13 +215,20 @@ class _PrinterHomeState extends State<PrinterHome>
     );
   }
 
-  Future<void> _prepare() async {
+  Future<void> _prepare({bool installingDriver = false}) async {
     _settingUp = true;
     if (mounted) {
       setState(() {
-        _status = 'Setting up the printer. If Windows asks, press Yes.';
+        _status = installingDriver
+            ? 'Installing the printer driver. If Windows asks, press Yes.'
+            : 'Setting up the printer. If Windows asks, press Yes.';
       });
     }
+    agentLog(
+      installingDriver
+          ? 'Printer driver is missing. Installing the bundled driver first.'
+          : 'Setting up the printer queue.',
+    );
     final report = await preparePrinter();
     _settingUp = false;
     if (!mounted) return;
@@ -238,8 +252,9 @@ class _PrinterHomeState extends State<PrinterHome>
         });
       case SetupOutcome.needInstaller:
         _setupPaused = true;
+        agentLog('The bundled printer driver was not installed.');
         setState(() {
-          _status = 'This computer is missing the printer program.';
+          _status = 'The printer driver could not be installed.';
         });
       case SetupOutcome.noDevice:
         setState(() => _status = 'Plug the printer into the USB cable.');
@@ -280,7 +295,8 @@ class _PrinterHomeState extends State<PrinterHome>
         _printers = printers;
         _selected = _keepSelection(printers);
       });
-    } catch (_) {
+    } catch (error) {
+      agentLog('Printer search failed: $error');
       if (!mounted) return;
       setState(() {
         _printers = const [];
@@ -310,57 +326,102 @@ class _PrinterHomeState extends State<PrinterHome>
     return null;
   }
 
-  Future<void> _loadWifi({bool fill = false}) async {
-    if (_loadingWifi && !fill) return;
-    _loadingWifi = true;
-    final scan = await readWifiNetworks();
-    _loadingWifi = false;
-    if (!mounted) return;
-    setState(() {
-      _networks = scan.networks;
-      _pcSsid = scan.current;
-      if ((fill || _ssid.text.isEmpty) && scan.current.isNotEmpty) {
-        _ssid.text = scan.current;
-        _wifiPassword.text = scan.password;
-      }
-    });
+  Future<void> _loadJobs() async {
+    if (_cancellingJobs) return;
+    final jobs = await readPrintJobs();
+    if (!mounted || jobs == null || _cancellingJobs) return;
+    setState(() => _jobs = jobs);
   }
 
-  Future<void> _useComputerWifi() async {
-    await _loadWifi(fill: true);
+  Future<void> _cancelJobs(List<PrintJob> jobs) async {
+    if (_cancellingJobs || jobs.isEmpty) return;
+    setState(() {
+      _cancellingJobs = true;
+      _result = jobs.length == 1
+          ? 'Canceling the print job. If Windows asks, press Yes.'
+          : 'Canceling the print jobs. If Windows asks, press Yes.';
+    });
+    agentLog(
+      'Canceling print ${jobs.length == 1 ? 'job' : 'jobs'} ${jobs.map((job) => job.id).join(', ')}.',
+    );
+    final result = await cancelPrintJobs(jobs.map((job) => job.id).toList());
+    final next = await readPrintJobs();
     if (!mounted) return;
     setState(() {
-      _wifiNote = _pcSsid.isEmpty
-          ? 'This computer is not on Wi-Fi. Type the network name and password.'
-          : (_wifiPassword.text.isEmpty
-                ? 'Type the password for this network.'
-                : 'Using $_pcSsid.');
+      _cancellingJobs = false;
+      if (next != null) _jobs = next;
+      _result = switch (result) {
+        CancelJobsResult.cleared => jobs.length == 1
+            ? 'Print job canceled.'
+            : 'Print jobs canceled.',
+        CancelJobsResult.needPermission =>
+          'Windows needs permission to cancel the stuck print job.',
+        CancelJobsResult.failed => 'The print job could not be canceled.',
+      };
     });
+    agentLog(_result ?? 'Print job cancel finished.');
   }
 
-  Future<void> _connectWifi() async {
-    final printer = _current;
-    if (printer == null || _wifiBusy) return;
-    setState(() {
-      _wifiBusy = true;
-      _wifiNote = 'Sending the Wi-Fi settings over USB...';
-    });
+  Future<void> _openPortalPrint() async {
     try {
-      final message = await sendPrinterWifi(
-        printer: printer,
-        ssid: _ssid.text,
-        password: _wifiPassword.text,
+      final server = await LocalPrintServer.start(
+        printerReady: _agentPrinterReady,
+        printerName: _agentPrinterName,
+        printPng: _printPortalPng,
+        log: agentLog,
       );
-      if (!mounted) return;
-      setState(() => _wifiNote = message);
-    } catch (_) {
-      if (!mounted) return;
+      if (!mounted) {
+        await server.close();
+        return;
+      }
+      _printServer = server;
+      agentLog('Portal print is listening on 127.0.0.1:${LocalPrintServer.port}.');
+    } catch (error) {
+      agentLog('Portal print could not start: $error');
+    }
+  }
+
+  bool _agentPrinterReady() {
+    final printer = _current;
+    if (printer == null) return false;
+    if (printer.transport == ZebraTransport.bluetooth) return true;
+    return _usbLink.canPrint;
+  }
+
+  String _agentPrinterName() {
+    final printer = _current;
+    if (printer == null) return '';
+    return printer.name.isEmpty ? printer.address : printer.name;
+  }
+
+  Future<void> _printPortalPng(Uint8List png) async {
+    final printer = _current;
+    if (printer == null || !_agentPrinterReady()) {
+      throw StateError('Printer is not ready.');
+    }
+    if (mounted) {
       setState(() {
-        _wifiNote =
-            'Could not send the Wi-Fi settings. Keep the USB cable connected.';
+        _printing = true;
+        _result = null;
       });
+    } else {
+      _printing = true;
+    }
+    try {
+      final pdf = await pngToReceiptPdf(png);
+      await _sendPdf(pdf, printer);
+      agentLog('Portal receipt sent to ${printer.address}.');
+      if (mounted) setState(() => _result = 'Receipt sent.');
+    } catch (error) {
+      agentLog('Portal receipt failed: $error');
+      if (mounted) setState(() => _result = 'Receipt was not printed.');
+      rethrow;
     } finally {
-      if (mounted) setState(() => _wifiBusy = false);
+      if (mounted) {
+        setState(() => _printing = false);
+      } else {
+        _printing = false;
+      }
     }
   }
 
@@ -371,14 +432,13 @@ class _PrinterHomeState extends State<PrinterHome>
       _printing = true;
       _result = null;
     });
-    final label = _testLabel(printer);
+    final label = await testLabelPdf(
+      title: 'Zebra test',
+      detail: '${printer.transport == ZebraTransport.usb ? 'USB' : 'Bluetooth'}  ${_plainText(printer.name.isEmpty ? 'Zebra' : printer.name)}',
+      address: _plainText(printer.address),
+    );
     try {
-      await ZebraSdk.printZpl(
-        label,
-        address: printer.address,
-        transport: printer.transport,
-        port: printer.port,
-      );
+      await _sendPdf(label, printer);
       if (!mounted) return;
       setState(() => _result = 'Test label sent.');
     } on PlatformException catch (error) {
@@ -392,17 +452,27 @@ class _PrinterHomeState extends State<PrinterHome>
     }
   }
 
-  String _testLabel(ZebraDiscoveredPrinter printer) {
-    final name = _zplText(printer.name.isEmpty ? 'Zebra' : printer.name);
-    final where = printer.transport == ZebraTransport.usb ? 'USB' : 'Bluetooth';
-    final address = _zplText(printer.address);
-    return '^XA'
-        '^PW576'
-        '^LL220'
-        '^FO30,36^A0N,40,40^FDZebra test^FS'
-        '^FO30,96^A0N,28,28^FD$where  $name^FS'
-        '^FO30,146^A0N,24,24^FD$address^FS'
-        '^XZ';
+  Future<void> _sendPdf(Uint8List pdf, ZebraDiscoveredPrinter printer) async {
+    final file = File(
+      '${Directory.systemTemp.path}\\receipt-${DateTime.now().millisecondsSinceEpoch}.pdf',
+    );
+    await file.writeAsBytes(pdf, flush: true);
+    try {
+      await ZebraSdk.printPdf(
+        file.path,
+        address: printer.address,
+        transport: printer.transport,
+        port: printer.port,
+      );
+    } finally {
+      try {
+        await file.delete();
+      } catch (_) {}
+    }
+  }
+
+  String _plainText(String value) {
+    return value.replaceAll(RegExp(r'[^A-Za-z0-9 :.-]'), ' ');
   }
 
   bool get _canPrint {
@@ -410,6 +480,23 @@ class _PrinterHomeState extends State<PrinterHome>
     if (printer == null || _printing) return false;
     if (printer.transport == ZebraTransport.bluetooth) return true;
     return _usbLink.canPrint;
+  }
+
+  Widget _jobTile(PrintJob job) {
+    final status = job.status.isEmpty ? 'Waiting' : job.status;
+    return Material(
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+      borderRadius: BorderRadius.circular(12),
+      child: ListTile(
+        leading: const Icon(Icons.print_outlined),
+        title: Text(job.title, maxLines: 2, overflow: TextOverflow.ellipsis),
+        subtitle: Text(status),
+        trailing: TextButton(
+          onPressed: _cancellingJobs ? null : () => _cancelJobs([job]),
+          child: const Text('Cancel'),
+        ),
+      ),
+    );
   }
 
   Widget _printerTile(int index) {
@@ -431,84 +518,6 @@ class _PrinterHomeState extends State<PrinterHome>
         onTap: () => setState(() => _selected = _key(item)),
       ),
     );
-  }
-
-  Widget _wifiForm() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const SizedBox(height: 8),
-        Text('Printer Wi-Fi', style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 4),
-        const Text(
-          'The cable sends the network to the printer. The printer must have Wi-Fi.',
-        ),
-        if (_pcSsid.isNotEmpty) ...[
-          const SizedBox(height: 8),
-          OutlinedButton(
-            onPressed: _wifiBusy ? null : _useComputerWifi,
-            child: const Text("Use this computer's Wi-Fi"),
-          ),
-        ],
-        if (_networks.isNotEmpty) ...[
-          const SizedBox(height: 8),
-          DropdownButtonFormField<String>(
-            key: ValueKey(
-              _networks.contains(_ssid.text) ? _ssid.text : '',
-            ),
-            initialValue: _networks.contains(_ssid.text) ? _ssid.text : null,
-            decoration: const InputDecoration(labelText: 'Choose a network'),
-            items: [
-              for (final name in _networks)
-                DropdownMenuItem(value: name, child: Text(name)),
-            ],
-            onChanged: _wifiBusy
-                ? null
-                : (value) {
-                    if (value == null) return;
-                    setState(() {
-                      _ssid.text = value;
-                      if (value != _pcSsid) _wifiPassword.text = '';
-                    });
-                  },
-          ),
-        ],
-        const SizedBox(height: 8),
-        TextField(
-          controller: _ssid,
-          enabled: !_wifiBusy,
-          decoration: const InputDecoration(labelText: 'Wi-Fi name'),
-        ),
-        const SizedBox(height: 8),
-        TextField(
-          controller: _wifiPassword,
-          enabled: !_wifiBusy,
-          obscureText: !_showPassword,
-          decoration: InputDecoration(
-            labelText: 'Password',
-            helperText: 'Leave empty only if the network has no password.',
-            suffixIcon: IconButton(
-              onPressed: () => setState(() => _showPassword = !_showPassword),
-              icon: Icon(_showPassword ? Icons.visibility_off : Icons.visibility),
-              tooltip: _showPassword ? 'Hide password' : 'Show password',
-            ),
-          ),
-        ),
-        const SizedBox(height: 8),
-        FilledButton(
-          onPressed: _wifiBusy ? null : _connectWifi,
-          child: Text(_wifiBusy ? 'Sending...' : 'Connect printer'),
-        ),
-        if (_wifiNote != null) ...[
-          const SizedBox(height: 8),
-          Text(_wifiNote!),
-        ],
-      ],
-    );
-  }
-
-  String _zplText(String value) {
-    return value.replaceAll(RegExp(r'[^A-Za-z0-9 :.-]'), ' ');
   }
 
   Future<void> _showWindow() async {
@@ -569,7 +578,6 @@ class _PrinterHomeState extends State<PrinterHome>
 
   @override
   Widget build(BuildContext context) {
-    final printer = _current;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 72,
@@ -590,10 +598,24 @@ class _PrinterHomeState extends State<PrinterHome>
                       padding: const EdgeInsets.only(bottom: 8),
                       child: _printerTile(index),
                     ),
-                  if (printer != null &&
-                      printer.transport == ZebraTransport.usb &&
-                      _usbLink.cableConnected)
-                    _wifiForm(),
+                  if (_jobs.isNotEmpty) ...[
+                    const SizedBox(height: 8),
+                    Text('Print queue', style: Theme.of(context).textTheme.titleSmall),
+                    const SizedBox(height: 8),
+                    for (final job in _jobs)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: _jobTile(job),
+                      ),
+                    if (_jobs.length > 1)
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: _cancellingJobs ? null : () => _cancelJobs(_jobs),
+                          child: const Text('Cancel all'),
+                        ),
+                      ),
+                  ],
                 ],
               ),
             ),
@@ -610,7 +632,8 @@ class _PrinterHomeState extends State<PrinterHome>
               const SizedBox(height: 8),
             ],
             if (_status.startsWith('Windows needs permission') ||
-                _status.startsWith('The printer could not')) ...[
+                _status.startsWith('The printer could not') ||
+                _status.startsWith('The printer driver could not')) ...[
               FilledButton(
                 onPressed: _settingUp
                     ? null
@@ -628,7 +651,9 @@ class _PrinterHomeState extends State<PrinterHome>
             ),
             const SizedBox(height: 8),
             Text(
-              'Leave this window open. It keeps working when minimized.',
+              _printServer == null
+                  ? 'Leave this window open. It keeps working when minimized.'
+                  : 'Leave this window open. The portal on this computer prints a 72 mm roll here.',
               style: Theme.of(context).textTheme.bodySmall,
             ),
           ],
@@ -701,9 +726,11 @@ class _ClosePasswordDialogState extends State<_ClosePasswordDialog> {
 
   void _submit() {
     if (_controller.text.trim() != widget.expected) {
+      agentLog('Close was rejected. The typed password did not match.');
       setState(() => _wrong = true);
       return;
     }
+    agentLog('Close password matched.');
     Navigator.of(context).pop(true);
   }
 
