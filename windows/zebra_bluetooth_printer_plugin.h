@@ -10,23 +10,20 @@ namespace zebra_bluetooth_printer {
 
 class ZebraBluetoothPrinterPlugin : public flutter::Plugin {
  public:
-  static void RegisterWithRegistrar(flutter::PluginRegistrarWindows* registrar);
+  static void RegisterWithRegistrar(flutter::PluginRegistrarWindows *registrar);
 
   ZebraBluetoothPrinterPlugin();
 
   virtual ~ZebraBluetoothPrinterPlugin();
 
+  // Disallow copy and assign.
   ZebraBluetoothPrinterPlugin(const ZebraBluetoothPrinterPlugin&) = delete;
-  ZebraBluetoothPrinterPlugin& operator=(const ZebraBluetoothPrinterPlugin&) =
-      delete;
+  ZebraBluetoothPrinterPlugin& operator=(const ZebraBluetoothPrinterPlugin&) = delete;
 
+  // Called when a method is called on this plugin's channel from Dart.
   void HandleMethodCall(
-      const flutter::MethodCall<flutter::EncodableValue>& method_call,
+      const flutter::MethodCall<flutter::EncodableValue> &method_call,
       std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
-
- private:
-  struct Impl;
-  std::unique_ptr<Impl> impl_;
 };
 
 }  // namespace zebra_bluetooth_printer
