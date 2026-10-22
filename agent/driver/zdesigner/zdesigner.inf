@@ -1,0 +1,1992 @@
+;
+; Copyright © 2025 Zebra Technologies Corporation and/or its affiliates.
+;
+; All rights reserved.
+;
+;
+; Version: Final
+;
+[Version]
+Signature="$Windows NT$"
+Provider=Zebra Technologies Corporation
+ClassGUID={4D36E979-E325-11CE-BFC1-08002BE10318}
+Class=Printer
+CatalogFile.NTamd64=ZDesignerNTamd64.cat
+CatalogFile.NTx86=ZDesignerNTx86.cat
+CatalogFile.NTarm64=ZDesignerNTarm64.cat
+DriverVer=08/04/2025,10.6.22.28271
+DriverPackageDisplayName=%driver-package-description%
+DriverPackageType=PlugAndPlay
+
+
+[Manufacturer]
+"%MAN%"=PRINTERMODELS,NTx86,NTamd64,NTarm64
+
+[PRINTERMODELS.NTx86]
+"ZDesigner ZD120 203DPI"=ZDesigner_ZD120_203DPI,USBPRINT\Zebra_Technologies_Z228D
+"ZDesigner ZD220-203dpi ZPL"=ZDesigner_ZD220-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z0ECB
+"ZDesigner ZD230-203dpi ZPL"=ZDesigner_ZD230-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z4F68
+"ZDesigner ZD230-300dpi ZPL"=ZDesigner_ZD230-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z5FD8
+"ZDesigner ZD410-203dpi ZPL"=ZDesigner_ZD410-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZE968
+"ZDesigner ZD410-203dpi ZPL"=ZDesigner_ZD410-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZE968
+"ZDesigner ZD411-203dpi ZPL"=ZDesigner_ZD411-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z2A95
+"ZDesigner ZD410-300dpi ZPL"=ZDesigner_ZD410-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z3979
+"ZDesigner ZD410-300dpi ZPL"=ZDesigner_ZD410-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z3979
+"ZDesigner ZD411-300dpi ZPL"=ZDesigner_ZD411-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZFA86 
+"ZDesigner ZD420-203dpi ZPL"=ZDesigner_ZD420-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZC86C
+"ZDesigner ZD420-203dpi ZPL"=ZDesigner_ZD420-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC86C
+"ZDesigner ZD420-300dpi ZPL"=ZDesigner_ZD420-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z187D
+"ZDesigner ZD420-300dpi ZPL"=ZDesigner_ZD420-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z187D
+"ZDesigner ZD421-203dpi ZPL"=ZDesigner_ZD421-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z0B91 
+"ZDesigner ZD421-300dpi ZPL"=ZDesigner_ZD421-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZDB82 
+"ZDesigner ZD421CN-300dpi ZPL"=ZDesigner_ZD421CN-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZEC5D
+"ZDesigner ZD500R-203dpi ZPL"=ZDesigner_ZD500R-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z5971
+"ZDesigner ZD500R-203dpi ZPL"=ZDesigner_ZD500R-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z5971
+"ZDesigner ZD500R-300dpi ZPL"=ZDesigner_ZD500R-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z8960
+"ZDesigner ZD500R-300dpi ZPL"=ZDesigner_ZD500R-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z8960
+"ZDesigner ZD611-203dpi ZPL"=ZDesigner_ZD611-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z5097 
+"ZDesigner ZD611R-203dpi ZPL"=ZDesigner_ZD611R-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z1830 
+"ZDesigner ZD611-300dpi ZPL"=ZDesigner_ZD611-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z8286 
+"ZDesigner ZD611R-300dpi ZPL"=ZDesigner_ZD611R-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZC821 
+"ZDesigner ZD620-203dpi ZPL"=ZDesigner_ZD620-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z6A6E
+"ZDesigner ZD620-300dpi ZPL"=ZDesigner_ZD620-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1A5D
+"ZDesigner ZD621-203dpi ZPL"=ZDesigner_ZD621-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC992
+"ZDesigner ZD621-300dpi ZPL"=ZDesigner_ZD621-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1983 
+"ZDesigner ZD621R-203dpi ZPL"=ZDesigner_ZD621R-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZDB92 
+"ZDesigner ZD621R-300dpi ZPL"=ZDesigner_ZD621R-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZCB22 
+"ZDesigner ZD888-203dpi ZPL"=ZDesigner_ZD888-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z1199
+"ZDesigner ZD888-300dpi ZPL"=ZDesigner_ZD888-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZC188
+"ZDesigner ZD100-203dpi ZPL"=ZDesigner_ZD100-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z8F6E
+"ZDesigner ZD500-203dpi ZPL"=ZDesigner_ZD500-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z4B6B
+"ZDesigner ZD500-203dpi ZPL"=ZDesigner_ZD500-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z4B6B
+"ZDesigner ZD500-300dpi ZPL"=ZDesigner_ZD500-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z9B7A
+"ZDesigner ZD500-300dpi ZPL"=ZDesigner_ZD500-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z9B7A
+"ZDesigner ZD510-300dpi ZPL"=ZDesigner_ZD510-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZF879
+"ZDesigner ZD511-300dpi ZPL"=ZDesigner_ZD511-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z3B84
+"ZDesigner ZT210-200dpi ZPL"=ZDesigner_ZT210-200dpi_ZPL,LPTENUM\Zebra_Technologies_Z743E
+"ZDesigner ZT210-200dpi ZPL"=ZDesigner_ZT210-200dpi_ZPL,USBPRINT\Zebra_Technologies_Z743E
+"ZDesigner ZT210-300dpi ZPL"=ZDesigner_ZT210-300dpi_ZPL,LPTENUM\Zebra_Technologies_ZB16F
+"ZDesigner ZT210-300dpi ZPL"=ZDesigner_ZT210-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZB16F
+"ZDesigner ZT220-200dpi ZPL"=ZDesigner_ZT220-200dpi_ZPL,LPTENUM\Zebra_Technologies_ZD73A
+"ZDesigner ZT220-200dpi ZPL"=ZDesigner_ZT220-200dpi_ZPL,USBPRINT\Zebra_Technologies_ZD73A
+"ZDesigner ZT220-300dpi ZPL"=ZDesigner_ZT220-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z126B
+"ZDesigner ZT220-300dpi ZPL"=ZDesigner_ZT220-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z126B
+"ZDesigner ZT230-200dpi ZPL"=ZDesigner_ZT230-200dpi_ZPL,LPTENUM\Zebra_Technologies_Z5638
+"ZDesigner ZT230-200dpi ZPL"=ZDesigner_ZT230-200dpi_ZPL,USBPRINT\Zebra_Technologies_Z5638
+"ZDesigner ZT230-300dpi ZPL"=ZDesigner_ZT230-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z53C8
+"ZDesigner ZT230-300dpi ZPL"=ZDesigner_ZT230-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z53C8
+"ZDesigner ZT111-203dpi ZPL"=ZDesigner_ZT111-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZC181
+"ZDesigner ZT111-203dpi ZPL"=ZDesigner_ZT111-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC181
+"ZDesigner ZT111-300dpi ZPL"=ZDesigner_ZT111-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z1190
+"ZDesigner ZT111-300dpi ZPL"=ZDesigner_ZT111-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1190
+"ZDesigner ZT211-203dpi ZPL"=ZDesigner_ZT211-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZC282
+"ZDesigner ZT211-203dpi ZPL"=ZDesigner_ZT211-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC282
+"ZDesigner ZT211-300dpi ZPL"=ZDesigner_ZT211-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z1293
+"ZDesigner ZT211-300dpi ZPL"=ZDesigner_ZT211-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1293
+"ZDesigner ZT231-203dpi ZPL"=ZDesigner_ZT231-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z8285
+"ZDesigner ZT231-203dpi ZPL"=ZDesigner_ZT231-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z8285
+"ZDesigner ZT231-300dpi ZPL"=ZDesigner_ZT231-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z5094
+"ZDesigner ZT231-300dpi ZPL"=ZDesigner_ZT231-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z5094
+"ZDesigner ZT231R-203dpi ZPL"=ZDesigner_ZT231R-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZCCBB
+"ZDesigner ZT231R-203dpi ZPL"=ZDesigner_ZT231R-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZCCBB
+"ZDesigner ZT231R-300dpi ZPL"=ZDesigner_ZT231R-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z1CAA
+"ZDesigner ZT231R-300dpi ZPL"=ZDesigner_ZT231R-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1CAA
+"ZDesigner ZT410R-203dpi ZPL"=ZDesigner_ZT410R-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z34BC
+"ZDesigner ZT410R-203dpi ZPL"=ZDesigner_ZT410R-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z34BC
+"ZDesigner ZT410R-300dpi ZPL"=ZDesigner_ZT410R-300dpi_ZPL,LPTENUM\Zebra_Technologies_ZE4AD
+"ZDesigner ZT410R-300dpi ZPL"=ZDesigner_ZT410R-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZE4AD
+"ZDesigner ZT410-203dpi ZPL"=ZDesigner_ZT410-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZC6F8
+"ZDesigner ZT410-203dpi ZPL"=ZDesigner_ZT410-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC6F8
+"ZDesigner ZT410-300dpi ZPL"=ZDesigner_ZT410-300dpi_ZPL,LPTENUM\Zebra_Technologies_ZD768
+"ZDesigner ZT410-300dpi ZPL"=ZDesigner_ZT410-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZD768
+"ZDesigner ZT410-600dpi ZPL"=ZDesigner_ZT410-600dpi_ZPL,LPTENUM\Zebra_Technologies_Z06F9
+"ZDesigner ZT410-600dpi ZPL"=ZDesigner_ZT410-600dpi_ZPL,USBPRINT\Zebra_Technologies_Z06F9
+"ZDesigner ZT420R-203dpi ZPL"=ZDesigner_ZT420R-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z57BE
+"ZDesigner ZT420R-203dpi ZPL"=ZDesigner_ZT420R-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z57BE
+"ZDesigner ZT420R-300dpi ZPL"=ZDesigner_ZT420R-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z85AF
+"ZDesigner ZT420R-300dpi ZPL"=ZDesigner_ZT420R-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z85AF
+"ZDesigner ZT410R-600dpi ZPL"=ZDesigner_ZT410R-600dpi_ZPL,LPTENUM\Zebra_Technologies_ZF4BD
+"ZDesigner ZT410R-600dpi ZPL"=ZDesigner_ZT410R-600dpi_ZPL,USBPRINT\Zebra_Technologies_ZF4BD
+"ZDesigner ZT420-203dpi ZPL"=ZDesigner_ZT420-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZC47C
+"ZDesigner ZT420-203dpi ZPL"=ZDesigner_ZT420-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC47C
+"ZDesigner ZT420-300dpi ZPL"=ZDesigner_ZT420-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z146D
+"ZDesigner ZT420-300dpi ZPL"=ZDesigner_ZT420-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z146D
+"ZDesigner ZT510-203dpi ZPL"=ZDesigner_ZT510-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z07F8
+"ZDesigner ZT510-203dpi ZPL"=ZDesigner_ZT510-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z07F8
+"ZDesigner ZT510-300dpi ZPL"=ZDesigner_ZT510-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z1668
+"ZDesigner ZT510-300dpi ZPL"=ZDesigner_ZT510-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1668
+"ZDesigner ZT411-203dpi ZPL"=ZDesigner_ZT411-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z0505
+"ZDesigner ZT411-203dpi ZPL"=ZDesigner_ZT411-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z0505
+"ZDesigner ZT411-300dpi ZPL"=ZDesigner_ZT411-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z1495
+"ZDesigner ZT411-300dpi ZPL"=ZDesigner_ZT411-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1495
+"ZDesigner ZT411-600dpi ZPL"=ZDesigner_ZT411-600dpi_ZPL,LPTENUM\Zebra_Technologies_ZC504
+"ZDesigner ZT411-600dpi ZPL"=ZDesigner_ZT411-600dpi_ZPL,USBPRINT\Zebra_Technologies_ZC504
+"ZDesigner ZT411R-203dpi ZPL"=ZDesigner_ZT411R-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZB5BE
+"ZDesigner ZT411R-203dpi ZPL"=ZDesigner_ZT411R-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZB5BE
+"ZDesigner ZT411R-300dpi ZPL"=ZDesigner_ZT411R-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z65AF
+"ZDesigner ZT411R-300dpi ZPL"=ZDesigner_ZT411R-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z65AF
+"ZDesigner ZT411R-600dpi ZPL"=ZDesigner_ZT411R-600dpi_ZPL,LPTENUM\Zebra_Technologies_Z75BF
+"ZDesigner ZT411R-600dpi ZPL"=ZDesigner_ZT411R-600dpi_ZPL,USBPRINT\Zebra_Technologies_Z75BF
+"ZDesigner ZT421-203dpi ZPL"=ZDesigner_ZT421-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z0781
+"ZDesigner ZT421-203dpi ZPL"=ZDesigner_ZT421-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z0781
+"ZDesigner ZT421-300dpi ZPL"=ZDesigner_ZT421-300dpi_ZPL,LPTENUM\Zebra_Technologies_ZD790
+"ZDesigner ZT421-300dpi ZPL"=ZDesigner_ZT421-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZD790
+"ZDesigner ZT421R-203dpi ZPL"=ZDesigner_ZT421R-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZD6BC
+"ZDesigner ZT421R-203dpi ZPL"=ZDesigner_ZT421R-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZD6BC
+"ZDesigner ZT421R-300dpi ZPL"=ZDesigner_ZT421R-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z06AD
+"ZDesigner ZT421R-300dpi ZPL"=ZDesigner_ZT421R-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z06AD
+"ZDesigner ZT610-203dpi ZPL"=ZDesigner_ZT610-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z04FB
+"ZDesigner ZT610-203dpi ZPL"=ZDesigner_ZT610-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z04FB
+"ZDesigner ZT610-300dpi ZPL"=ZDesigner_ZT610-300dpi_ZPL,LPTENUM\Zebra_Technologies_ZD548
+"ZDesigner ZT610-300dpi ZPL"=ZDesigner_ZT610-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZD548
+"ZDesigner ZT610-600dpi ZPL"=ZDesigner_ZT610-600dpi_ZPL,LPTENUM\Zebra_Technologies_ZC4FA
+"ZDesigner ZT610-600dpi ZPL"=ZDesigner_ZT610-600dpi_ZPL,USBPRINT\Zebra_Technologies_ZC4FA
+"ZDesigner ZT620-203dpi ZPL"=ZDesigner_ZT620-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z067F
+"ZDesigner ZT620-203dpi ZPL"=ZDesigner_ZT620-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z067F
+"ZDesigner ZT620-300dpi ZPL"=ZDesigner_ZT620-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z164D
+"ZDesigner ZT620-300dpi ZPL"=ZDesigner_ZT620-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z164D
+"ZDesigner ZT610R-203dpi ZPL"=ZDesigner_ZT610R-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZF4BF
+"ZDesigner ZT610R-203dpi ZPL"=ZDesigner_ZT610R-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZF4BF
+"ZDesigner ZT610R-300dpi ZPL"=ZDesigner_ZT610R-300dpi_ZPL,LPTENUM\Zebra_Technologies_ZE52F
+"ZDesigner ZT610R-300dpi ZPL"=ZDesigner_ZT610R-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZE52F
+"ZDesigner ZT610R-600dpi ZPL"=ZDesigner_ZT610R-600dpi_ZPL,LPTENUM\Zebra_Technologies_Z34BE
+"ZDesigner ZT610R-600dpi ZPL"=ZDesigner_ZT610R-600dpi_ZPL,USBPRINT\Zebra_Technologies_Z34BE
+"ZDesigner ZT620R-203dpi ZPL"=ZDesigner_ZT620R-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z97BD
+"ZDesigner ZT620R-203dpi ZPL"=ZDesigner_ZT620R-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z97BD
+"ZDesigner ZT620R-300dpi ZPL"=ZDesigner_ZT620R-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z4454
+"ZDesigner ZT620R-300dpi ZPL"=ZDesigner_ZT620R-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z4454
+"ZDesigner iMZ220 (ZPL)"=ZDesigner_iMZ220_(ZPL),USBPRINT\Zebra_Technologies_ZBEDA
+"ZDesigner iMZ320 (ZPL)"=ZDesigner_iMZ320_(ZPL),USBPRINT\Zebra_Technologies_ZB556
+"ZDesigner QLn220 (ZPL)"=ZDesigner_QLn220_(ZPL),USBPRINT\Zebra_Technologies_Z4F3F
+"ZDesigner QLn320 (ZPL)"=ZDesigner_QLn320_(ZPL),USBPRINT\Zebra_Technologies_ZDF32
+"ZDesigner QLn420 (ZPL)"=ZDesigner_QLn420_(ZPL),USBPRINT\Zebra_Technologies_ZCC94
+"ZDesigner ZQ310 (ZPL)"=ZDesigner_ZQ310_(ZPL),USBPRINT\Zebra_Technologies_ZB2A2
+"ZDesigner ZQ320 (ZPL)"=ZDesigner_ZQ320_(ZPL),USBPRINT\Zebra_Technologies_ZA7E2
+"ZDesigner ZQ510 (ZPL)"=ZDesigner_ZQ510_(ZPL),USBPRINT\Zebra_Technologies_Z1289
+"ZDesigner ZQ520 (ZPL)"=ZDesigner_ZQ520_(ZPL),USBPRINT\Zebra_Technologies_Z07C9
+"ZDesigner ZQ511 (ZPL)"=ZDesigner_ZQ511_(ZPL),USBPRINT\Zebra_Technologies_ZD299
+"ZDesigner ZQ511R (ZPL)"=ZDesigner_ZQ511R_(ZPL),USBPRINT\Zebra_Technologies_Z7FD0
+"ZDesigner ZQ521 (ZPL)"=ZDesigner_ZQ521_(ZPL),USBPRINT\Zebra_Technologies_ZC7D9
+"ZDesigner ZQ521R (ZPL)"=ZDesigner_ZQ521R_(ZPL),USBPRINT\Zebra_Technologies_Z8FC6
+"ZDesigner ZQ610 (ZPL)"=ZDesigner_ZQ610_(ZPL),USBPRINT\Zebra_Technologies_ZE29D
+"ZDesigner ZQ620 (ZPL)"=ZDesigner_ZQ620_(ZPL),USBPRINT\Zebra_Technologies_ZF7DD
+"ZDesigner ZQ630 (ZPL)"=ZDesigner_ZQ630_(ZPL),USBPRINT\Zebra_Technologies_Z3B1C
+"ZDesigner ZQ630R (ZPL)"=ZDesigner_ZQ630R_(ZPL),USBPRINT\Zebra_Technologies_ZDCF8
+"ZDesigner ZR318 (ZPL)"=ZDesigner_ZR318_(ZPL),USBPRINT\Zebra_Technologies_ZBC5A
+"ZDesigner ZR328 (ZPL)"=ZDesigner_ZR328_(ZPL),USBPRINT\Zebra_Technologies_Z689B
+"ZDesigner ZR338 (ZPL)"=ZDesigner_ZR338_(ZPL),USBPRINT\Zebra_Technologies_ZA45A
+"ZDesigner ZR628 (ZPL)"=ZDesigner_ZR628_(ZPL),USBPRINT\Zebra_Technologies_Z38A4
+"ZDesigner ZR638 (ZPL)"=ZDesigner_ZR638_(ZPL),USBPRINT\Zebra_Technologies_ZF465
+"ZDesigner ZR658 (ZPL)"=ZDesigner_ZR658_(ZPL),USBPRINT\Zebra_Technologies_ZDEE5
+"ZDesigner ZR668 (ZPL)"=ZDesigner_ZR668_(ZPL),USBPRINT\Zebra_Technologies_ZCBA5
+"ZDesigner ZE511 LH-203dpi ZPL"=ZDesigner_ZE511_LH-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z18BB
+"ZDesigner ZE511 LH-300dpi ZPL"=ZDesigner_ZE511_LH-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZC8AA
+"ZDesigner ZE511 LH-600dpi ZPL"=ZDesigner_ZE511_LH-600dpi_ZPL,USBPRINT\Zebra_Technologies_ZD8BA
+"ZDesigner ZE511 RH-203dpi ZPL"=ZDesigner_ZE511_RH-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC712
+"ZDesigner ZE511 RH-300dpi ZPL"=ZDesigner_ZE511_RH-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZD682
+"ZDesigner ZE511 RH-600dpi ZPL"=ZDesigner_ZE511_RH-600dpi_ZPL,USBPRINT\Zebra_Technologies_Z0713
+"ZDesigner ZE511R LH-203dpi ZPL"=ZDesigner_ZE511R_LH-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z96E0
+"ZDesigner ZE511R LH-300dpi ZPL"=ZDesigner_ZE511R_LH-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z8570
+"ZDesigner ZE511R LH-600dpi ZPL"=ZDesigner_ZE511R_LH-600dpi_ZPL,USBPRINT\Zebra_Technologies_Z56E1
+"ZDesigner ZE511R RH-203dpi ZPL"=ZDesigner_ZE511R_RH-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZF142
+"ZDesigner ZE511R RH-300dpi ZPL"=ZDesigner_ZE511R_RH-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z2153
+"ZDesigner ZE511R RH-600dpi ZPL"=ZDesigner_ZE511R_RH-600dpi_ZPL,USBPRINT\Zebra_Technologies_Z3143
+"ZDesigner ZE521 LH-203dpi ZPL"=ZDesigner_ZE521_LH-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z29D8
+"ZDesigner ZE521 LH-300dpi ZPL"=ZDesigner_ZE521_LH-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z39EA
+"ZDesigner ZE521 RH-203dpi ZPL"=ZDesigner_ZE521_RH-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZF671
+"ZDesigner ZE521 RH-300dpi ZPL"=ZDesigner_ZE521_RH-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z27C2
+"ZDesigner ZE521R LH-203dpi ZPL"=ZDesigner_ZE521R_LH-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z6610
+"ZDesigner ZE521R LH-300dpi ZPL"=ZDesigner_ZE521R_LH-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z7782
+"ZDesigner ZE521R RH-203dpi ZPL"=ZDesigner_ZE521R_RH-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z01B2
+"ZDesigner ZE521R RH-300dpi ZPL"=ZDesigner_ZE521R_RH-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZD1A3
+"ZDesigner ZQ310 Plus (ZPL)"=ZDesigner_ZQ310_Plus_(ZPL),USBPRINT\Zebra_Technologies_ZADA8
+"ZDesigner ZQ320 Plus (ZPL)"=ZDesigner_ZQ320_Plus_(ZPL),USBPRINT\Zebra_Technologies_Z6EAD
+"ZDesigner ZQ610 Plus (ZPL)"=ZDesigner_ZQ610_Plus_(ZPL),USBPRINT\Zebra_Technologies_ZA8AD
+"ZDesigner ZQ620 Plus (ZPL)"=ZDesigner_ZQ620_Plus_(ZPL),USBPRINT\Zebra_Technologies_Z6BA8
+"ZDesigner ZQ630 Plus (ZPL)"=ZDesigner_ZQ630_Plus_(ZPL),USBPRINT\Zebra_Technologies_Z52AB
+"ZDesigner ZQ630R Plus (ZPL)"=ZDesigner_ZQ630R_Plus_(ZPL),USBPRINT\Zebra_Technologies_Z736C
+"ZDesigner ZR328 Plus (ZPL)"=ZDesigner_ZR328_Plus_(ZPL),USBPRINT\Zebra_Technologies_ZB00F
+"ZDesigner ZR668 Plus (ZPL)"=ZDesigner_ZR668_Plus_(ZPL),USBPRINT\Zebra_Technologies_Z3106
+
+[PRINTERMODELS.NTamd64]
+"ZDesigner ZD120 203DPI"=ZDesigner_ZD120_203DPI,USBPRINT\Zebra_Technologies_Z228D
+"ZDesigner ZD220-203dpi ZPL"=ZDesigner_ZD220-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z0ECB
+"ZDesigner ZD230-203dpi ZPL"=ZDesigner_ZD230-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z4F68
+"ZDesigner ZD230-300dpi ZPL"=ZDesigner_ZD230-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z5FD8
+"ZDesigner ZD410-203dpi ZPL"=ZDesigner_ZD410-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZE968
+"ZDesigner ZD410-203dpi ZPL"=ZDesigner_ZD410-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZE968
+"ZDesigner ZD411-203dpi ZPL"=ZDesigner_ZD411-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z2A95
+"ZDesigner ZD410-300dpi ZPL"=ZDesigner_ZD410-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z3979
+"ZDesigner ZD410-300dpi ZPL"=ZDesigner_ZD410-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z3979
+"ZDesigner ZD411-300dpi ZPL"=ZDesigner_ZD411-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZFA86 
+"ZDesigner ZD420-203dpi ZPL"=ZDesigner_ZD420-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZC86C
+"ZDesigner ZD420-203dpi ZPL"=ZDesigner_ZD420-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC86C
+"ZDesigner ZD420-300dpi ZPL"=ZDesigner_ZD420-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z187D
+"ZDesigner ZD420-300dpi ZPL"=ZDesigner_ZD420-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z187D
+"ZDesigner ZD421-203dpi ZPL"=ZDesigner_ZD421-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z0B91 
+"ZDesigner ZD421-300dpi ZPL"=ZDesigner_ZD421-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZDB82 
+"ZDesigner ZD421CN-300dpi ZPL"=ZDesigner_ZD421CN-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZEC5D
+"ZDesigner ZD500R-203dpi ZPL"=ZDesigner_ZD500R-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z5971
+"ZDesigner ZD500R-203dpi ZPL"=ZDesigner_ZD500R-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z5971
+"ZDesigner ZD500R-300dpi ZPL"=ZDesigner_ZD500R-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z8960
+"ZDesigner ZD500R-300dpi ZPL"=ZDesigner_ZD500R-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z8960
+"ZDesigner ZD611-203dpi ZPL"=ZDesigner_ZD611-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z5097 
+"ZDesigner ZD611R-203dpi ZPL"=ZDesigner_ZD611R-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z1830 
+"ZDesigner ZD611-300dpi ZPL"=ZDesigner_ZD611-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z8286 
+"ZDesigner ZD611R-300dpi ZPL"=ZDesigner_ZD611R-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZC821 
+"ZDesigner ZD620-203dpi ZPL"=ZDesigner_ZD620-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z6A6E
+"ZDesigner ZD620-300dpi ZPL"=ZDesigner_ZD620-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1A5D
+"ZDesigner ZD621-203dpi ZPL"=ZDesigner_ZD621-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC992
+"ZDesigner ZD621-300dpi ZPL"=ZDesigner_ZD621-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1983 
+"ZDesigner ZD621R-203dpi ZPL"=ZDesigner_ZD621R-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZDB92 
+"ZDesigner ZD621R-300dpi ZPL"=ZDesigner_ZD621R-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZCB22 
+"ZDesigner ZD888-203dpi ZPL"=ZDesigner_ZD888-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z1199
+"ZDesigner ZD888-300dpi ZPL"=ZDesigner_ZD888-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZC188
+"ZDesigner ZD100-203dpi ZPL"=ZDesigner_ZD100-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z8F6E
+"ZDesigner ZD500-203dpi ZPL"=ZDesigner_ZD500-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z4B6B
+"ZDesigner ZD500-203dpi ZPL"=ZDesigner_ZD500-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z4B6B
+"ZDesigner ZD500-300dpi ZPL"=ZDesigner_ZD500-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z9B7A
+"ZDesigner ZD500-300dpi ZPL"=ZDesigner_ZD500-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z9B7A
+"ZDesigner ZD510-300dpi ZPL"=ZDesigner_ZD510-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZF879
+"ZDesigner ZD511-300dpi ZPL"=ZDesigner_ZD511-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z3B84
+"ZDesigner ZT210-200dpi ZPL"=ZDesigner_ZT210-200dpi_ZPL,LPTENUM\Zebra_Technologies_Z743E
+"ZDesigner ZT210-200dpi ZPL"=ZDesigner_ZT210-200dpi_ZPL,USBPRINT\Zebra_Technologies_Z743E
+"ZDesigner ZT210-300dpi ZPL"=ZDesigner_ZT210-300dpi_ZPL,LPTENUM\Zebra_Technologies_ZB16F
+"ZDesigner ZT210-300dpi ZPL"=ZDesigner_ZT210-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZB16F
+"ZDesigner ZT220-200dpi ZPL"=ZDesigner_ZT220-200dpi_ZPL,LPTENUM\Zebra_Technologies_ZD73A
+"ZDesigner ZT220-200dpi ZPL"=ZDesigner_ZT220-200dpi_ZPL,USBPRINT\Zebra_Technologies_ZD73A
+"ZDesigner ZT220-300dpi ZPL"=ZDesigner_ZT220-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z126B
+"ZDesigner ZT220-300dpi ZPL"=ZDesigner_ZT220-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z126B
+"ZDesigner ZT230-200dpi ZPL"=ZDesigner_ZT230-200dpi_ZPL,LPTENUM\Zebra_Technologies_Z5638
+"ZDesigner ZT230-200dpi ZPL"=ZDesigner_ZT230-200dpi_ZPL,USBPRINT\Zebra_Technologies_Z5638
+"ZDesigner ZT230-300dpi ZPL"=ZDesigner_ZT230-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z53C8
+"ZDesigner ZT230-300dpi ZPL"=ZDesigner_ZT230-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z53C8
+"ZDesigner ZT111-203dpi ZPL"=ZDesigner_ZT111-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZC181
+"ZDesigner ZT111-203dpi ZPL"=ZDesigner_ZT111-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC181
+"ZDesigner ZT111-300dpi ZPL"=ZDesigner_ZT111-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z1190
+"ZDesigner ZT111-300dpi ZPL"=ZDesigner_ZT111-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1190
+"ZDesigner ZT211-203dpi ZPL"=ZDesigner_ZT211-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZC282
+"ZDesigner ZT211-203dpi ZPL"=ZDesigner_ZT211-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC282
+"ZDesigner ZT211-300dpi ZPL"=ZDesigner_ZT211-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z1293
+"ZDesigner ZT211-300dpi ZPL"=ZDesigner_ZT211-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1293
+"ZDesigner ZT231-203dpi ZPL"=ZDesigner_ZT231-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z8285
+"ZDesigner ZT231-203dpi ZPL"=ZDesigner_ZT231-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z8285
+"ZDesigner ZT231-300dpi ZPL"=ZDesigner_ZT231-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z5094
+"ZDesigner ZT231-300dpi ZPL"=ZDesigner_ZT231-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z5094
+"ZDesigner ZT231R-203dpi ZPL"=ZDesigner_ZT231R-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZCCBB
+"ZDesigner ZT231R-203dpi ZPL"=ZDesigner_ZT231R-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZCCBB
+"ZDesigner ZT231R-300dpi ZPL"=ZDesigner_ZT231R-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z1CAA
+"ZDesigner ZT231R-300dpi ZPL"=ZDesigner_ZT231R-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1CAA
+"ZDesigner ZT410R-203dpi ZPL"=ZDesigner_ZT410R-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z34BC
+"ZDesigner ZT410R-203dpi ZPL"=ZDesigner_ZT410R-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z34BC
+"ZDesigner ZT410R-300dpi ZPL"=ZDesigner_ZT410R-300dpi_ZPL,LPTENUM\Zebra_Technologies_ZE4AD
+"ZDesigner ZT410R-300dpi ZPL"=ZDesigner_ZT410R-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZE4AD
+"ZDesigner ZT410-203dpi ZPL"=ZDesigner_ZT410-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZC6F8
+"ZDesigner ZT410-203dpi ZPL"=ZDesigner_ZT410-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC6F8
+"ZDesigner ZT410-300dpi ZPL"=ZDesigner_ZT410-300dpi_ZPL,LPTENUM\Zebra_Technologies_ZD768
+"ZDesigner ZT410-300dpi ZPL"=ZDesigner_ZT410-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZD768
+"ZDesigner ZT410-600dpi ZPL"=ZDesigner_ZT410-600dpi_ZPL,LPTENUM\Zebra_Technologies_Z06F9
+"ZDesigner ZT410-600dpi ZPL"=ZDesigner_ZT410-600dpi_ZPL,USBPRINT\Zebra_Technologies_Z06F9
+"ZDesigner ZT420R-203dpi ZPL"=ZDesigner_ZT420R-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z57BE
+"ZDesigner ZT420R-203dpi ZPL"=ZDesigner_ZT420R-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z57BE
+"ZDesigner ZT420R-300dpi ZPL"=ZDesigner_ZT420R-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z85AF
+"ZDesigner ZT420R-300dpi ZPL"=ZDesigner_ZT420R-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z85AF
+"ZDesigner ZT410R-600dpi ZPL"=ZDesigner_ZT410R-600dpi_ZPL,LPTENUM\Zebra_Technologies_ZF4BD
+"ZDesigner ZT410R-600dpi ZPL"=ZDesigner_ZT410R-600dpi_ZPL,USBPRINT\Zebra_Technologies_ZF4BD
+"ZDesigner ZT420-203dpi ZPL"=ZDesigner_ZT420-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZC47C
+"ZDesigner ZT420-203dpi ZPL"=ZDesigner_ZT420-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC47C
+"ZDesigner ZT420-300dpi ZPL"=ZDesigner_ZT420-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z146D
+"ZDesigner ZT420-300dpi ZPL"=ZDesigner_ZT420-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z146D
+"ZDesigner ZT510-203dpi ZPL"=ZDesigner_ZT510-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z07F8
+"ZDesigner ZT510-203dpi ZPL"=ZDesigner_ZT510-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z07F8
+"ZDesigner ZT510-300dpi ZPL"=ZDesigner_ZT510-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z1668
+"ZDesigner ZT510-300dpi ZPL"=ZDesigner_ZT510-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1668
+"ZDesigner ZT411-203dpi ZPL"=ZDesigner_ZT411-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z0505
+"ZDesigner ZT411-203dpi ZPL"=ZDesigner_ZT411-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z0505
+"ZDesigner ZT411-300dpi ZPL"=ZDesigner_ZT411-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z1495
+"ZDesigner ZT411-300dpi ZPL"=ZDesigner_ZT411-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1495
+"ZDesigner ZT411-600dpi ZPL"=ZDesigner_ZT411-600dpi_ZPL,LPTENUM\Zebra_Technologies_ZC504
+"ZDesigner ZT411-600dpi ZPL"=ZDesigner_ZT411-600dpi_ZPL,USBPRINT\Zebra_Technologies_ZC504
+"ZDesigner ZT411R-203dpi ZPL"=ZDesigner_ZT411R-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZB5BE
+"ZDesigner ZT411R-203dpi ZPL"=ZDesigner_ZT411R-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZB5BE
+"ZDesigner ZT411R-300dpi ZPL"=ZDesigner_ZT411R-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z65AF
+"ZDesigner ZT411R-300dpi ZPL"=ZDesigner_ZT411R-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z65AF
+"ZDesigner ZT411R-600dpi ZPL"=ZDesigner_ZT411R-600dpi_ZPL,LPTENUM\Zebra_Technologies_Z75BF
+"ZDesigner ZT411R-600dpi ZPL"=ZDesigner_ZT411R-600dpi_ZPL,USBPRINT\Zebra_Technologies_Z75BF
+"ZDesigner ZT421-203dpi ZPL"=ZDesigner_ZT421-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z0781
+"ZDesigner ZT421-203dpi ZPL"=ZDesigner_ZT421-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z0781
+"ZDesigner ZT421-300dpi ZPL"=ZDesigner_ZT421-300dpi_ZPL,LPTENUM\Zebra_Technologies_ZD790
+"ZDesigner ZT421-300dpi ZPL"=ZDesigner_ZT421-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZD790
+"ZDesigner ZT421R-203dpi ZPL"=ZDesigner_ZT421R-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZD6BC
+"ZDesigner ZT421R-203dpi ZPL"=ZDesigner_ZT421R-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZD6BC
+"ZDesigner ZT421R-300dpi ZPL"=ZDesigner_ZT421R-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z06AD
+"ZDesigner ZT421R-300dpi ZPL"=ZDesigner_ZT421R-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z06AD
+"ZDesigner ZT610-203dpi ZPL"=ZDesigner_ZT610-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z04FB
+"ZDesigner ZT610-203dpi ZPL"=ZDesigner_ZT610-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z04FB
+"ZDesigner ZT610-300dpi ZPL"=ZDesigner_ZT610-300dpi_ZPL,LPTENUM\Zebra_Technologies_ZD548
+"ZDesigner ZT610-300dpi ZPL"=ZDesigner_ZT610-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZD548
+"ZDesigner ZT610-600dpi ZPL"=ZDesigner_ZT610-600dpi_ZPL,LPTENUM\Zebra_Technologies_ZC4FA
+"ZDesigner ZT610-600dpi ZPL"=ZDesigner_ZT610-600dpi_ZPL,USBPRINT\Zebra_Technologies_ZC4FA
+"ZDesigner ZT620-203dpi ZPL"=ZDesigner_ZT620-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z067F
+"ZDesigner ZT620-203dpi ZPL"=ZDesigner_ZT620-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z067F
+"ZDesigner ZT620-300dpi ZPL"=ZDesigner_ZT620-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z164D
+"ZDesigner ZT620-300dpi ZPL"=ZDesigner_ZT620-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z164D
+"ZDesigner ZT610R-203dpi ZPL"=ZDesigner_ZT610R-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZF4BF
+"ZDesigner ZT610R-203dpi ZPL"=ZDesigner_ZT610R-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZF4BF
+"ZDesigner ZT610R-300dpi ZPL"=ZDesigner_ZT610R-300dpi_ZPL,LPTENUM\Zebra_Technologies_ZE52F
+"ZDesigner ZT610R-300dpi ZPL"=ZDesigner_ZT610R-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZE52F
+"ZDesigner ZT610R-600dpi ZPL"=ZDesigner_ZT610R-600dpi_ZPL,LPTENUM\Zebra_Technologies_Z34BE
+"ZDesigner ZT610R-600dpi ZPL"=ZDesigner_ZT610R-600dpi_ZPL,USBPRINT\Zebra_Technologies_Z34BE
+"ZDesigner ZT620R-203dpi ZPL"=ZDesigner_ZT620R-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z97BD
+"ZDesigner ZT620R-203dpi ZPL"=ZDesigner_ZT620R-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z97BD
+"ZDesigner ZT620R-300dpi ZPL"=ZDesigner_ZT620R-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z4454
+"ZDesigner ZT620R-300dpi ZPL"=ZDesigner_ZT620R-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z4454
+"ZDesigner iMZ220 (ZPL)"=ZDesigner_iMZ220_(ZPL),USBPRINT\Zebra_Technologies_ZBEDA
+"ZDesigner iMZ320 (ZPL)"=ZDesigner_iMZ320_(ZPL),USBPRINT\Zebra_Technologies_ZB556
+"ZDesigner QLn220 (ZPL)"=ZDesigner_QLn220_(ZPL),USBPRINT\Zebra_Technologies_Z4F3F
+"ZDesigner QLn320 (ZPL)"=ZDesigner_QLn320_(ZPL),USBPRINT\Zebra_Technologies_ZDF32
+"ZDesigner QLn420 (ZPL)"=ZDesigner_QLn420_(ZPL),USBPRINT\Zebra_Technologies_ZCC94
+"ZDesigner ZQ310 (ZPL)"=ZDesigner_ZQ310_(ZPL),USBPRINT\Zebra_Technologies_ZB2A2
+"ZDesigner ZQ320 (ZPL)"=ZDesigner_ZQ320_(ZPL),USBPRINT\Zebra_Technologies_ZA7E2
+"ZDesigner ZQ510 (ZPL)"=ZDesigner_ZQ510_(ZPL),USBPRINT\Zebra_Technologies_Z1289
+"ZDesigner ZQ520 (ZPL)"=ZDesigner_ZQ520_(ZPL),USBPRINT\Zebra_Technologies_Z07C9
+"ZDesigner ZQ511 (ZPL)"=ZDesigner_ZQ511_(ZPL),USBPRINT\Zebra_Technologies_ZD299
+"ZDesigner ZQ511R (ZPL)"=ZDesigner_ZQ511R_(ZPL),USBPRINT\Zebra_Technologies_Z7FD0
+"ZDesigner ZQ521 (ZPL)"=ZDesigner_ZQ521_(ZPL),USBPRINT\Zebra_Technologies_ZC7D9
+"ZDesigner ZQ521R (ZPL)"=ZDesigner_ZQ521R_(ZPL),USBPRINT\Zebra_Technologies_Z8FC6
+"ZDesigner ZQ610 (ZPL)"=ZDesigner_ZQ610_(ZPL),USBPRINT\Zebra_Technologies_ZE29D
+"ZDesigner ZQ620 (ZPL)"=ZDesigner_ZQ620_(ZPL),USBPRINT\Zebra_Technologies_ZF7DD
+"ZDesigner ZQ630 (ZPL)"=ZDesigner_ZQ630_(ZPL),USBPRINT\Zebra_Technologies_Z3B1C
+"ZDesigner ZQ630R (ZPL)"=ZDesigner_ZQ630R_(ZPL),USBPRINT\Zebra_Technologies_ZDCF8
+"ZDesigner ZR318 (ZPL)"=ZDesigner_ZR318_(ZPL),USBPRINT\Zebra_Technologies_ZBC5A
+"ZDesigner ZR328 (ZPL)"=ZDesigner_ZR328_(ZPL),USBPRINT\Zebra_Technologies_Z689B
+"ZDesigner ZR338 (ZPL)"=ZDesigner_ZR338_(ZPL),USBPRINT\Zebra_Technologies_ZA45A
+"ZDesigner ZR628 (ZPL)"=ZDesigner_ZR628_(ZPL),USBPRINT\Zebra_Technologies_Z38A4
+"ZDesigner ZR638 (ZPL)"=ZDesigner_ZR638_(ZPL),USBPRINT\Zebra_Technologies_ZF465
+"ZDesigner ZR658 (ZPL)"=ZDesigner_ZR658_(ZPL),USBPRINT\Zebra_Technologies_ZDEE5
+"ZDesigner ZR668 (ZPL)"=ZDesigner_ZR668_(ZPL),USBPRINT\Zebra_Technologies_ZCBA5
+"ZDesigner ZE511 LH-203dpi ZPL"=ZDesigner_ZE511_LH-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z18BB
+"ZDesigner ZE511 LH-300dpi ZPL"=ZDesigner_ZE511_LH-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZC8AA
+"ZDesigner ZE511 LH-600dpi ZPL"=ZDesigner_ZE511_LH-600dpi_ZPL,USBPRINT\Zebra_Technologies_ZD8BA
+"ZDesigner ZE511 RH-203dpi ZPL"=ZDesigner_ZE511_RH-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC712
+"ZDesigner ZE511 RH-300dpi ZPL"=ZDesigner_ZE511_RH-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZD682
+"ZDesigner ZE511 RH-600dpi ZPL"=ZDesigner_ZE511_RH-600dpi_ZPL,USBPRINT\Zebra_Technologies_Z0713
+"ZDesigner ZE511R LH-203dpi ZPL"=ZDesigner_ZE511R_LH-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z96E0
+"ZDesigner ZE511R LH-300dpi ZPL"=ZDesigner_ZE511R_LH-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z8570
+"ZDesigner ZE511R LH-600dpi ZPL"=ZDesigner_ZE511R_LH-600dpi_ZPL,USBPRINT\Zebra_Technologies_Z56E1
+"ZDesigner ZE511R RH-203dpi ZPL"=ZDesigner_ZE511R_RH-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZF142
+"ZDesigner ZE511R RH-300dpi ZPL"=ZDesigner_ZE511R_RH-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z2153
+"ZDesigner ZE511R RH-600dpi ZPL"=ZDesigner_ZE511R_RH-600dpi_ZPL,USBPRINT\Zebra_Technologies_Z3143
+"ZDesigner ZE521 LH-203dpi ZPL"=ZDesigner_ZE521_LH-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z29D8
+"ZDesigner ZE521 LH-300dpi ZPL"=ZDesigner_ZE521_LH-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z39EA
+"ZDesigner ZE521 RH-203dpi ZPL"=ZDesigner_ZE521_RH-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZF671
+"ZDesigner ZE521 RH-300dpi ZPL"=ZDesigner_ZE521_RH-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z27C2
+"ZDesigner ZE521R LH-203dpi ZPL"=ZDesigner_ZE521R_LH-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z6610
+"ZDesigner ZE521R LH-300dpi ZPL"=ZDesigner_ZE521R_LH-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z7782
+"ZDesigner ZE521R RH-203dpi ZPL"=ZDesigner_ZE521R_RH-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z01B2
+"ZDesigner ZE521R RH-300dpi ZPL"=ZDesigner_ZE521R_RH-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZD1A3
+"ZDesigner ZQ310 Plus (ZPL)"=ZDesigner_ZQ310_Plus_(ZPL),USBPRINT\Zebra_Technologies_ZADA8
+"ZDesigner ZQ320 Plus (ZPL)"=ZDesigner_ZQ320_Plus_(ZPL),USBPRINT\Zebra_Technologies_Z6EAD
+"ZDesigner ZQ610 Plus (ZPL)"=ZDesigner_ZQ610_Plus_(ZPL),USBPRINT\Zebra_Technologies_ZA8AD
+"ZDesigner ZQ620 Plus (ZPL)"=ZDesigner_ZQ620_Plus_(ZPL),USBPRINT\Zebra_Technologies_Z6BA8
+"ZDesigner ZQ630 Plus (ZPL)"=ZDesigner_ZQ630_Plus_(ZPL),USBPRINT\Zebra_Technologies_Z52AB
+"ZDesigner ZQ630R Plus (ZPL)"=ZDesigner_ZQ630R_Plus_(ZPL),USBPRINT\Zebra_Technologies_Z736C
+"ZDesigner ZR328 Plus (ZPL)"=ZDesigner_ZR328_Plus_(ZPL),USBPRINT\Zebra_Technologies_ZB00F
+"ZDesigner ZR668 Plus (ZPL)"=ZDesigner_ZR668_Plus_(ZPL),USBPRINT\Zebra_Technologies_Z3106
+
+[PRINTERMODELS.NTarm64]
+"ZDesigner ZD120 203DPI"=ZDesigner_ZD120_203DPI,USBPRINT\Zebra_Technologies_Z228D
+"ZDesigner ZD220-203dpi ZPL"=ZDesigner_ZD220-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z0ECB
+"ZDesigner ZD230-203dpi ZPL"=ZDesigner_ZD230-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z4F68
+"ZDesigner ZD230-300dpi ZPL"=ZDesigner_ZD230-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z5FD8
+"ZDesigner ZD410-203dpi ZPL"=ZDesigner_ZD410-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZE968
+"ZDesigner ZD410-203dpi ZPL"=ZDesigner_ZD410-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZE968
+"ZDesigner ZD411-203dpi ZPL"=ZDesigner_ZD411-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z2A95
+"ZDesigner ZD410-300dpi ZPL"=ZDesigner_ZD410-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z3979
+"ZDesigner ZD410-300dpi ZPL"=ZDesigner_ZD410-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z3979
+"ZDesigner ZD411-300dpi ZPL"=ZDesigner_ZD411-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZFA86 
+"ZDesigner ZD420-203dpi ZPL"=ZDesigner_ZD420-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZC86C
+"ZDesigner ZD420-203dpi ZPL"=ZDesigner_ZD420-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC86C
+"ZDesigner ZD420-300dpi ZPL"=ZDesigner_ZD420-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z187D
+"ZDesigner ZD420-300dpi ZPL"=ZDesigner_ZD420-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z187D
+"ZDesigner ZD421-203dpi ZPL"=ZDesigner_ZD421-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z0B91 
+"ZDesigner ZD421-300dpi ZPL"=ZDesigner_ZD421-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZDB82 
+"ZDesigner ZD421CN-300dpi ZPL"=ZDesigner_ZD421CN-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZEC5D
+"ZDesigner ZD500R-203dpi ZPL"=ZDesigner_ZD500R-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z5971
+"ZDesigner ZD500R-203dpi ZPL"=ZDesigner_ZD500R-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z5971
+"ZDesigner ZD500R-300dpi ZPL"=ZDesigner_ZD500R-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z8960
+"ZDesigner ZD500R-300dpi ZPL"=ZDesigner_ZD500R-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z8960
+"ZDesigner ZD611-203dpi ZPL"=ZDesigner_ZD611-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z5097 
+"ZDesigner ZD611R-203dpi ZPL"=ZDesigner_ZD611R-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z1830 
+"ZDesigner ZD611-300dpi ZPL"=ZDesigner_ZD611-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z8286 
+"ZDesigner ZD611R-300dpi ZPL"=ZDesigner_ZD611R-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZC821 
+"ZDesigner ZD620-203dpi ZPL"=ZDesigner_ZD620-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z6A6E
+"ZDesigner ZD620-300dpi ZPL"=ZDesigner_ZD620-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1A5D
+"ZDesigner ZD621-203dpi ZPL"=ZDesigner_ZD621-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC992
+"ZDesigner ZD621-300dpi ZPL"=ZDesigner_ZD621-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1983 
+"ZDesigner ZD621R-203dpi ZPL"=ZDesigner_ZD621R-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZDB92 
+"ZDesigner ZD621R-300dpi ZPL"=ZDesigner_ZD621R-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZCB22 
+"ZDesigner ZD888-203dpi ZPL"=ZDesigner_ZD888-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z1199
+"ZDesigner ZD888-300dpi ZPL"=ZDesigner_ZD888-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZC188
+"ZDesigner ZD100-203dpi ZPL"=ZDesigner_ZD100-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z8F6E
+"ZDesigner ZD500-203dpi ZPL"=ZDesigner_ZD500-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z4B6B
+"ZDesigner ZD500-203dpi ZPL"=ZDesigner_ZD500-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z4B6B
+"ZDesigner ZD500-300dpi ZPL"=ZDesigner_ZD500-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z9B7A
+"ZDesigner ZD500-300dpi ZPL"=ZDesigner_ZD500-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z9B7A
+"ZDesigner ZD510-300dpi ZPL"=ZDesigner_ZD510-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZF879
+"ZDesigner ZD511-300dpi ZPL"=ZDesigner_ZD511-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z3B84
+"ZDesigner ZT210-200dpi ZPL"=ZDesigner_ZT210-200dpi_ZPL,LPTENUM\Zebra_Technologies_Z743E
+"ZDesigner ZT210-200dpi ZPL"=ZDesigner_ZT210-200dpi_ZPL,USBPRINT\Zebra_Technologies_Z743E
+"ZDesigner ZT210-300dpi ZPL"=ZDesigner_ZT210-300dpi_ZPL,LPTENUM\Zebra_Technologies_ZB16F
+"ZDesigner ZT210-300dpi ZPL"=ZDesigner_ZT210-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZB16F
+"ZDesigner ZT220-200dpi ZPL"=ZDesigner_ZT220-200dpi_ZPL,LPTENUM\Zebra_Technologies_ZD73A
+"ZDesigner ZT220-200dpi ZPL"=ZDesigner_ZT220-200dpi_ZPL,USBPRINT\Zebra_Technologies_ZD73A
+"ZDesigner ZT220-300dpi ZPL"=ZDesigner_ZT220-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z126B
+"ZDesigner ZT220-300dpi ZPL"=ZDesigner_ZT220-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z126B
+"ZDesigner ZT230-200dpi ZPL"=ZDesigner_ZT230-200dpi_ZPL,LPTENUM\Zebra_Technologies_Z5638
+"ZDesigner ZT230-200dpi ZPL"=ZDesigner_ZT230-200dpi_ZPL,USBPRINT\Zebra_Technologies_Z5638
+"ZDesigner ZT230-300dpi ZPL"=ZDesigner_ZT230-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z53C8
+"ZDesigner ZT230-300dpi ZPL"=ZDesigner_ZT230-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z53C8
+"ZDesigner ZT111-203dpi ZPL"=ZDesigner_ZT111-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZC181
+"ZDesigner ZT111-203dpi ZPL"=ZDesigner_ZT111-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC181
+"ZDesigner ZT111-300dpi ZPL"=ZDesigner_ZT111-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z1190
+"ZDesigner ZT111-300dpi ZPL"=ZDesigner_ZT111-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1190
+"ZDesigner ZT211-203dpi ZPL"=ZDesigner_ZT211-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZC282
+"ZDesigner ZT211-203dpi ZPL"=ZDesigner_ZT211-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC282
+"ZDesigner ZT211-300dpi ZPL"=ZDesigner_ZT211-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z1293
+"ZDesigner ZT211-300dpi ZPL"=ZDesigner_ZT211-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1293
+"ZDesigner ZT231-203dpi ZPL"=ZDesigner_ZT231-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z8285
+"ZDesigner ZT231-203dpi ZPL"=ZDesigner_ZT231-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z8285
+"ZDesigner ZT231-300dpi ZPL"=ZDesigner_ZT231-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z5094
+"ZDesigner ZT231-300dpi ZPL"=ZDesigner_ZT231-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z5094
+"ZDesigner ZT231R-203dpi ZPL"=ZDesigner_ZT231R-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZCCBB
+"ZDesigner ZT231R-203dpi ZPL"=ZDesigner_ZT231R-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZCCBB
+"ZDesigner ZT231R-300dpi ZPL"=ZDesigner_ZT231R-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z1CAA
+"ZDesigner ZT231R-300dpi ZPL"=ZDesigner_ZT231R-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1CAA
+"ZDesigner ZT410R-203dpi ZPL"=ZDesigner_ZT410R-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z34BC
+"ZDesigner ZT410R-203dpi ZPL"=ZDesigner_ZT410R-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z34BC
+"ZDesigner ZT410R-300dpi ZPL"=ZDesigner_ZT410R-300dpi_ZPL,LPTENUM\Zebra_Technologies_ZE4AD
+"ZDesigner ZT410R-300dpi ZPL"=ZDesigner_ZT410R-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZE4AD
+"ZDesigner ZT410-203dpi ZPL"=ZDesigner_ZT410-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZC6F8
+"ZDesigner ZT410-203dpi ZPL"=ZDesigner_ZT410-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC6F8
+"ZDesigner ZT410-300dpi ZPL"=ZDesigner_ZT410-300dpi_ZPL,LPTENUM\Zebra_Technologies_ZD768
+"ZDesigner ZT410-300dpi ZPL"=ZDesigner_ZT410-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZD768
+"ZDesigner ZT410-600dpi ZPL"=ZDesigner_ZT410-600dpi_ZPL,LPTENUM\Zebra_Technologies_Z06F9
+"ZDesigner ZT410-600dpi ZPL"=ZDesigner_ZT410-600dpi_ZPL,USBPRINT\Zebra_Technologies_Z06F9
+"ZDesigner ZT420R-203dpi ZPL"=ZDesigner_ZT420R-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z57BE
+"ZDesigner ZT420R-203dpi ZPL"=ZDesigner_ZT420R-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z57BE
+"ZDesigner ZT420R-300dpi ZPL"=ZDesigner_ZT420R-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z85AF
+"ZDesigner ZT420R-300dpi ZPL"=ZDesigner_ZT420R-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z85AF
+"ZDesigner ZT410R-600dpi ZPL"=ZDesigner_ZT410R-600dpi_ZPL,LPTENUM\Zebra_Technologies_ZF4BD
+"ZDesigner ZT410R-600dpi ZPL"=ZDesigner_ZT410R-600dpi_ZPL,USBPRINT\Zebra_Technologies_ZF4BD
+"ZDesigner ZT420-203dpi ZPL"=ZDesigner_ZT420-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZC47C
+"ZDesigner ZT420-203dpi ZPL"=ZDesigner_ZT420-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC47C
+"ZDesigner ZT420-300dpi ZPL"=ZDesigner_ZT420-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z146D
+"ZDesigner ZT420-300dpi ZPL"=ZDesigner_ZT420-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z146D
+"ZDesigner ZT510-203dpi ZPL"=ZDesigner_ZT510-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z07F8
+"ZDesigner ZT510-203dpi ZPL"=ZDesigner_ZT510-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z07F8
+"ZDesigner ZT510-300dpi ZPL"=ZDesigner_ZT510-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z1668
+"ZDesigner ZT510-300dpi ZPL"=ZDesigner_ZT510-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1668
+"ZDesigner ZT411-203dpi ZPL"=ZDesigner_ZT411-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z0505
+"ZDesigner ZT411-203dpi ZPL"=ZDesigner_ZT411-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z0505
+"ZDesigner ZT411-300dpi ZPL"=ZDesigner_ZT411-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z1495
+"ZDesigner ZT411-300dpi ZPL"=ZDesigner_ZT411-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z1495
+"ZDesigner ZT411-600dpi ZPL"=ZDesigner_ZT411-600dpi_ZPL,LPTENUM\Zebra_Technologies_ZC504
+"ZDesigner ZT411-600dpi ZPL"=ZDesigner_ZT411-600dpi_ZPL,USBPRINT\Zebra_Technologies_ZC504
+"ZDesigner ZT411R-203dpi ZPL"=ZDesigner_ZT411R-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZB5BE
+"ZDesigner ZT411R-203dpi ZPL"=ZDesigner_ZT411R-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZB5BE
+"ZDesigner ZT411R-300dpi ZPL"=ZDesigner_ZT411R-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z65AF
+"ZDesigner ZT411R-300dpi ZPL"=ZDesigner_ZT411R-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z65AF
+"ZDesigner ZT411R-600dpi ZPL"=ZDesigner_ZT411R-600dpi_ZPL,LPTENUM\Zebra_Technologies_Z75BF
+"ZDesigner ZT411R-600dpi ZPL"=ZDesigner_ZT411R-600dpi_ZPL,USBPRINT\Zebra_Technologies_Z75BF
+"ZDesigner ZT421-203dpi ZPL"=ZDesigner_ZT421-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z0781
+"ZDesigner ZT421-203dpi ZPL"=ZDesigner_ZT421-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z0781
+"ZDesigner ZT421-300dpi ZPL"=ZDesigner_ZT421-300dpi_ZPL,LPTENUM\Zebra_Technologies_ZD790
+"ZDesigner ZT421-300dpi ZPL"=ZDesigner_ZT421-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZD790
+"ZDesigner ZT421R-203dpi ZPL"=ZDesigner_ZT421R-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZD6BC
+"ZDesigner ZT421R-203dpi ZPL"=ZDesigner_ZT421R-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZD6BC
+"ZDesigner ZT421R-300dpi ZPL"=ZDesigner_ZT421R-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z06AD
+"ZDesigner ZT421R-300dpi ZPL"=ZDesigner_ZT421R-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z06AD
+"ZDesigner ZT610-203dpi ZPL"=ZDesigner_ZT610-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z04FB
+"ZDesigner ZT610-203dpi ZPL"=ZDesigner_ZT610-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z04FB
+"ZDesigner ZT610-300dpi ZPL"=ZDesigner_ZT610-300dpi_ZPL,LPTENUM\Zebra_Technologies_ZD548
+"ZDesigner ZT610-300dpi ZPL"=ZDesigner_ZT610-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZD548
+"ZDesigner ZT610-600dpi ZPL"=ZDesigner_ZT610-600dpi_ZPL,LPTENUM\Zebra_Technologies_ZC4FA
+"ZDesigner ZT610-600dpi ZPL"=ZDesigner_ZT610-600dpi_ZPL,USBPRINT\Zebra_Technologies_ZC4FA
+"ZDesigner ZT620-203dpi ZPL"=ZDesigner_ZT620-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z067F
+"ZDesigner ZT620-203dpi ZPL"=ZDesigner_ZT620-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z067F
+"ZDesigner ZT620-300dpi ZPL"=ZDesigner_ZT620-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z164D
+"ZDesigner ZT620-300dpi ZPL"=ZDesigner_ZT620-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z164D
+"ZDesigner ZT610R-203dpi ZPL"=ZDesigner_ZT610R-203dpi_ZPL,LPTENUM\Zebra_Technologies_ZF4BF
+"ZDesigner ZT610R-203dpi ZPL"=ZDesigner_ZT610R-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZF4BF
+"ZDesigner ZT610R-300dpi ZPL"=ZDesigner_ZT610R-300dpi_ZPL,LPTENUM\Zebra_Technologies_ZE52F
+"ZDesigner ZT610R-300dpi ZPL"=ZDesigner_ZT610R-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZE52F
+"ZDesigner ZT610R-600dpi ZPL"=ZDesigner_ZT610R-600dpi_ZPL,LPTENUM\Zebra_Technologies_Z34BE
+"ZDesigner ZT610R-600dpi ZPL"=ZDesigner_ZT610R-600dpi_ZPL,USBPRINT\Zebra_Technologies_Z34BE
+"ZDesigner ZT620R-203dpi ZPL"=ZDesigner_ZT620R-203dpi_ZPL,LPTENUM\Zebra_Technologies_Z97BD
+"ZDesigner ZT620R-203dpi ZPL"=ZDesigner_ZT620R-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z97BD
+"ZDesigner ZT620R-300dpi ZPL"=ZDesigner_ZT620R-300dpi_ZPL,LPTENUM\Zebra_Technologies_Z4454
+"ZDesigner ZT620R-300dpi ZPL"=ZDesigner_ZT620R-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z4454
+"ZDesigner iMZ220 (ZPL)"=ZDesigner_iMZ220_(ZPL),USBPRINT\Zebra_Technologies_ZBEDA
+"ZDesigner iMZ320 (ZPL)"=ZDesigner_iMZ320_(ZPL),USBPRINT\Zebra_Technologies_ZB556
+"ZDesigner QLn220 (ZPL)"=ZDesigner_QLn220_(ZPL),USBPRINT\Zebra_Technologies_Z4F3F
+"ZDesigner QLn320 (ZPL)"=ZDesigner_QLn320_(ZPL),USBPRINT\Zebra_Technologies_ZDF32
+"ZDesigner QLn420 (ZPL)"=ZDesigner_QLn420_(ZPL),USBPRINT\Zebra_Technologies_ZCC94
+"ZDesigner ZQ310 (ZPL)"=ZDesigner_ZQ310_(ZPL),USBPRINT\Zebra_Technologies_ZB2A2
+"ZDesigner ZQ320 (ZPL)"=ZDesigner_ZQ320_(ZPL),USBPRINT\Zebra_Technologies_ZA7E2
+"ZDesigner ZQ510 (ZPL)"=ZDesigner_ZQ510_(ZPL),USBPRINT\Zebra_Technologies_Z1289
+"ZDesigner ZQ520 (ZPL)"=ZDesigner_ZQ520_(ZPL),USBPRINT\Zebra_Technologies_Z07C9
+"ZDesigner ZQ511 (ZPL)"=ZDesigner_ZQ511_(ZPL),USBPRINT\Zebra_Technologies_ZD299
+"ZDesigner ZQ511R (ZPL)"=ZDesigner_ZQ511R_(ZPL),USBPRINT\Zebra_Technologies_Z7FD0
+"ZDesigner ZQ521 (ZPL)"=ZDesigner_ZQ521_(ZPL),USBPRINT\Zebra_Technologies_ZC7D9
+"ZDesigner ZQ521R (ZPL)"=ZDesigner_ZQ521R_(ZPL),USBPRINT\Zebra_Technologies_Z8FC6
+"ZDesigner ZQ610 (ZPL)"=ZDesigner_ZQ610_(ZPL),USBPRINT\Zebra_Technologies_ZE29D
+"ZDesigner ZQ620 (ZPL)"=ZDesigner_ZQ620_(ZPL),USBPRINT\Zebra_Technologies_ZF7DD
+"ZDesigner ZQ630 (ZPL)"=ZDesigner_ZQ630_(ZPL),USBPRINT\Zebra_Technologies_Z3B1C
+"ZDesigner ZQ630R (ZPL)"=ZDesigner_ZQ630R_(ZPL),USBPRINT\Zebra_Technologies_ZDCF8
+"ZDesigner ZR318 (ZPL)"=ZDesigner_ZR318_(ZPL),USBPRINT\Zebra_Technologies_ZBC5A
+"ZDesigner ZR328 (ZPL)"=ZDesigner_ZR328_(ZPL),USBPRINT\Zebra_Technologies_Z689B
+"ZDesigner ZR338 (ZPL)"=ZDesigner_ZR338_(ZPL),USBPRINT\Zebra_Technologies_ZA45A
+"ZDesigner ZR628 (ZPL)"=ZDesigner_ZR628_(ZPL),USBPRINT\Zebra_Technologies_Z38A4
+"ZDesigner ZR638 (ZPL)"=ZDesigner_ZR638_(ZPL),USBPRINT\Zebra_Technologies_ZF465
+"ZDesigner ZR658 (ZPL)"=ZDesigner_ZR658_(ZPL),USBPRINT\Zebra_Technologies_ZDEE5
+"ZDesigner ZR668 (ZPL)"=ZDesigner_ZR668_(ZPL),USBPRINT\Zebra_Technologies_ZCBA5
+"ZDesigner ZE511 LH-203dpi ZPL"=ZDesigner_ZE511_LH-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z18BB
+"ZDesigner ZE511 LH-300dpi ZPL"=ZDesigner_ZE511_LH-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZC8AA
+"ZDesigner ZE511 LH-600dpi ZPL"=ZDesigner_ZE511_LH-600dpi_ZPL,USBPRINT\Zebra_Technologies_ZD8BA
+"ZDesigner ZE511 RH-203dpi ZPL"=ZDesigner_ZE511_RH-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZC712
+"ZDesigner ZE511 RH-300dpi ZPL"=ZDesigner_ZE511_RH-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZD682
+"ZDesigner ZE511 RH-600dpi ZPL"=ZDesigner_ZE511_RH-600dpi_ZPL,USBPRINT\Zebra_Technologies_Z0713
+"ZDesigner ZE511R LH-203dpi ZPL"=ZDesigner_ZE511R_LH-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z96E0
+"ZDesigner ZE511R LH-300dpi ZPL"=ZDesigner_ZE511R_LH-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z8570
+"ZDesigner ZE511R LH-600dpi ZPL"=ZDesigner_ZE511R_LH-600dpi_ZPL,USBPRINT\Zebra_Technologies_Z56E1
+"ZDesigner ZE511R RH-203dpi ZPL"=ZDesigner_ZE511R_RH-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZF142
+"ZDesigner ZE511R RH-300dpi ZPL"=ZDesigner_ZE511R_RH-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z2153
+"ZDesigner ZE511R RH-600dpi ZPL"=ZDesigner_ZE511R_RH-600dpi_ZPL,USBPRINT\Zebra_Technologies_Z3143
+"ZDesigner ZE521 LH-203dpi ZPL"=ZDesigner_ZE521_LH-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z29D8
+"ZDesigner ZE521 LH-300dpi ZPL"=ZDesigner_ZE521_LH-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z39EA
+"ZDesigner ZE521 RH-203dpi ZPL"=ZDesigner_ZE521_RH-203dpi_ZPL,USBPRINT\Zebra_Technologies_ZF671
+"ZDesigner ZE521 RH-300dpi ZPL"=ZDesigner_ZE521_RH-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z27C2
+"ZDesigner ZE521R LH-203dpi ZPL"=ZDesigner_ZE521R_LH-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z6610
+"ZDesigner ZE521R LH-300dpi ZPL"=ZDesigner_ZE521R_LH-300dpi_ZPL,USBPRINT\Zebra_Technologies_Z7782
+"ZDesigner ZE521R RH-203dpi ZPL"=ZDesigner_ZE521R_RH-203dpi_ZPL,USBPRINT\Zebra_Technologies_Z01B2
+"ZDesigner ZE521R RH-300dpi ZPL"=ZDesigner_ZE521R_RH-300dpi_ZPL,USBPRINT\Zebra_Technologies_ZD1A3
+"ZDesigner ZQ310 Plus (ZPL)"=ZDesigner_ZQ310_Plus_(ZPL),USBPRINT\Zebra_Technologies_ZADA8
+"ZDesigner ZQ320 Plus (ZPL)"=ZDesigner_ZQ320_Plus_(ZPL),USBPRINT\Zebra_Technologies_Z6EAD
+"ZDesigner ZQ610 Plus (ZPL)"=ZDesigner_ZQ610_Plus_(ZPL),USBPRINT\Zebra_Technologies_ZA8AD
+"ZDesigner ZQ620 Plus (ZPL)"=ZDesigner_ZQ620_Plus_(ZPL),USBPRINT\Zebra_Technologies_Z6BA8
+"ZDesigner ZQ630 Plus (ZPL)"=ZDesigner_ZQ630_Plus_(ZPL),USBPRINT\Zebra_Technologies_Z52AB
+"ZDesigner ZQ630R Plus (ZPL)"=ZDesigner_ZQ630R_Plus_(ZPL),USBPRINT\Zebra_Technologies_Z736C
+"ZDesigner ZR328 Plus (ZPL)"=ZDesigner_ZR328_Plus_(ZPL),USBPRINT\Zebra_Technologies_ZB00F
+"ZDesigner ZR668 Plus (ZPL)"=ZDesigner_ZR668_Plus_(ZPL),USBPRINT\Zebra_Technologies_Z3106
+
+[ZDesigner_ZD120_203DPI]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD120_203DPI.dat,FNTFILES
+DataFile=ZDesigner_ZD120_203DPI.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb
+;AdditionalBthVID=0A5F
+
+[ZDesigner_ZD220-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD220-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD220-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb
+;AdditionalLanQuery=ZTC ZD220-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0164
+
+[ZDesigner_ZD230-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD230-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD230-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD230-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0166
+
+[ZDesigner_ZD230-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD230-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD230-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb
+;AdditionalLanQuery=ZTC ZD230-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01DD
+
+[ZDesigner_ZD410-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD410-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD410-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD410-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=011C
+
+[ZDesigner_ZD411-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD411-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD411-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD411-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0181
+
+[ZDesigner_ZD410-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD410-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD410-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD410-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=011E
+
+[ZDesigner_ZD411-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD411-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD411-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD411-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0183
+
+[ZDesigner_ZD420-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD420-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD420-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD420-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0120
+
+[ZDesigner_ZD420-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD420-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD420-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD420-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0122
+
+[ZDesigner_ZD421-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD421-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD421-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD421-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0185
+
+[ZDesigner_ZD421-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD421-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD421-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD421-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0187
+
+[ZDesigner_ZD421CN-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD421CN-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD421CN-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD421CN-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01B4
+
+[ZDesigner_ZD500R-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD500R-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD500R-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD500R-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=00DD
+
+[ZDesigner_ZD500R-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD500R-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD500R-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD500R-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=00DC
+
+[ZDesigner_ZD611-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD611-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD611-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD611-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0189
+
+[ZDesigner_ZD611R-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD611R-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD611R-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD611R-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=018A
+
+[ZDesigner_ZD611-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD611-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD611-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD611-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=018C
+
+[ZDesigner_ZD611R-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD611R-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD611R-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD611R-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=018D
+
+[ZDesigner_ZD620-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD620-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD620-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD620-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0141
+
+[ZDesigner_ZD620-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD620-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD620-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD620-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0143
+
+[ZDesigner_ZD621-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD621-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD621-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD621-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=018F
+
+[ZDesigner_ZD621-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD621-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD621-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD621-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0192
+
+[ZDesigner_ZD621R-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD621R-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD621R-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD621R-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0190
+
+[ZDesigner_ZD621R-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD621R-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD621R-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD621R-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0193
+
+[ZDesigner_ZD888-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD888-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD888-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD888-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0168
+
+[ZDesigner_ZD888-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD888-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD888-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb
+;AdditionalLanQuery=ZTC ZD888-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01DF
+
+[ZDesigner_ZD100-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD100-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD100-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD100-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01E5
+
+[ZDesigner_ZD500-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD500-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD500-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD500-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0110
+
+[ZDesigner_ZD500-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD500-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD500-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD500-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0112
+
+[ZDesigner_ZD510-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD510-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD510-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD510-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0156
+
+[ZDesigner_ZD511-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZD511-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZD511-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZD511-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=015D
+
+[ZDesigner_ZT210-200dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT210-200dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT210-200dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,
+;AdditionalLanQuery=ZTC ZT210-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=00DF
+
+[ZDesigner_ZT210-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT210-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT210-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,
+;AdditionalLanQuery=ZTC ZT210-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=00E0
+
+[ZDesigner_ZT220-200dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT220-200dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT220-200dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,
+;AdditionalLanQuery=ZTC ZT220-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=00D4
+
+[ZDesigner_ZT220-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT220-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT220-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,
+;AdditionalLanQuery=ZTC ZT220-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=00E1
+
+[ZDesigner_ZT230-200dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT230-200dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT230-200dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,
+;AdditionalLanQuery=ZTC ZT230-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=00D5
+
+[ZDesigner_ZT230-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT230-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT230-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,
+;AdditionalLanQuery=ZTC ZT230-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=00E2
+
+[ZDesigner_ZT111-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT111-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT111-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,
+;AdditionalLanQuery=ZTC ZT111-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01B7
+
+[ZDesigner_ZT111-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT111-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT111-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,
+;AdditionalLanQuery=ZTC ZT111-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01B8
+
+[ZDesigner_ZT211-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT211-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT211-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,
+;AdditionalLanQuery=ZTC ZT211-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01BA
+
+[ZDesigner_ZT211-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT211-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT211-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,
+;AdditionalLanQuery=ZTC ZT211-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01BB
+
+[ZDesigner_ZT231-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT231-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT231-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,
+;AdditionalLanQuery=ZTC ZT231-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01BD
+
+[ZDesigner_ZT231-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT231-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT231-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,
+;AdditionalLanQuery=ZTC ZT231-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01BE
+
+[ZDesigner_ZT231R-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT231R-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT231R-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,
+;AdditionalLanQuery=ZTC ZT231R-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01BF
+
+[ZDesigner_ZT231R-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT231R-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT231R-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,
+;AdditionalLanQuery=ZTC ZT231R-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01C0
+
+[ZDesigner_ZT410R-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT410R-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT410R-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT410R-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0102
+
+[ZDesigner_ZT410R-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT410R-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT410R-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT410R-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0103
+
+[ZDesigner_ZT410-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT410-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT410-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT410-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=00F9
+
+[ZDesigner_ZT410-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT410-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT410-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT410-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=00FA
+
+[ZDesigner_ZT410-600dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT410-600dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT410-600dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT410-600dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=00FB
+
+[ZDesigner_ZT420R-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT420R-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT420R-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT420R-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0105
+
+[ZDesigner_ZT420R-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT420R-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT420R-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT420R-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0106
+
+[ZDesigner_ZT410R-600dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT410R-600dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT410R-600dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT410R-600dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0104
+
+[ZDesigner_ZT420-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT420-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT420-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT420-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=00FC
+
+[ZDesigner_ZT420-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT420-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT420-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT420-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=00FD
+
+[ZDesigner_ZT510-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT510-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT510-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT510-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=012C
+
+[ZDesigner_ZT510-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT510-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT510-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT510-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=012D
+
+[ZDesigner_ZT411-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT411-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT411-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb,Lpt,Bth
+;AdditionalLanQuery=ZTC ZT411-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0173
+
+[ZDesigner_ZT411-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT411-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT411-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb,Lpt,Bth
+;AdditionalLanQuery=ZTC ZT411-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0174
+
+[ZDesigner_ZT411-600dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT411-600dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT411-600dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb,Lpt,Bth
+;AdditionalLanQuery=ZTC ZT411-600dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0175
+
+[ZDesigner_ZT411R-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT411R-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT411R-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb,Lpt,Bth
+;AdditionalLanQuery=ZTC ZT411R-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0176
+
+[ZDesigner_ZT411R-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT411R-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT411R-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb,Lpt,Bth
+;AdditionalLanQuery=ZTC ZT411R-300dpi ZP
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0177
+
+[ZDesigner_ZT411R-600dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT411R-600dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT411R-600dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb,Lpt,Bth
+;AdditionalLanQuery=ZTC ZT411R-600dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0178
+
+[ZDesigner_ZT421-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT421-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT421-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb,Lpt,Bth
+;AdditionalLanQuery=ZTC ZT421-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0179
+
+[ZDesigner_ZT421-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT421-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT421-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb,Lpt,Bth
+;AdditionalLanQuery=ZTC ZT421-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=017A
+
+[ZDesigner_ZT421R-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT421R-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT421R-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb,Lpt,Bth
+;AdditionalLanQuery=ZTC ZT421R-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=017B
+
+[ZDesigner_ZT421R-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT421R-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT421R-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb,Lpt,Bth
+;AdditionalLanQuery=ZTC ZT421R-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=017C
+
+[ZDesigner_ZT610-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT610-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT610-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT610-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=012E
+
+[ZDesigner_ZT610-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT610-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT610-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT610-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=012F
+
+[ZDesigner_ZT610-600dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT610-600dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT610-600dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT610-600dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0130
+
+[ZDesigner_ZT620-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT620-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT620-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT620-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0133
+
+[ZDesigner_ZT620-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT620-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT620-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT620-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0134
+
+[ZDesigner_ZT610R-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT610R-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT610R-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT610R-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0131
+
+[ZDesigner_ZT610R-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT610R-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT610R-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT610R-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0132
+
+[ZDesigner_ZT610R-600dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT610R-600dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT610R-600dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT610R-600dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0137
+
+[ZDesigner_ZT620R-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT620R-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT620R-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT620R-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0135
+
+[ZDesigner_ZT620R-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZT620R-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZT620R-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lpt,Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZT620R-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0136
+
+[ZDesigner_iMZ220_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_iMZ220_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_iMZ220_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC iMZ220-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=00F4
+
+[ZDesigner_iMZ320_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_iMZ320_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_iMZ320_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC iMZ320-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=00F5
+
+[ZDesigner_QLn220_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_QLn220_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_QLn220_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC QLn220-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=00E7
+
+[ZDesigner_QLn320_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_QLn320_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_QLn320_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC QLn320-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=00E8
+
+[ZDesigner_QLn420_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_QLn420_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_QLn420_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC QLn420-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=00EA
+
+[ZDesigner_ZQ310_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZQ310_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZQ310_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZQ310-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0139
+
+[ZDesigner_ZQ320_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZQ320_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZQ320_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZQ320-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=013B
+
+[ZDesigner_ZQ510_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZQ510_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZQ510_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZQ510-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=010C
+
+[ZDesigner_ZQ520_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZQ520_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZQ520_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZQ520-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=010D
+
+[ZDesigner_ZQ511_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZQ511_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZQ511_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZQ511-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=016D
+
+[ZDesigner_ZQ511R_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZQ511R_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZQ511R_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZQ511R-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=016E
+
+[ZDesigner_ZQ521_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZQ521_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZQ521_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZQ521-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0170
+
+[ZDesigner_ZQ521R_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZQ521R_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZQ521R_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Com,Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZQ521R-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0171
+
+[ZDesigner_ZQ610_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZQ610_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZQ610_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZQ610-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=014B
+
+[ZDesigner_ZQ620_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZQ620_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZQ620_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZQ620-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=014D
+
+[ZDesigner_ZQ630_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZQ630_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZQ630_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZQ630-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=014F
+
+[ZDesigner_ZQ630R_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZQ630R_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZQ630R_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZQ630R-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0155
+
+[ZDesigner_ZR318_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZR318_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZR318_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZR318 ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=013D
+
+[ZDesigner_ZR328_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZR328_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZR328_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZR328 ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=013F
+
+[ZDesigner_ZR338_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZR338_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZR338_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZR338 ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0125
+
+[ZDesigner_ZR628_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZR628_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZR628_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZR628 ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0127
+
+[ZDesigner_ZR638_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZR638_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZR638_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZR638 ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0129
+
+[ZDesigner_ZR658_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZR658_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZR658_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZR658 ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0151
+
+[ZDesigner_ZR668_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZR668_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZR668_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZR668 ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0153
+
+[ZDesigner_ZE511_LH-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE511_LH-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE511_LH-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE511 LH-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0196
+
+[ZDesigner_ZE511_LH-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE511_LH-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE511_LH-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE511 LH-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0197
+
+[ZDesigner_ZE511_LH-600dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE511_LH-600dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE511_LH-600dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE511 LH-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0198
+
+[ZDesigner_ZE511_RH-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE511_RH-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE511_RH-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE511 RH-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=0199
+
+[ZDesigner_ZE511_RH-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE511_RH-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE511_RH-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE511 RH-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=019A
+
+[ZDesigner_ZE511_RH-600dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE511_RH-600dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE511_RH-600dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE511 RH-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=019B
+
+[ZDesigner_ZE511R_LH-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE511R_LH-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE511R_LH-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE511R LH-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=019C
+
+[ZDesigner_ZE511R_LH-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE511R_LH-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE511R_LH-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE511R LH-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=019D
+
+[ZDesigner_ZE511R_LH-600dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE511R_LH-600dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE511R_LH-600dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE511R LH-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=019E
+
+[ZDesigner_ZE511R_RH-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE511R_RH-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE511R_RH-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE511R RH-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=019F
+
+[ZDesigner_ZE511R_RH-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE511R_RH-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE511R_RH-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE511R RH-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01A0
+
+[ZDesigner_ZE511R_RH-600dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE511R_RH-600dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE511R_RH-600dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE511R RH-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01A1
+
+[ZDesigner_ZE521_LH-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE521_LH-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE521_LH-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE521 LH-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01A2
+
+[ZDesigner_ZE521_LH-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE521_LH-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE521_LH-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE521 LH-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01A3
+
+[ZDesigner_ZE521_RH-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE521_RH-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE521_RH-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE521 RH-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01A5
+
+[ZDesigner_ZE521_RH-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE521_RH-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE521_RH-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE521 RH-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01A6
+
+[ZDesigner_ZE521R_LH-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE521R_LH-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE521R_LH-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE521R LH-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01A8
+
+[ZDesigner_ZE521R_LH-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE521R_LH-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE521R_LH-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE521R LH-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01A9
+
+[ZDesigner_ZE521R_RH-203dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE521R_RH-203dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE521R_RH-203dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE521R RH-203dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01AB
+
+[ZDesigner_ZE521R_RH-300dpi_ZPL]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZE521R_RH-300dpi_ZPL.dat,FNTFILES
+DataFile=ZDesigner_ZE521R_RH-300dpi_ZPL.dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Lan,Com,Usb
+;AdditionalLanQuery=ZTC ZE521R RH-300dpi ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01AC
+
+[ZDesigner_ZQ310_Plus_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZQ310_Plus_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZQ310_Plus_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZQ310-203dpi Plus ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01D1
+
+[ZDesigner_ZQ320_Plus_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZQ320_Plus_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZQ320_Plus_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZQ320-203dpi Plus ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01D0
+
+[ZDesigner_ZQ610_Plus_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZQ610_Plus_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZQ610_Plus_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZQ610-203dpi Plus ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01D8
+
+[ZDesigner_ZQ620_Plus_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZQ620_Plus_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZQ620_Plus_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZQ620-203dpi Plus ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01D6
+
+[ZDesigner_ZQ630_Plus_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZQ630_Plus_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZQ630_Plus_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZQ630-203dpi Plus ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01D4
+
+[ZDesigner_ZQ630R_Plus_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZQ630R_Plus_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZQ630R_Plus_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZQ630R-203dpi Plus ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01D3
+
+[ZDesigner_ZR328_Plus_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZR328_Plus_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZR328_Plus_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZR328 Plus ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01CD
+
+[ZDesigner_ZR668_Plus_(ZPL)]
+CopyFiles=DRVFILES,LANGMONFILES,PortMonitorFiles,@ZDesigner_ZR668_Plus_(ZPL).dat,FNTFILES
+DataFile=ZDesigner_ZR668_Plus_(ZPL).dat
+DataSection=DRIVER_DATA
+;PortsAvailability=Usb,Lan,Bth,
+;AdditionalLanQuery=ZTC ZR668 Plus ZPL
+;AdditionalBthVID=0A5F
+;AdditionalBthPID=01CB
+
+[DRVFILES]
+ZDesignerui.res.dll,,,0x00000004
+ZDesignerdrv.dll,,,0x00000004
+ZDesignerui.dll,,,0x00000004
+ZDesigner.trans
+ZDesigner.font
+ZDesigner.chm
+ZDesigner_Fra.chm
+ZDesigner_Ger.chm
+ZDesigner_Spa.chm
+ZDesigner_Ita.chm
+ZDesigner_Chi.chm
+ZDesigner_Sch.chm
+ZebraBarcode.ttf
+ZPLErr.sme,,,0x00000004
+ZPLMOBErr.sme,,,0x00000004
+
+
+[DRIVER_DATA]
+DriverFile=ZDesignerdrv.dll
+ConfigFile=ZDesignerui.dll
+NoTestPage=1
+HelpFile=ZDesigner.chm
+DefaultDataType=RAW
+LanguageMonitor="ZDesigner2 Language Monitor,ZDesignerLM.dll"
+
+
+
+[LANGMONFILES]
+ZDesignerLM.dll,,,0x00000004
+
+[PortMonitors]
+"ZDesigner Port Monitor" = PortMonitor
+
+[PortMonitor]
+CopyFiles=PortMonitorFiles
+PortMonitorDll=zdnPMS.dll
+  
+  
+[PortMonitorFiles]
+zdnPMS.dll
+zdnPMU.dll
+
+[FNTFILES]
+ZebraBarcode.ttf
+
+
+[DestinationDirs]
+DefaultDestDir=66000
+FNTFILES=20
+PortMonitorFiles=11
+LANGMONFILES=11
+
+
+
+[PrinterPackageInstallation.x86]
+PackageAware=TRUE
+
+[PrinterPackageInstallation.amd64]
+PackageAware=TRUE
+
+[PrinterPackageInstallation.arm64]
+PackageAware=TRUE
+
+[SourceDisksNames]
+1 = %Floppy%,,,\Common
+2 = %Floppy%,,,\Win32
+3 = %Floppy%,,,
+
+[SourceDisksNames.amd64]
+1 = %Floppy%,,,\Common
+2 = %Floppy%,,,\Win64
+3 = %Floppy%,,,
+
+
+[SourceDisksNames.arm64]
+1 = %Floppy%,,,\Common
+2 = %Floppy%,,,\ARM64
+3 = %Floppy%,,,
+
+[SourceDisksFiles]
+ZDesigner_ZD120_203DPI.dat = 1
+ZDesigner_ZD220-203dpi_ZPL.dat = 1
+ZDesigner_ZD230-203dpi_ZPL.dat = 1
+ZDesigner_ZD230-300dpi_ZPL.dat = 1
+ZDesigner_ZD410-203dpi_ZPL.dat = 1
+ZDesigner_ZD411-203dpi_ZPL.dat = 1
+ZDesigner_ZD410-300dpi_ZPL.dat = 1
+ZDesigner_ZD411-300dpi_ZPL.dat = 1
+ZDesigner_ZD420-203dpi_ZPL.dat = 1
+ZDesigner_ZD420-300dpi_ZPL.dat = 1
+ZDesigner_ZD421-203dpi_ZPL.dat = 1
+ZDesigner_ZD421-300dpi_ZPL.dat = 1
+ZDesigner_ZD421CN-300dpi_ZPL.dat = 1
+ZDesigner_ZD500R-203dpi_ZPL.dat = 1
+ZDesigner_ZD500R-300dpi_ZPL.dat = 1
+ZDesigner_ZD611-203dpi_ZPL.dat = 1
+ZDesigner_ZD611R-203dpi_ZPL.dat = 1
+ZDesigner_ZD611-300dpi_ZPL.dat = 1
+ZDesigner_ZD611R-300dpi_ZPL.dat = 1
+ZDesigner_ZD620-203dpi_ZPL.dat = 1
+ZDesigner_ZD620-300dpi_ZPL.dat = 1
+ZDesigner_ZD621-203dpi_ZPL.dat = 1
+ZDesigner_ZD621-300dpi_ZPL.dat = 1
+ZDesigner_ZD621R-203dpi_ZPL.dat = 1
+ZDesigner_ZD621R-300dpi_ZPL.dat = 1
+ZDesigner_ZD888-203dpi_ZPL.dat = 1
+ZDesigner_ZD888-300dpi_ZPL.dat = 1
+ZDesigner_ZD100-203dpi_ZPL.dat = 1
+ZDesigner_ZD500-203dpi_ZPL.dat = 1
+ZDesigner_ZD500-300dpi_ZPL.dat = 1
+ZDesigner_ZD510-300dpi_ZPL.dat = 1
+ZDesigner_ZD511-300dpi_ZPL.dat = 1
+ZDesigner_ZT210-200dpi_ZPL.dat = 1
+ZDesigner_ZT210-300dpi_ZPL.dat = 1
+ZDesigner_ZT220-200dpi_ZPL.dat = 1
+ZDesigner_ZT220-300dpi_ZPL.dat = 1
+ZDesigner_ZT230-200dpi_ZPL.dat = 1
+ZDesigner_ZT230-300dpi_ZPL.dat = 1
+ZDesigner_ZT111-203dpi_ZPL.dat = 1
+ZDesigner_ZT111-300dpi_ZPL.dat = 1
+ZDesigner_ZT211-203dpi_ZPL.dat = 1
+ZDesigner_ZT211-300dpi_ZPL.dat = 1
+ZDesigner_ZT231-203dpi_ZPL.dat = 1
+ZDesigner_ZT231-300dpi_ZPL.dat = 1
+ZDesigner_ZT231R-203dpi_ZPL.dat = 1
+ZDesigner_ZT231R-300dpi_ZPL.dat = 1
+ZDesigner_ZT410R-203dpi_ZPL.dat = 1
+ZDesigner_ZT410R-300dpi_ZPL.dat = 1
+ZDesigner_ZT410-203dpi_ZPL.dat = 1
+ZDesigner_ZT410-300dpi_ZPL.dat = 1
+ZDesigner_ZT410-600dpi_ZPL.dat = 1
+ZDesigner_ZT420R-203dpi_ZPL.dat = 1
+ZDesigner_ZT420R-300dpi_ZPL.dat = 1
+ZDesigner_ZT410R-600dpi_ZPL.dat = 1
+ZDesigner_ZT420-203dpi_ZPL.dat = 1
+ZDesigner_ZT420-300dpi_ZPL.dat = 1
+ZDesigner_ZT510-203dpi_ZPL.dat = 1
+ZDesigner_ZT510-300dpi_ZPL.dat = 1
+ZDesigner_ZT411-203dpi_ZPL.dat = 1
+ZDesigner_ZT411-300dpi_ZPL.dat = 1
+ZDesigner_ZT411-600dpi_ZPL.dat = 1
+ZDesigner_ZT411R-203dpi_ZPL.dat = 1
+ZDesigner_ZT411R-300dpi_ZPL.dat = 1
+ZDesigner_ZT411R-600dpi_ZPL.dat = 1
+ZDesigner_ZT421-203dpi_ZPL.dat = 1
+ZDesigner_ZT421-300dpi_ZPL.dat = 1
+ZDesigner_ZT421R-203dpi_ZPL.dat = 1
+ZDesigner_ZT421R-300dpi_ZPL.dat = 1
+ZDesigner_ZT610-203dpi_ZPL.dat = 1
+ZDesigner_ZT610-300dpi_ZPL.dat = 1
+ZDesigner_ZT610-600dpi_ZPL.dat = 1
+ZDesigner_ZT620-203dpi_ZPL.dat = 1
+ZDesigner_ZT620-300dpi_ZPL.dat = 1
+ZDesigner_ZT610R-203dpi_ZPL.dat = 1
+ZDesigner_ZT610R-300dpi_ZPL.dat = 1
+ZDesigner_ZT610R-600dpi_ZPL.dat = 1
+ZDesigner_ZT620R-203dpi_ZPL.dat = 1
+ZDesigner_ZT620R-300dpi_ZPL.dat = 1
+ZDesigner_iMZ220_(ZPL).dat = 1
+ZDesigner_iMZ320_(ZPL).dat = 1
+ZDesigner_QLn220_(ZPL).dat = 1
+ZDesigner_QLn320_(ZPL).dat = 1
+ZDesigner_QLn420_(ZPL).dat = 1
+ZDesigner_ZQ310_(ZPL).dat = 1
+ZDesigner_ZQ320_(ZPL).dat = 1
+ZDesigner_ZQ510_(ZPL).dat = 1
+ZDesigner_ZQ520_(ZPL).dat = 1
+ZDesigner_ZQ511_(ZPL).dat = 1
+ZDesigner_ZQ511R_(ZPL).dat = 1
+ZDesigner_ZQ521_(ZPL).dat = 1
+ZDesigner_ZQ521R_(ZPL).dat = 1
+ZDesigner_ZQ610_(ZPL).dat = 1
+ZDesigner_ZQ620_(ZPL).dat = 1
+ZDesigner_ZQ630_(ZPL).dat = 1
+ZDesigner_ZQ630R_(ZPL).dat = 1
+ZDesigner_ZR318_(ZPL).dat = 1
+ZDesigner_ZR328_(ZPL).dat = 1
+ZDesigner_ZR338_(ZPL).dat = 1
+ZDesigner_ZR628_(ZPL).dat = 1
+ZDesigner_ZR638_(ZPL).dat = 1
+ZDesigner_ZR658_(ZPL).dat = 1
+ZDesigner_ZR668_(ZPL).dat = 1
+ZDesigner_ZE511_LH-203dpi_ZPL.dat = 1
+ZDesigner_ZE511_LH-300dpi_ZPL.dat = 1
+ZDesigner_ZE511_LH-600dpi_ZPL.dat = 1
+ZDesigner_ZE511_RH-203dpi_ZPL.dat = 1
+ZDesigner_ZE511_RH-300dpi_ZPL.dat = 1
+ZDesigner_ZE511_RH-600dpi_ZPL.dat = 1
+ZDesigner_ZE511R_LH-203dpi_ZPL.dat = 1
+ZDesigner_ZE511R_LH-300dpi_ZPL.dat = 1
+ZDesigner_ZE511R_LH-600dpi_ZPL.dat = 1
+ZDesigner_ZE511R_RH-203dpi_ZPL.dat = 1
+ZDesigner_ZE511R_RH-300dpi_ZPL.dat = 1
+ZDesigner_ZE511R_RH-600dpi_ZPL.dat = 1
+ZDesigner_ZE521_LH-203dpi_ZPL.dat = 1
+ZDesigner_ZE521_LH-300dpi_ZPL.dat = 1
+ZDesigner_ZE521_RH-203dpi_ZPL.dat = 1
+ZDesigner_ZE521_RH-300dpi_ZPL.dat = 1
+ZDesigner_ZE521R_LH-203dpi_ZPL.dat = 1
+ZDesigner_ZE521R_LH-300dpi_ZPL.dat = 1
+ZDesigner_ZE521R_RH-203dpi_ZPL.dat = 1
+ZDesigner_ZE521R_RH-300dpi_ZPL.dat = 1
+ZDesigner_ZQ310_Plus_(ZPL).dat = 1
+ZDesigner_ZQ320_Plus_(ZPL).dat = 1
+ZDesigner_ZQ610_Plus_(ZPL).dat = 1
+ZDesigner_ZQ620_Plus_(ZPL).dat = 1
+ZDesigner_ZQ630_Plus_(ZPL).dat = 1
+ZDesigner_ZQ630R_Plus_(ZPL).dat = 1
+ZDesigner_ZR328_Plus_(ZPL).dat = 1
+ZDesigner_ZR668_Plus_(ZPL).dat = 1
+ZDesigner.trans = 1
+ZDesigner.font = 1
+ZDesignerdrv.dll = 2
+ZDesignerui.dll = 2
+ZDesignerui.res.dll = 2
+ZDesigner.chm = 1
+ZDesigner_Fra.chm = 1
+ZDesigner_Ger.chm = 1
+ZDesigner_Spa.chm = 1
+ZDesigner_Ita.chm = 1
+ZDesigner_Chi.chm = 1
+ZDesigner_Sch.chm = 1
+ZebraBarcode.ttf = 1
+ZDesignerLM.dll = 2
+zdnPMS.dll = 2
+zdnPMU.dll = 2
+ZPLErr.sme = 1
+ZPLMOBErr.sme = 1
+
+
+[Strings]
+Floppy="ZDesigner Printer Driver Disk"
+MAN="Zebra"
+driver-package-description="ZDesigner printer driver"
+
+[PrnInst]
+Languages=1,3,5,6,7,8,9,10,11,13,14,15,16,18,19,23,24,25,26,27,31
+DiscoveryProtocol=15
+DiscoveryProtocolTimeout=3000
+DiscoveryProtocolPortType=5
+DiscoveryProtocolPortNum=9100
