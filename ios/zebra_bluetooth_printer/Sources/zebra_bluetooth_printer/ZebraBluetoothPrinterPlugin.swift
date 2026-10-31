@@ -1366,7 +1366,9 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
       width: sdkNumber(args, "width", 0),
       height: sdkNumber(args, "height", 0)
     )
-    let zpl = "^XA^FO\(sdkNumber(args, "x", 0)),\(sdkNumber(args, "y", 0))\(graphic)^FS^XZ"
+    // Continuous receipt paper has no gap. Without a length the printer
+    // keeps feeding until it finds one.
+    let zpl = "^XA^MNN^PW\(graphic.width)^LL\(graphic.height)^LH0,0^FO0,0\(graphic.command)^FS^XZ"
     try write(Data(zpl.utf8), timeout: 60)
   }
 
@@ -1376,7 +1378,7 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
       width: sdkNumber(args, "width", 0),
       height: sdkNumber(args, "height", 0)
     )
-    let zpl = "^XA^DF\(sdkText(args, "printerPath"))^FS^FO0,0\(graphic)^FS^XZ"
+    let zpl = "^XA^DF\(sdkText(args, "printerPath"))^FS^FO0,0\(graphic.command)^FS^XZ"
     try write(Data(zpl.utf8), timeout: 60)
   }
 
@@ -1394,13 +1396,18 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
     try write(Data(command.utf8), timeout: 60)
   }
 
-  private func graphicCommand(path: String, width: Int, height: Int) throws -> String {
+  private struct Graphic {
+    let command: String
+    let width: Int
+    let height: Int
+  }
+
+  private func graphicCommand(path: String, width: Int, height: Int) throws -> Graphic {
     guard let image = UIImage(contentsOfFile: path)?.cgImage else {
       throw PrinterFailure(code: "100", message: "Image file could not be read")
     }
     let targetWidth = width > 0 ? width : image.width
     let targetHeight = height > 0 ? height : image.height
-    let bytesPerRow = (targetWidth + 7) / 8
     var pixels = [UInt8](repeating: 255, count: targetWidth * targetHeight)
     let colorSpace = CGColorSpaceCreateDeviceGray()
     guard let context = CGContext(
@@ -1416,9 +1423,12 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
     }
     context.interpolationQuality = .none
     context.draw(image, in: CGRect(x: 0, y: 0, width: targetWidth, height: targetHeight))
+    let bounds = contentRows(pixels, width: targetWidth, height: targetHeight)
+    let croppedHeight = bounds.end - bounds.start
+    let bytesPerRow = (targetWidth + 7) / 8
     var hex = ""
-    hex.reserveCapacity(bytesPerRow * targetHeight * 2)
-    for y in 0..<targetHeight {
+    hex.reserveCapacity(bytesPerRow * croppedHeight * 2)
+    for y in bounds.start..<bounds.end {
       for byteIndex in 0..<bytesPerRow {
         var value: UInt8 = 0
         for bit in 0..<8 {
@@ -1432,8 +1442,32 @@ public class ZebraBluetoothPrinterPlugin: NSObject, FlutterPlugin, FlutterStream
         hex += String(format: "%02X", value)
       }
     }
-    let total = bytesPerRow * targetHeight
-    return "^GFA,\(total),\(total),\(bytesPerRow),\(hex)"
+    let total = bytesPerRow * croppedHeight
+    return Graphic(
+      command: "^GFA,\(total),\(total),\(bytesPerRow),\(hex)",
+      width: targetWidth,
+      height: croppedHeight
+    )
+  }
+
+  /// Drops blank rows so a receipt does not feed the empty part of the image.
+  private func contentRows(_ pixels: [UInt8], width: Int, height: Int) -> (start: Int, end: Int) {
+    func hasInk(_ y: Int) -> Bool {
+      let row = y * width
+      for x in 0..<width where pixels[row + x] < 245 {
+        return true
+      }
+      return false
+    }
+    var first = 0
+    var last = height - 1
+    while first < height && !hasInk(first) { first += 1 }
+    while last > first && !hasInk(last) { last -= 1 }
+    if first >= height { return (0, 1) }
+    let pad = 16
+    let start = max(0, first - pad)
+    let end = min(height, last + 1 + pad)
+    return (start, max(start + 1, end))
   }
 
   private func discoverNetwork(_ args: [String: Any]) -> [[String: Any]] {

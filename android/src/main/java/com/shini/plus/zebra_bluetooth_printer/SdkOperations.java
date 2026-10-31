@@ -211,11 +211,24 @@ final class SdkOperations {
         int y = number(args, "y", 0);
         int width = number(args, "width", 0);
         int height = number(args, "height", 0);
-        if (width <= 0 || height <= 0) {
+        ZebraImageI image = ZebraImageFactory.getImage(path);
+        if (width <= 0)
+            width = image.getWidth();
+        if (height <= 0)
+            height = image.getHeight();
+        Connection connection = plugin.sessionConnection();
+        // Receipt rolls have no gap. A gap search feeds blank paper without end.
+        try {
+            SGD.SET("ezpl.media_type", "continuous", connection);
+            SGD.SET("zpl.label_length", String.valueOf(height), connection);
+        } catch (Exception ignored) {
+        }
+        String setup = "^XA^MNN^PW" + width + "^LL" + height + "^XZ";
+        connection.write(setup.getBytes(StandardCharsets.UTF_8));
+        if (number(args, "width", 0) <= 0 || number(args, "height", 0) <= 0) {
             plugin.sessionPrinter().printImage(path, x, y);
             return;
         }
-        ZebraImageI image = ZebraImageFactory.getImage(path);
         plugin.sessionPrinter().printImage(image, x, y, width, height, false);
     }
 

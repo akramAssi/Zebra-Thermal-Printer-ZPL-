@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/services.dart';
+
 /// Used when the portal has no password yet, or the app cannot reach it.
 const String kDefaultClosePassword = 'shini';
 
@@ -73,14 +75,37 @@ Future<String> fetchClosePassword(
   }
 }
 
-/// Reads `portal.txt` beside the exe and asks the portal for the quit password.
-Future<String> loadClosePassword({
-  String fallback = kDefaultClosePassword,
-}) async {
+/// Windows keeps an editable `portal.txt` beside the exe.
+/// iOS and Android ship that same file inside the installed app.
+Future<String?> portalTextBesideExecutable() async {
+  if (!Platform.isWindows) return null;
   final file = File.fromUri(
     File(Platform.resolvedExecutable).parent.uri.resolve('portal.txt'),
   );
-  if (!await file.exists()) return fallback;
-  final link = portalLinkFrom(await file.readAsString());
-  return fetchClosePassword(link, fallback: fallback);
+  if (!await file.exists()) return null;
+  return file.readAsString();
+}
+
+Future<String?> bundledPortalText() async {
+  try {
+    return await rootBundle.loadString('portal.txt');
+  } catch (_) {
+    return null;
+  }
+}
+
+/// Asks the portal for the quit password.
+///
+/// A `portal.txt` beside the Windows exe wins. On iOS and Android, and when
+/// that file is missing, the copy bundled in the installed app is used.
+Future<String> loadClosePassword({
+  String fallback = kDefaultClosePassword,
+}) async {
+  final beside = await portalTextBesideExecutable();
+  if (beside != null) {
+    return fetchClosePassword(portalLinkFrom(beside), fallback: fallback);
+  }
+  final bundled = await bundledPortalText();
+  if (bundled == null) return fallback;
+  return fetchClosePassword(portalLinkFrom(bundled), fallback: fallback);
 }

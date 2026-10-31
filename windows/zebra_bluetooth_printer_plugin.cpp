@@ -1738,18 +1738,21 @@ struct ZebraBluetoothPrinterPlugin::Impl {
 
   Fail PrintImage(const EncodableMap& args) {
     std::string graphic;
+    int width = 0;
+    int height = 0;
     const Fail built = GraphicCommand(AsString(Arg(args, "path")), AsInt(Arg(args, "width"), 0),
-                                      AsInt(Arg(args, "height"), 0), &graphic);
+                                      AsInt(Arg(args, "height"), 0), &graphic, &width, &height);
     if (built.failed()) return built;
-    const std::string zpl = "^XA^FO" + std::to_string(AsInt(Arg(args, "x"), 0)) + "," +
-                            std::to_string(AsInt(Arg(args, "y"), 0)) + graphic + "^FS^XZ";
+    // Continuous receipt paper has no gap. Set the length to the content.
+    const std::string zpl = "^XA^MNN^PW" + std::to_string(width) + "^LL" + std::to_string(height) +
+                            "^LH0,0^FO0,0" + graphic + "^FS^XZ";
     return WriteText(zpl, 60000);
   }
 
   Fail StoreImage(const EncodableMap& args) {
     std::string graphic;
     const Fail built = GraphicCommand(AsString(Arg(args, "path")), AsInt(Arg(args, "width"), 0),
-                                      AsInt(Arg(args, "height"), 0), &graphic);
+                                      AsInt(Arg(args, "height"), 0), &graphic, nullptr, nullptr);
     if (built.failed()) return built;
     const std::string zpl =
         "^XA^DF" + AsString(Arg(args, "printerPath")) + "^FS^FO0,0" + graphic + "^FS^XZ";
@@ -1797,7 +1800,8 @@ struct ZebraBluetoothPrinterPlugin::Impl {
     return true;
   }
 
-  Fail GraphicCommand(const std::string& path, int width, int height, std::string* zpl) {
+  Fail GraphicCommand(const std::string& path, int width, int height, std::string* zpl, int* out_width,
+                      int* out_height) {
     const HRESULT start = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
     const bool uninit = start == S_OK;
     IWICImagingFactory* factory = nullptr;
@@ -1848,11 +1852,32 @@ struct ZebraBluetoothPrinterPlugin::Impl {
     if (uninit) CoUninitialize();
     if (FAILED(hr)) return Fail{"100", "Image file could not be read"};
 
+    auto row_has_ink = [&](UINT y) {
+      const size_t row = static_cast<size_t>(y) * target_w;
+      for (UINT x = 0; x < target_w; x++) {
+        if (pixels[row + x] < 245) return true;
+      }
+      return false;
+    };
+    UINT first = 0;
+    UINT last = target_h == 0 ? 0 : target_h - 1;
+    while (first < target_h && !row_has_ink(first)) first++;
+    while (last > first && !row_has_ink(last)) last--;
+    const UINT pad = 16;
+    UINT start = 0;
+    UINT end = 1;
+    if (first < target_h) {
+      start = first > pad ? first - pad : 0;
+      end = last + 1 + pad;
+      if (end > target_h) end = target_h;
+      if (end <= start) end = start + 1;
+    }
+    const UINT cropped_h = end - start;
     const int bytes_per_row = static_cast<int>((target_w + 7) / 8);
     std::string hex;
-    hex.reserve(static_cast<size_t>(bytes_per_row) * target_h * 2);
+    hex.reserve(static_cast<size_t>(bytes_per_row) * cropped_h * 2);
     char pair[3];
-    for (UINT y = 0; y < target_h; y++) {
+    for (UINT y = start; y < end; y++) {
       for (int byte_index = 0; byte_index < bytes_per_row; byte_index++) {
         uint8_t value = 0;
         for (int bit = 0; bit < 8; bit++) {
@@ -1865,9 +1890,11 @@ struct ZebraBluetoothPrinterPlugin::Impl {
         hex += pair;
       }
     }
-    const int total = bytes_per_row * static_cast<int>(target_h);
+    const int total = bytes_per_row * static_cast<int>(cropped_h);
     *zpl = "^GFA," + std::to_string(total) + "," + std::to_string(total) + "," +
            std::to_string(bytes_per_row) + "," + hex;
+    if (out_width) *out_width = static_cast<int>(target_w);
+    if (out_height) *out_height = static_cast<int>(cropped_h);
     return {};
   }
 
