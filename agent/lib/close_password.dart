@@ -1,10 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/services.dart';
+import 'agent_log.dart';
 
 /// Used when the portal has no password yet, or the app cannot reach it.
 const String kDefaultClosePassword = 'shini';
+
+/// Portal the printer app asks for `printer_agent.close_password`.
+const String kPortalApiBaseUrl = 'https://online.shini.ps/roastery/api';
+
+/// Same value as `printer_agent.access_key` in App configuration.
+const String kPortalAccessKey = 'PM8xrSBk_wWLBAecXOtN3lEdhxmd9Hk-';
 
 class PortalLink {
   const PortalLink({this.apiBaseUrl, this.accessKey});
@@ -19,7 +25,7 @@ class PortalLink {
   }
 }
 
-/// `portal.txt`: first real line is the API base, second is the access key.
+/// First real line is the API base, second is the access key.
 /// Blank lines and lines starting with `#` are skipped.
 PortalLink portalLinkFrom(String? fileText) {
   final lines = (fileText ?? '')
@@ -31,6 +37,31 @@ PortalLink portalLinkFrom(String? fileText) {
     apiBaseUrl: lines.isEmpty ? null : lines[0],
     accessKey: lines.length < 2 ? null : lines[1],
   );
+}
+
+/// The portal `message` field, without the password.
+String portalReplyMessage(String body) {
+  try {
+    final decoded = jsonDecode(body);
+    if (decoded is Map && decoded['message'] is String) {
+      final message = (decoded['message'] as String).trim();
+      if (message.isNotEmpty) return message;
+    }
+  } catch (_) {}
+  return 'no message';
+}
+
+bool portalBodyHasPassword(String body) {
+  try {
+    final decoded = jsonDecode(body);
+    if (decoded is! Map) return false;
+    final data = decoded['data'];
+    if (data is! Map) return false;
+    final password = data['password'];
+    return password is String && password.trim().isNotEmpty;
+  } catch (_) {
+    return false;
+  }
 }
 
 String closePasswordFromPortalBody(
@@ -61,22 +92,40 @@ Future<String> fetchClosePassword(
   final uri = Uri.parse('$root/printer-agent/close-password');
   final client = HttpClient();
   client.connectionTimeout = const Duration(seconds: 8);
+  agentLog('Asking $uri for the close password.');
   try {
     final request = await client.getUrl(uri);
     request.headers.set('x-printer-agent-key', link.accessKey!);
     final response = await request.close().timeout(const Duration(seconds: 8));
     final text = await utf8.decoder.bind(response).join();
-    if (response.statusCode != 200) return fallback;
+    agentLog(
+      'Portal answered HTTP ${response.statusCode}: ${portalReplyMessage(text)}',
+    );
+    if (response.statusCode != 200) {
+      agentLog('Close password stayed on the built-in password.');
+      return fallback;
+    }
+    if (!portalBodyHasPassword(text)) {
+      agentLog(
+        'Portal response had no close password. Close password stayed on the built-in password.',
+      );
+      return fallback;
+    }
+    agentLog('Close password was loaded from the portal.');
     return closePasswordFromPortalBody(text, fallback: fallback);
-  } catch (_) {
+  } catch (error) {
+    agentLog(
+      'Could not reach the portal ($error). Close password stayed on the built-in password.',
+    );
     return fallback;
   } finally {
     client.close(force: true);
   }
 }
 
-/// Windows keeps an editable `portal.txt` beside the exe.
-/// iOS and Android ship that same file inside the installed app.
+/// Optional override on Windows: a `portal.txt` beside the exe
+/// (line 1 API base URL, line 2 access key). Lets you point one PC at a
+/// different portal without rebuilding.
 Future<String?> portalTextBesideExecutable() async {
   if (!Platform.isWindows) return null;
   final file = File.fromUri(
@@ -86,26 +135,27 @@ Future<String?> portalTextBesideExecutable() async {
   return file.readAsString();
 }
 
-Future<String?> bundledPortalText() async {
-  try {
-    return await rootBundle.loadString('portal.txt');
-  } catch (_) {
-    return null;
-  }
-}
-
 /// Asks the portal for the quit password.
 ///
-/// A `portal.txt` beside the Windows exe wins. On iOS and Android, and when
-/// that file is missing, the copy bundled in the installed app is used.
+/// A filled-in `portal.txt` beside the Windows exe wins. Otherwise (and on
+/// iOS / Android) the built-in portal address and access key are used.
 Future<String> loadClosePassword({
   String fallback = kDefaultClosePassword,
 }) async {
-  final beside = await portalTextBesideExecutable();
-  if (beside != null) {
-    return fetchClosePassword(portalLinkFrom(beside), fallback: fallback);
+  final beside = portalLinkFrom(await portalTextBesideExecutable());
+  if (beside.canFetch) {
+    agentLog('Using the portal address from portal.txt beside the exe.');
+    return fetchClosePassword(beside, fallback: fallback);
   }
-  final bundled = await bundledPortalText();
-  if (bundled == null) return fallback;
-  return fetchClosePassword(portalLinkFrom(bundled), fallback: fallback);
+  const link = PortalLink(
+    apiBaseUrl: kPortalApiBaseUrl,
+    accessKey: kPortalAccessKey,
+  );
+  if (!link.canFetch) {
+    agentLog(
+      'Portal address or access key is empty. Using the built-in close password.',
+    );
+    return fallback;
+  }
+  return fetchClosePassword(link, fallback: fallback);
 }

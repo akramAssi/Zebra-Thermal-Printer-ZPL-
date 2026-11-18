@@ -6,9 +6,9 @@ On Windows it starts at sign-in and stays in the tray when minimized. On Android
 
 The quit password is the portal app configuration `printer_agent.close_password` (Settings → App configuration). The default until you change it is `shini`.
 
-The app reads that value from `GET /api/printer-agent/close-password`. `portal.txt` has two lines: the API base URL, then `printer_agent.access_key` from the same settings screen. Until both lines are filled in, the app keeps using `shini`.
+The app reads that value from `GET /api/printer-agent/close-password`. The portal address and `printer_agent.access_key` are built in (`lib/close_password.dart`), so phones and tablets need no extra file. Until the portal accepts that key, the app keeps using `shini`.
 
-On Windows, the copy beside the exe is the one that is used, so you can change it without rebuilding. On Android and iOS that same file is packed inside the installed app, so the password still comes from the portal after the app is installed. Change `portal.txt`, then build again, to point a phone or tablet at a different portal.
+On Windows you can override them without rebuilding: put a `portal.txt` beside the exe with two lines, the API base URL, then the access key.
 
 ## Build on Windows
 
@@ -26,7 +26,7 @@ A release build:
 flutter build windows
 ```
 
-The exe is `build\windows\x64\runner\Release\zebra_printer_agent.exe`. `portal.txt` is copied beside it.
+The exe is `build\windows\x64\runner\Release\zebra_printer_agent.exe`. Copy that whole Release folder.
 
 Pair a Bluetooth printer in Windows settings first, or plug the printer in by USB so Windows shows it as a COM port or a Zebra printer. Open the app, press Find printers, then Test print.
 
@@ -70,6 +70,4 @@ On Android and iOS the portal does not keep that socket open. iOS suspends the a
 
 ## USB driver
 
-On Windows, Bluetooth does not need a Zebra driver. USB does. Install Zebra Setup Utilities before the USB cable is plugged in. That package includes the ZDesigner printer driver. Android USB and iOS Bluetooth do not use this installer.
-
-Save that installer as `driver/ZebraDriver.exe` in this `agent` folder before building. The build copies it next to the exe. If Windows has no Zebra driver, the app shows **Install driver**. Windows asks for administrator approval, then the installer runs.
+Bluetooth and a network printer do not need a Zebra driver. USB on Windows does. The Windows build copies `driver/zdesigner` next to the exe. On a PC without that driver, the app installs it first and Windows asks for administrator approval. Plug the printer in after that. Android USB and iOS Bluetooth do not use this driver.

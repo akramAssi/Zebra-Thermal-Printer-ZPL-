@@ -1,0 +1,57 @@
+*Information;1;( Battery voltage : %dV );
+-10 0 Printer does not support bidirectional communication through the current port
+-9 0 Checking printer status...
+-8 0 Viewing printer report, status unavailable
+-7 0 Configuring printer settings, status unavailable
+-6 0 Initial check of printer status...
+-5 0 Printer busy
+-4 3 Printer in unknown mode, Errcode :
+-3 0 Printing...
+-2 0 Printing & buffering data...
+-1 5 Not accessible
+0 0 Online
+1 3 Pause
+2 1 Out of paper
+3 1 Buffer full
+4 1 Communications diagnostic mode
+5 1 Partial format
+6 1 Corrupt memory
+7 1 Print head open
+8 1 Out of ribbon
+9 0 Label waiting
+10  3 Printhead Under Temperature
+11  1 Printhead Over Temperature
+101 0 No Error
+102 1 Error Present
+103 1 Printhead Thermistor Open
+104 1 Invalid Firmware Configuration
+105 1 Printhead Detection Error
+106 1 Bad Printhead Element
+107 1 Motor Over Temperature
+108 1 Printhead Over Temperature
+109 1 Cutter Fault
+110 1 Head Open
+111 1 Ribbon Out
+112 1 Media Out
+301 0 No Warning
+302 3 Warning Present
+303 3 Replace Printhead
+304 3 Clean Printhead
+305 3 Need to Calibrate Media
+4101 1 Clear Paper Path Failed
+4102 1 Paper Feed Error
+4103 1 Presenter Not Running
+4104 1 Paper Jam during Retract
+4105 1 Black Mark not Found
+4106 1 Black Mark Calabrate Error
+4107 1 Retract Function timed out
+4108 3 Paused
+4301 3 Paper-near-end Sensor
+4302 3 Sensor 1 (Paper before head)
+4303 3 Sensor 2 (Black mark)
+4304 3 Sensor 3 (Paper after head)
+4305 3 Sensor 4 (loop ready)
+4306 3 Sensor 5 (presenter)
+4307 3 Sensor 6 (retract ready)
+4308 3 Sensor 7 (in retract)
+4309 3 Sensor 8 (at bin)
