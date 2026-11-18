@@ -7,4 +7,9 @@ class Channels {
   static const String printZpl = "PRINT_ZPL";
   static const String printPDf = "PRINT_PDF";
   static const String printPdfBytes = "PRINT_PDF_BYTES";
+  static const String printPdfs = "PRINT_PDFS";
+  static const String hostIdentification = "HOST_IDENTIFICATION";
+  static const String sdk = "SDK";
+  static const String listPrinters = "LIST_PRINTERS";
+  static const String showPicker = "SHOW_PICKER";
 }

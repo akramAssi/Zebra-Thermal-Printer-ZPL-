@@ -3,18 +3,19 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:zebra_bluetooth_printer/zebra_bluetooth_printer.dart';
 
 void main() {
-  const MethodChannel channel = MethodChannel('zebra_bluetooth_printer');
-
   TestWidgetsFlutterBinding.ensureInitialized();
+  const channel = MethodChannel('zebra_bluetooth_printer');
 
   setUp(() {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      return '42';
-    });
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
+          return '42';
+        });
   });
 
   tearDown(() {
-    channel.setMockMethodCallHandler(null);
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, null);
   });
 
   test('getPlatformVersion', () async {

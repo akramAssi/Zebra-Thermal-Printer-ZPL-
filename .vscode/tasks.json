@@ -1,0 +1,24 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Stop running printer agent",
+      "type": "process",
+      "command": "cmd.exe",
+      "args": [
+        "/d",
+        "/c",
+        "taskkill /F /IM zebra_printer_agent.exe >nul 2>&1 & exit /b 0"
+      ],
+      "isBackground": false,
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "never",
+        "echo": false,
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false
+      }
+    }
+  ]
+}

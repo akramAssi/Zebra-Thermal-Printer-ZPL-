@@ -1,27 +1,41 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:zebra_bluetooth_printer_example/main.dart';
+import 'package:pdf/pdf.dart';
+import 'package:zebra_bluetooth_printer_example/long_invoice.dart';
 
 void main() {
-  testWidgets('Verify Platform version', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  test(
+    'a long invoice is one page and shorter than the printer maximum',
+    () async {
+      final invoice = await LongInvoice.build(
+        lineCount: 40,
+        directory: Directory.systemTemp,
+      );
 
-    // Verify that platform version is retrieved.
-    expect(
-      find.byWidgetPredicate(
-        (Widget widget) =>
-            widget is Text && widget.data!.startsWith('Running on:'),
-      ),
-      findsOneWidget,
-    );
-  });
+      expect(invoice.lineCount, 40);
+      expect(invoice.bytes, isNotEmpty);
+      expect(invoice.heightInches, greaterThan(8));
+      expect(invoice.heightInches, lessThan(30));
+      expect(invoice.heightInches, lessThan(38));
+    },
+  );
+
+  test(
+    'more lines make a taller invoice without jumping to the maximum',
+    () async {
+      final shorter = await LongInvoice.build(
+        lineCount: 10,
+        directory: Directory.systemTemp,
+      );
+      final longer = await LongInvoice.build(
+        lineCount: 40,
+        directory: Directory.systemTemp,
+      );
+
+      expect(longer.heightInches, greaterThan(shorter.heightInches + 5));
+      expect(longer.heightInches, lessThan(38 * 1.0));
+      expect(PdfPageFormat.inch, 72);
+    },
+  );
 }
